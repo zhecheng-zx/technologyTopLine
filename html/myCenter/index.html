@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<script src="../../js/autoSize.js"></script>
+		<style type="text/css">
+			.mui-content{
+				background: #f4f4f4;
+			}
+			.mui-content>.mui-table-view:first-child{
+				margin: 10px auto;
+			}
+			.login-box .mui-table-view-cell{
+				padding: 16px 15px;
+			}
+			.login-box .mui-table-view-cell>a:not(.mui-btn){
+				margin: -16px -15px;
+			}
+			.mui-table-view .img-box{
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background: #f8f8f8;
+			    margin-right: 17px;
+   				margin-left: 25px;
+			}
+			.login-box .mui-media-body{
+				line-height: 50px;
+				font-size: 16px;
+				color: #323232;
+			}
+			.mui-card{
+				margin: 10px auto;
+			}
+			
+			.mui-card .mui-table-view-cell{
+				padding: 15px;
+			}
+			.mui-card .mui-table-view-cell>a:not(.mui-btn){
+				margin: -15px;
+			}
+			.myCenter .mui-icon-chat{
+				font-size: 18px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content myCenter">
+			<ul class="mui-table-view login-box">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<div class="img-box mui-pull-left">
+							<img class="userImg">
+						</div>
+						<div class="mui-media-body">
+							登录科技头条 体验更多功能
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div class="mui-card">
+		        <ul class="mui-table-view">		        
+		            <li class="mui-table-view-cell">
+		                <a class="mui-navigate-right" href="message.html">
+		                    <span class="mui-badge mui-badge-danger">15</span>
+		                    <span class="mui-icon mui-icon-chat icon-blue"></span>
+		                    	消息通知
+		                </a>
+		            </li>
+		            <li class="mui-table-view-cell">
+		                <a class="mui-navigate-right">	
+		                	<span class="mui-icon mui-icon-star icon-dark-yellow"></span>
+		                    	历史与收藏
+		                </a>
+		            </li>
+		        </ul>
+		    </div>
+		    <div class="mui-card tech-pomp mui-plus-visible">
+		        <ul class="mui-table-view">		        
+		            <li class="mui-table-view-cell">
+		                <a class="mui-navigate-right">
+		                    <span class="mui-badge mui-badge-danger">15</span>
+		                    <span class="mui-icon mui-icon-chat icon-blue"></span>
+		                    	科技内参
+		                </a>
+		            </li>
+		        </ul>
+		    </div>
+		    <div class="mui-card">
+		        <ul class="mui-table-view">		        
+		            <li class="mui-table-view-cell">
+		                <a class="mui-navigate-right">		
+		                	<span class="mui-icon mui-icon-compose icon-green"></span>
+		                    	用户反馈
+		                </a>
+		            </li>
+		            <li class="mui-table-view-cell">
+		                <a class="mui-navigate-right">	
+		                	<span class="mui-icon mui-icon-gear icon-light-yellow"></span>
+		                    	系统设置
+		                </a>
+		            </li>
+		        </ul>
+		    </div>
+		</div>
+		<script src="../../vendor/jQuery/jquery.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<!--<script>		
+			$(function(){
+				//判断用户是否登录 显示
+//				$('.tech-pomp').hide();
+			});
+			
+			
+			var webview_detail = null; //详情页webview
+			
+			mui.plusReady(function() {
+				//预加载详情页
+				webview_detail = mui.preload({
+					url: 'message.html',
+					id: 'news_detail',
+					styles: {
+						"render": "always",
+						"popGesture": "hide",
+						"bounce": "vertical",
+						"bounceBackground": "#efeff4",
+						"titleNView": titleNView
+					}
+				});
+			});
+			
+			/**
+			 * 打开新闻详情
+			 * 
+			 * @param {String} guid 新闻ID
+			 * @param {String} title  新闻标题
+			 */
+			function open_detail() {
+				
+				//触发子窗口变更新闻详情
+				mui.fire(webview_detail, 'get_detail', {
+					cover:cover
+				});
+
+				//更改详情页原生导航条信息
+				titleNView.titleText = title;
+				webview_detail.setStyle({
+					"titleNView": titleNView
+				});
+				setTimeout(function () {
+					webview_detail.show("slide-in-right", 300);
+				},150);
+			}
+		</script>-->
+	</body>
+</html>
