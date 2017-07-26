@@ -43,7 +43,7 @@
 				margin: -15px;
 			}
 			.myCenter .mui-icon-chat{
-				font-size: 18px;
+				font-size: 19px;
 			}
 		</style>
 	</head>
@@ -64,7 +64,7 @@
 			<div class="mui-card">
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
-		                <a class="mui-navigate-right" href="message.html">
+		                <a class="mui-navigate-right" href="javascript:;" data-guid="message.guide">
 		                    <span class="mui-badge mui-badge-danger">15</span>
 		                    <span class="mui-icon mui-icon-chat icon-blue"></span>
 		                    	消息通知
@@ -78,7 +78,7 @@
 		            </li>
 		        </ul>
 		    </div>
-		    <div class="mui-card tech-pomp mui-plus-visible">
+		    <div class="mui-card tech-pomp">
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
 		                <a class="mui-navigate-right">
@@ -108,20 +108,30 @@
 		</div>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
-		<!--<script>		
+		<script>		
 			$(function(){
 				//判断用户是否登录 显示
-//				$('.tech-pomp').hide();
+				$('.tech-pomp').hide();
 			});
 			
 			
 			var webview_detail = null; //详情页webview
+			var titleNView = { //详情页原生导航配置
+				backgroundColor: '#f7f7f7', //导航栏背景色
+				titleText: '消息通知', //导航栏标题
+				titleColor: '#000000', //文字颜色
+				type: 'transparent', //透明渐变样式
+				autoBackButton: true, //自动绘制返回箭头
+				splitLine: { //底部分割线
+					color: '#cccccc'
+				}
+			}
 			
 			mui.plusReady(function() {
 				//预加载详情页
 				webview_detail = mui.preload({
 					url: 'message.html',
-					id: 'news_detail',
+					id: 'message',
 					styles: {
 						"render": "always",
 						"popGesture": "hide",
@@ -132,21 +142,29 @@
 				});
 			});
 			
+			//点击列表，打开详情
+			//TODO 后续应该封装一个v-tap指令，实现tap监听
+			mui('.mui-content').on('tap', '[data-guid]', function() {
+				var guid = this.getAttribute('data-guid');				
+				open_detail(guid);
+			});;
+
+			
 			/**
 			 * 打开新闻详情
 			 * 
 			 * @param {String} guid 新闻ID
 			 * @param {String} title  新闻标题
 			 */
-			function open_detail() {
-				
+			function open_detail(guid) {
+				console.log(guid)
 				//触发子窗口变更新闻详情
 				mui.fire(webview_detail, 'get_detail', {
-					cover:cover
+					guid: guid
 				});
 
 				//更改详情页原生导航条信息
-				titleNView.titleText = title;
+				titleNView.titleText = '消息通知';
 				webview_detail.setStyle({
 					"titleNView": titleNView
 				});
@@ -154,6 +172,6 @@
 					webview_detail.show("slide-in-right", 300);
 				},150);
 			}
-		</script>-->
+		</script>
 	</body>
 </html>
