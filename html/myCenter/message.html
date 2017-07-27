@@ -1,26 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>消息通知</title>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<style type="text/css">				
+			.message .mui-card{
+				margin: 15px 0px;
+			}
+			.message .iconfont{
+				vertical-align: middle
+			}
+		</style>
 	</head>
+
 	<body>
-		<div id="message">
-			111
+		<header class="mui-bar mui-bar-nav message">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+			<h1 id="title" class="mui-title">消息通知</h1>
+		</header>
+		<div id="message" class="mui-content message">
+			<div class="mui-card">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							<span class="mui-icon iconfont icon-pinglun green"></span> 评论
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							<span class="mui-icon iconfont icon-zan1 yellow"></span> 赞
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right">
+							<span class="mui-icon iconfont icon-yinliang blue"></span> 系统通知
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</body>
+	<script src="../../js/mui.min.js"></script>
 	<script>
-		 //自定义事件，模拟点击“首页选项卡”
-			document.addEventListener('gohome', function() {
-				var defaultTab = document.getElementById("defaultTab");
-				//模拟首页点击
-				mui.trigger(defaultTab, 'tap');
-				//切换选项卡高亮
-				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
-				if (defaultTab !== current) {
-					current.classList.remove('mui-active');
-					defaultTab.classList.add('mui-active');
-				}
-			});
 	</script>
+
 </html>

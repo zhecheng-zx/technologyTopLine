@@ -1,12 +1,25 @@
-.icon-green{
+.mui-bar-nav {
+	background: #3385ff;
+}
+
+.mui-bar-nav h1 {
+	color: #fff;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.icon-green {
 	color: #00cfa0;
 }
-.icon-light-yellow{
+
+.icon-light-yellow {
 	color: #ffd36b;
 }
-.icon-dark-yellow{
+
+.icon-dark-yellow {
 	color: #fea356;
 }
-.icon-blue{
+
+.icon-blue {
 	color: #12b7f5;
 }
