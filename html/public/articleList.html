@@ -36,105 +36,35 @@
 		</style>
 	</head>
 	<body>
-		<div class="mui-content" id="pullrefresh">
+		<div class="mui-content" id="articleList">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
+				<li class="mui-table-view-cell mui-media" v-for="item in articles">					
+					<a href="javascript:;" :data-guid="item.guid">
+						<img :src="item.src" class="mui-media-object mui-pull-right" />
 						<div class="mui-media-body">
-							<div class="article-title">
-								特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂
-							</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
+							<div class="article-title">{{item.title}}</div>
+							<p class="mui-ellipsis">
+								<span class="source">{{item.source}}</span> &nbsp;&nbsp;
+								<span class="dateTime">{{item.publishDateTime}}</span>
+							</p>
 						</div>
 					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">特朗普郭台铭同台</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">特朗普郭台铭同台宣布：富士康将在美投资百亿设厂</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">
-								特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂
-							</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">特朗普郭台铭同台</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">特朗普郭台铭同台宣布：富士康将在美投资百亿设厂</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">
-								特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂
-							</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">特朗普郭台铭同台</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
-				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
-						<img class="mui-media-object mui-pull-right" src="../../images/temp.JPEG">
-						<div class="mui-media-body">
-							<div class="article-title">特朗普郭台铭同台宣布：富士康将在美投资百亿设厂</div>
-							<p class='mui-ellipsis'>科技头条 &nbsp;&nbsp;20分钟前</p>
-						</div>
-					</a>
-				</li>
+				</li>				
 			</ul>
 		</div>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/vue.min.js"></script>
 		<script>
 			mui.init({
 				pullRefresh: {
-					container: '#pullrefresh',
+					container: '#articleList',
 					down: {
 						style: 'circle',
+						color:'#333', //可选，默认“#2BD009” 下拉刷新控件颜色
+					    height:'50px',//可选,默认50px.下拉刷新控件的高度,
+					    range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+					    offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
 						callback: pulldownRefresh
 					},
 					up: {
@@ -147,14 +77,79 @@
 				}
 			});
 
-			var requestUrl = '';
+			var requestUrl = '', webview_detail = null;
+			var	titleNView = { //详情页原生导航配置
+				backgroundColor: '#f7f7f7', //导航栏背景色
+				titleText: '', //导航栏标题
+				titleColor: '#000000', //文字颜色
+				type: 'transparent', //透明渐变样式
+				autoBackButton: true, //自动绘制返回箭头
+				splitLine: { //底部分割线
+					color: '#cccccc'
+				}
+			};
 
 			mui.plusReady(function () {
-			   var self = plus.webview.currentWebview();
-			   // 或 var self = plus.webview.getWebviewById('new');
-			   //上个页面传的参数 具体怎么用  还不知道
-			   requestUrl = self.requestUrl;
-			   console.log(requestUrl)
+				//预加载详情页
+				webview_detail = mui.preload({
+					url: 'articleDetail.html',
+					id: 'articleDetailWrapper',
+					styles: {
+						"render": "always",
+						"popGesture": "hide",
+						"bounce": "vertical",
+						"bounceBackground": "#efeff4",
+						"titleNView": titleNView
+					}
+				});
+				
+			    var self = plus.webview.currentWebview();
+			    // 或 var self = plus.webview.getWebviewById('new');
+			    //上个页面传的参数 具体怎么用  还不知道
+			    requestUrl = self.requestUrl;
+			});
+
+			var news = new Vue({
+				el: '#articleList',
+				data: {		
+					articles: [
+						{
+							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂',
+							publishDateTime: '20分钟前',
+							source: '科技头条',
+							src: '../../images/temp.jpeg',
+							guid: 'article'
+						},
+						{
+							title: '特朗普郭台铭同台宣布',
+							publishDateTime: '20分钟前',
+							source: '科技头条',
+							src: '../../images/temp.jpeg',
+							guid: 'article'
+						},
+						{
+							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿',
+							publishDateTime: '20分钟前',
+							source: '科技头条',
+							src: '../../images/temp.jpeg',
+							guid: 'article'
+						},
+						{
+							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂',
+							publishDateTime: '20分钟前',
+							source: '科技头条',
+							src: '../../images/temp.jpeg',
+							guid: 'article'
+						},
+						{
+							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂',
+							publishDateTime: '20分钟前',
+							source: '科技头条',
+							src: '../../images/temp.jpeg',
+							guid: 'article'
+						}
+					] //列表信息流数据
+				}
 			});
 
 			var count = 0;
@@ -162,19 +157,20 @@
 			function pullupRefresh() {
 				//ajax请求数据 就不用写在timeout里了
 				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullup((++count > 2)); //参数为true代表没有更多数据了。
+					mui('#articleList').pullRefresh().endPullup((++count > 2)); //参数为true代表没有更多数据了。
 					var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
 					var newCount = cells.length > 0 ? 5 : 20; //首次加载20条，满屏
 					for(var i = cells.length, len = i + newCount; i < len; i++) {
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell mui-media';
-						li.innerHTML = '<a javascript:;>' +
-							'<img class="mui-media-object mui-pull-right" src="../../images/temp.jpeg">' +
-							'<div class="mui-media-body"><div class="article-title">我是自动加载出来的内容' + i + '</div>' +
-							'<p class="mui-ellipsis">科技头条 &nbsp;&nbsp; 20分钟前</p>' +
-							'</div>' +
-							'</a>';
+						li.innerHTML = '<a javascript:;>' 
+											+'<img class="mui-media-object mui-pull-right" src="../../images/temp.jpeg">' 
+											+'<div class="mui-media-body">' 
+												+'<div class="article-title">我是自动加载出来的内容' + (i+1) + '</div>' 
+												+'<p class="mui-ellipsis">科技头条 &nbsp;&nbsp; 20分钟前</p>' 
+											+'</div>' 
+										+'</a>';
 						table.appendChild(li);
 					}
 				}, 1500);
@@ -185,8 +181,14 @@
 				var cells = document.body.querySelectorAll('.mui-table-view-cell');
 				for(var i = cells.length, len = i + 5; i < len; i++) {
 					var li = document.createElement('li');
-					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<a class="mui-navigate-right">我是下拉刷新的内容 ' + (i + 1) + '</a>';
+					li.className = 'mui-table-view-cell mui-media';
+						li.innerHTML = '<a javascript:;>' 
+											+'<img class="mui-media-object mui-pull-right" src="../../images/temp.jpeg">'
+											+'<div class="mui-media-body">' 
+												+'<div class="article-title">我是下拉刷新的内容' + (i+1) + '</div>'
+												+'<p class="mui-ellipsis">科技头条 &nbsp;&nbsp; 20分钟前</p>' 
+											+'</div>' 
+										+'</a>';
 					//下拉刷新，新纪录插到最前面；
 					table.insertBefore(li, table.firstChild);
 				}
@@ -197,9 +199,50 @@
 			function pulldownRefresh() {			
 				setTimeout(function() {
 					addData();
-					mui('#pullrefresh').pullRefresh().endPulldown();
-					mui.toast("为你推荐了5篇文章");
+					mui('#articleList').pullRefresh().endPulldown();
 				}, 1500);
+			}
+			
+			//点击列表，打开详情
+			//TODO 后续应该封装一个v-tap指令，实现tap监听
+			mui('#articleList').on('tap', '[data-guid]', function() {
+				var guid = this.getAttribute('data-guid');
+				var title = this.querySelector(".article-title").innerHTML.trim();
+				var source = this.querySelector(".source").innerHTML;
+				var time = this.querySelector(".dateTime").innerHTML;				
+				open_detail(guid, title, source, time);
+			});
+			
+			/**
+			 * 打开新闻详情
+			 * 
+			 * @param {String} guid 新闻ID
+			 * @param {String} title  新闻标题
+			 */
+			function open_detail(guid, title, source, time) {
+				//若详情页尚未预加载完成，则延时等待再执行
+				console.log(webview_detail)
+				if(!webview_detail) {
+					setTimeout(function() {
+						open_detail(guid);
+					}, 100);
+				}
+				//触发子窗口变更新闻详情
+				mui.fire(webview_detail, 'get_detail', {
+					guid: guid,
+					title: title,
+					source: source,
+					time: time
+				});
+
+				//更改详情页原生导航条信息
+				titleNView.titleText = title;
+				webview_detail.setStyle({
+					"titleNView": titleNView
+				});
+				setTimeout(function () {
+					webview_detail.show("slide-in-right", 300);
+				},150);
 			}
 		</script>
 	</body>

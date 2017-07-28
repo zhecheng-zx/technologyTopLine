@@ -23,3 +23,78 @@
 .icon-blue {
 	color: #12b7f5;
 }
+
+.mui-content.article-detail-wrapper{
+	padding: 15px 10px;
+	background: #fff;
+}
+
+.article-detail-wrapper .article-title{
+	font-size: 20px;
+	color: #333;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	white-space: normal;
+	height: 50px;
+	line-height: 25px;
+}
+
+.article-detail-wrapper .article-info{
+	font-size: 11px;
+	color: #999;
+	margin: 10px auto;
+}
+
+.article-detail-wrapper .related-words{
+	margin: 10px auto;
+}
+
+.article-detail-wrapper .related-words span{
+    font-size: 11px;
+    color: #666;
+    padding: 5px 8px;
+    background: #eaeaec;
+    margin: auto 5px;
+    border-radius: 3px;
+}
+
+.article-detail-wrapper .related-words span:first-child{
+	margin-left: 0px;
+}
+
+.article-like-wrapper{
+	text-align: center;
+    margin: 20px auto;
+}
+
+.article-like-wrapper .item{
+	display: inline-block;
+	width: 126px;
+	height: 52px;
+	border-radius: 48px;
+	font-size: 13px;
+	color: #666;
+	padding: 16px 0px;
+}
+
+.like-wrapper{
+	background: #ffd100;
+	margin-right: 32px;
+}
+
+.dislike-wrapper{
+	background: #eaeaec;
+}
+
+.article-detail-wrapper .iconfont{
+	font-size: 21px;
+	margin-right: 8px;
+	vertical-align: top;
+}
+
+.ad-wrapper img{
+	height: 127px;
+	width: 100%;
+}

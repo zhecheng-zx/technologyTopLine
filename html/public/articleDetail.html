@@ -1,9 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>	
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+		<style>
+			.mui-content{
+				margin-top: 40px;
+			}
+		</style>
 	</head>
 	<body>
+		<header class="mui-bar mui-bar-nav article-detail-wrapper">
+			<h1 id="title" class="mui-title">内容页</h1>
+		</header>
+		<div class="mui-content article-detail-wrapper" id="articleDetailWrapper">			
+			<div class="kr-article-content">
+				<div class="article-title">{{title}}</div>
+				<div class="article-info">
+					<span class="source">{{source}}</span>&nbsp;&nbsp;&nbsp;
+					<span class="dateTime">{{time}}</span>
+				</div>			
+				<!--文章详细内容-->
+				<p id="kr-article-article" class="kr-article-article" v-html="content"></p>
+				<div class="related-words">
+					<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
+				</div>
+				<div class="article-like-wrapper">
+					<div class="item like-wrapper">
+						<span class="mui-icon iconfont icon-zan like orange"></span>点赞
+					</div>
+					<div class="item dislike-wrapper">
+						<span class="mui-icon iconfont icon-zan dislike"></span>不喜欢
+					</div>
+				</div>
+			</div>
+			<div class="ad-wrapper">
+				<img src="../../images/ad.png" alt="" />
+			</div>
+			<div class="related-article-wrapper">
+				<div class="text">猜你喜欢</div>
+				<ul>
+					<li></li>
+				</ul>
+			</div>
+			<div class="comment-box">
+				<input type="text" placeholder="我来评论一句" />
+				
+			</div>
+			<div class="comment-wrapper">
+				
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			function getDefaultData() {
+				return {
+					title: '',
+					source: '',
+					time: '',
+					content: ''
+				}
+			}
+
+			var vm = new Vue({
+				el: '#articleDetailWrapper',
+				data: getDefaultData(),
+				methods: {
+					resetData: function() {//重置数据
+						Object.assign(this.$data, getDefaultData());
+					}
+				}
+			});
+
+			//监听自定义事件，获取新闻详情
+			document.addEventListener('get_detail', function(event) {
+				var guid = event.detail.guid;
+				if(!guid) {
+					return;
+				}
+				//前页传入的数据，直接渲染，无需等待ajax请求详情后
+				vm.title = event.detail.title;
+				vm.source = event.detail.source;
+				vm.time = event.detail.time;
+				//向服务端请求文章详情内容  guid:文章id，暂时写成5085545
+				mui.ajax('http://spider.dcloud.net.cn/api/news/36kr/' + '5085545', {
+					type:'GET',
+					dataType: 'json', //服务器返回json格式数据
+					timeout: 15000, //15秒超时
+					success: function(rsp) {
+						vm.content = rsp.content;
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast('获取文章内容失败');
+						//TODO 此处可以向服务端告警
+					}
+				});
+			});
+
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().hide("auto", 300);
+				//动画结束后，恢复默认值
+				setTimeout(function() {
+					window.scrollTo(0, 0);
+					vm.resetData();
+				}, 300);
+			}
+		</script>
 	</body>
 </html>

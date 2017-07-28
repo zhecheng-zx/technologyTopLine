@@ -14,6 +14,18 @@
 
 .icon-zan:before { content: "\e870"; }
 
+.icon-zan.orange:before{ color: #e58c10; }
+
+.icon-zan.dislike{
+	  transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+}
+
+.icon-zan.dislike:before{ color: #c2c0c0; }
+
 .icon-zan1.yellow:before{ color: #ffc000;}
 
 .icon-zan1:before { content: "\e871"; }
