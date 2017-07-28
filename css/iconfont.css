@@ -56,7 +56,18 @@
 
 .icon-pinglunxiao:before { content: "\e8b9"; }
 
-.icon-shoucangxiao:before { content: "\e8bc"; }
+.icon-shoucang1:before { content: "\e8bc"; }
 
 .icon-shanchu:before { content: "\e8c1"; }
+
+.icon-fenxiang:before { content: "\e61d"; }
+
+.icon-fenxiang.green:before{ color: #43ba0e; }
+
+.icon-share:before { content: "\e6df"; }
+
+.icon-shoucang:before { content: "\e605"; }
+
+.icon-shoucang.orange:before{ color: #ff8920; }
+
 

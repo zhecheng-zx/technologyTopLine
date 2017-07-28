@@ -43,23 +43,108 @@
 			</div>
 			<div class="related-article-wrapper">
 				<div class="text">猜你喜欢</div>
-				<ul>
-					<li></li>
+				<ul class="related-article-list">
+					<li class="item"> 
+						<a href="javascript:;">且慢！放下砸向电脑的板砖 XP上网卡慢也能一招解决</a>
+					</li>
+			        <li class="item">
+			        	<a href="javascript:;">西班牙巴塞罗那发生火车撞站台事故 至少48人伤</a>			        	
+			        </li>
+			        <li class="item">
+			        	<a href="javascript:;">火影、死神、海贼王三大动漫 死神的口碑为什么最不好？</a>
+			        </li>
 				</ul>
 			</div>
-			<div class="comment-box">
-				<input type="text" placeholder="我来评论一句" />
-				
-			</div>
+		
 			<div class="comment-wrapper">
-				
+				<div class="title">
+					评论区
+				</div>
+				<ul class="mui-table-view comment-list" id="comment-list">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+							<div class="mui-media-body">
+								<p class="userNameBox">
+									<span class="userName">卖火柴的小女孩</span>
+									<span class="zanNum mui-pull-right">22</span>
+									<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+								</p>
+								<p class="comment">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+								<p class="comment-info">
+									<span class="publishDate">07-20 12:12</span>
+									<span class="replay">10回复</span>
+								</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+							<div class="mui-media-body">
+								<p class="userNameBox">
+									<span class="userName">木屋</span>
+									<span class="zanNum mui-pull-right">50</span>
+									<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+								</p>
+								<p class='comment'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+								<p class="comment-info">
+									<span class="publishDate">07-20 12:12</span>
+									<span class="replay">88回复</span>
+								</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+							<div class="mui-media-body">
+								<p class="userNameBox">
+									<span class="userName">帅的不要不要的</span>
+									<span class="zanNum mui-pull-right">199</span>
+									<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+								</p>
+								<p class='comment'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+								<p class="comment-info">
+									<span class="publishDate">07-20 12:12</span>
+									<span class="replay">10回复</span>
+								</p>
+							</div>
+						</a>
+					</li>
+	
+				</ul>
+				<div class="refreshWrapper"></div>
 			</div>
+			
 		</div>
+		<nav class="mui-bar mui-bar-tab comment-box">
+				<li class="mui-tab-item">
+					<input type="text" placeholder="我来评论一句" />
+				</li>
+				<li class="mui-tab-item">
+					<span class="mui-icon iconfont icon-shoucang orange"></span> 收藏
+				</li>
+				<li class="mui-tab-item">
+					<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
+				</li>				
+			</nav>
 
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			mui.init();
+			mui.init({
+//				pullRefresh: {
+//					container: '.refreshWrapper',
+//					up: {
+//						height: 30,
+//						auto: false,
+//						contentrefresh: '正在加载...',
+//						contentnomore: '没有更多数据了',
+//						callback: pullupRefresh1
+//					}
+//				}
+			});
 
 			function getDefaultData() {
 				return {
@@ -113,6 +198,25 @@
 					window.scrollTo(0, 0);
 					vm.resetData();
 				}, 300);
+			}
+			
+			function pullupRefresh1(){
+				//ajax请求数据 就不用写在timeout里了
+				setTimeout(function() {
+					var table = document.body.querySelector('#comment-list');
+					for(var i = 0, len = 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						li.innerHTML = '<a javascript:;>' 
+											+'<img class="mui-media-object mui-pull-right" src="../../images/head-temp.png">' 
+											+'<div class="mui-media-body">' 
+												+'<div class="userName">YOYO切克闹</div>' 
+												+'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' 
+											+'</div>' 
+										+'</a>';
+						table.appendChild(li);
+					}
+				}, 1500);
 			}
 		</script>
 	</body>

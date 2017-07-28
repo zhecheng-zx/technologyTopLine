@@ -27,6 +27,7 @@
 .mui-content.article-detail-wrapper{
 	padding: 15px 10px;
 	background: #fff;
+	margin-bottom: 54px;
 }
 
 .article-detail-wrapper .article-title{
@@ -90,6 +91,9 @@
 
 .article-detail-wrapper .iconfont{
 	font-size: 21px;
+}
+
+.article-detail-wrapper .iconfont.icon-zan{
 	margin-right: 8px;
 	vertical-align: top;
 }
@@ -97,4 +101,90 @@
 .ad-wrapper img{
 	height: 127px;
 	width: 100%;
+}
+
+.related-article-wrapper{
+	color: #333;
+    margin: 20px auto;
+}
+
+.related-article-list{
+    list-style: none;
+    background-color: #f7f7f7;
+    padding: 15px;
+    font-size: 14px;
+    color: #999;
+    line-height: 22px;
+}
+
+.related-article-list a{
+	text-decoration: none;
+	color: inherit;
+}
+
+.comment-box{
+	background: #fff;
+	font-size: 0px;
+}
+
+.comment-box .mui-tab-item:first-child{
+	width: 60%;
+ 	padding: 0px 10px; 
+}
+
+.comment-box input{
+	height: 30px;
+	margin: 0px ;
+	font-size: 11px;
+	background: #EAEAEC;
+	border: none;
+}
+
+.comment-box .mui-tab-item:not(:first-child) {
+	width: 20%;
+    font-size: 14px;
+    color: #333;
+    height: 30px;
+    padding: 5px 0px;
+}
+
+.comment-list::before{
+	height: 0px;
+}
+
+.comment-list .userName{
+	color: #3385ff;
+	font-size: 12px;
+}
+
+.comment-list .comment{
+	color: #666;
+	font-size: #666666;
+}
+
+.comment-list .mui-media-body{
+	white-space: normal;
+}
+
+.comment-info{
+	margin: 10px auto;
+}
+
+.comment-info .publishDate{
+	color: #C2C0C0;
+	font-size: 12px;
+	margin-right: 20px;
+}
+
+.comment-info .replay{
+	display: inline-block;
+	background: #F7F7F7;
+	border-radius: 18px;
+	font-size: 11px;
+	color: #333;
+    padding: 2px 10px;
+}
+
+.comment-list .mui-table-view-cell:after{
+	background-color: #eee;
 }
