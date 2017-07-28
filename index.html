@@ -12,15 +12,19 @@
 			body{
 				background-color: #ffffff;
 			}
+			.mui-bar.mui-bar-nav{
+				background-color: #3385ff;
+			}
+			.mui-title{color:#ffffff;}
 		</style>
 	</head>
 	<body>
-		<header class="mui-bar mui-bar-nav mui-bar-transparent">
+		<header class="mui-bar mui-bar-nav">
 			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
 			<h1 id="title" class="mui-title">首页</h1>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" href="./html/card/index.html">
+			<a id="defaultTab" class="mui-tab-item mui-active" data-wid="viewgroup" href="./html/card/index.html">
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">九大名片</span>
 			</a>
@@ -40,7 +44,7 @@
 
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
-			mui.init();
+			mui.init({statusBarBackground: '#3385ff'});
 			var subpages = ['./html/card/index.html', './html/techDictionary/index.html', './html/scientistStory/index.html', './html/myCenter/index.html'];
 			var subpage_style = {
 				top: '45px',
