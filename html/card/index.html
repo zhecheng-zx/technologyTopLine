@@ -2,8 +2,187 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>九大名片</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+				bottom: 44px;
+			}
+			
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				margin: 0;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				<div class="mui-scroll">
+					<a class="mui-control-item mui-active" href="#item1mobile" data-wid="pullrefresh_sub.html">
+						推荐
+					</a>
+					<a class="mui-control-item" href="#item2mobile" data-wid="pullrefresh_sub2.html">
+						热点
+					</a>
+					<a class="mui-control-item" href="#item3mobile" data-wid="pullrefresh_sub3.html">
+						北京
+					</a>
+					<a class="mui-control-item" href="#item4mobile" data-wid="pullrefresh_sub4.html">
+						社会
+					</a>
+					<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub5.html">
+						娱乐
+					</a>
+					<a class="mui-control-item" href="#item6mobile" data-wid="pullrefresh_sub2.html">
+						热点
+					</a>
+					<a class="mui-control-item" href="#item7mobile" data-wid="pullrefresh_sub3.html">
+						北京
+					</a>
+					<a class="mui-control-item" href="#item8mobile" data-wid="pullrefresh_sub4.html">
+						社会
+					</a>
+					<a class="mui-control-item" href="#item9mobile" data-wid="pullrefresh_sub5.html">
+						娱乐
+					</a>
+					<!--<a class="mui-control-item" href="#item6mobile" data-wid="tab-top-subpage-6.html">
+						科技
+					</a>-->
+				</div>
+			</div>
+		</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				gestureConfig:{
+					doubletap:true
+				},
+				subpages:[{ 
+					url:'pullrefresh_sub.html',
+					id:'pullrefresh_sub.html',
+					styles:{
+						top: '45px',
+						bottom: '0px', 
+					}
+				},{ 
+					url:'pullrefresh_sub2.html',
+					id:'pullrefresh_sub2.html',
+					styles:{
+						top: '45px',
+						bottom: '0px', 
+					}
+				},{ 
+					url:'pullrefresh_sub3.html',
+					id:'pullrefresh_sub3.html',
+					styles:{
+						top: '45px',
+						bottom: '0px', 
+					}
+				},{ 
+					url:'pullrefresh_sub4.html',
+					id:'pullrefresh_sub4.html',
+					styles:{
+						top: '45px',
+						bottom: '0px', 
+					}
+				},{ 
+					url:'pullrefresh_sub5.html',
+					id:'pullrefresh_sub5.html',
+					styles:{
+						top: '45px',
+						bottom: '0px', 
+					}
+				}] 
+		});
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+		</script>
 	</body>
 </html>
