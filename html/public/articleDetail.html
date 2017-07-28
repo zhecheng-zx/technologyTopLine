@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>	
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+		<style>
+			.mui-content{
+				margin-top: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav article-detail-wrapper">
+			<h1 id="title" class="mui-title">内容页</h1>
+		</header>
+		<div class="mui-content article-detail-wrapper" id="articleDetailWrapper">			
+			<div class="kr-article-content">
+				<div class="article-title">{{title}}</div>
+				<div class="article-info">
+					<span class="source">{{source}}</span>&nbsp;&nbsp;&nbsp;
+					<span class="dateTime">{{time}}</span>
+				</div>			
+				<!--文章详细内容-->
+				<p id="kr-article-article" class="kr-article-article" v-html="content"></p>
+				<div class="related-words">
+					<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
+				</div>
+				<div class="article-like-wrapper">
+					<div class="item like-wrapper">
+						<span class="mui-icon iconfont icon-zan like orange"></span>点赞
+					</div>
+					<div class="item dislike-wrapper">
+						<span class="mui-icon iconfont icon-zan dislike"></span>不喜欢
+					</div>
+				</div>
+			</div>
+			<div class="ad-wrapper">
+				<img src="../../images/ad.png" alt="" />
+			</div>
+			<div class="related-article-wrapper">
+				<div class="text">猜你喜欢</div>
+				<ul class="related-article-list">
+					<li class="item"> 
+						<a href="javascript:;">且慢！放下砸向电脑的板砖 XP上网卡慢也能一招解决</a>
+					</li>
+			        <li class="item">
+			        	<a href="javascript:;">西班牙巴塞罗那发生火车撞站台事故 至少48人伤</a>			        	
+			        </li>
+			        <li class="item">
+			        	<a href="javascript:;">火影、死神、海贼王三大动漫 死神的口碑为什么最不好？</a>
+			        </li>
+				</ul>
+			</div>
+		
+			<div class="comment-wrapper">
+				<div class="title">
+					评论区
+				</div>
+				<ul class="mui-table-view comment-list" id="comment-list">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+							<div class="mui-media-body">
+								<p class="userNameBox">
+									<span class="userName">卖火柴的小女孩</span>
+									<span class="zanNum mui-pull-right">22</span>
+									<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+								</p>
+								<p class="comment">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+								<p class="comment-info">
+									<span class="publishDate">07-20 12:12</span>
+									<span class="replay">10回复</span>
+								</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+							<div class="mui-media-body">
+								<p class="userNameBox">
+									<span class="userName">木屋</span>
+									<span class="zanNum mui-pull-right">50</span>
+									<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+								</p>
+								<p class='comment'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+								<p class="comment-info">
+									<span class="publishDate">07-20 12:12</span>
+									<span class="replay">88回复</span>
+								</p>
+							</div>
+						</a>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+							<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+							<div class="mui-media-body">
+								<p class="userNameBox">
+									<span class="userName">帅的不要不要的</span>
+									<span class="zanNum mui-pull-right">199</span>
+									<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+								</p>
+								<p class='comment'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+								<p class="comment-info">
+									<span class="publishDate">07-20 12:12</span>
+									<span class="replay">10回复</span>
+								</p>
+							</div>
+						</a>
+					</li>
+	
+				</ul>
+				<div class="refreshWrapper"></div>
+			</div>
+			
+		</div>
+		<nav class="mui-bar mui-bar-tab comment-box">
+				<li class="mui-tab-item">
+					<input type="text" placeholder="我来评论一句" />
+				</li>
+				<li class="mui-tab-item">
+					<span class="mui-icon iconfont icon-shoucang orange"></span> 收藏
+				</li>
+				<li class="mui-tab-item">
+					<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
+				</li>				
+			</nav>
+
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init({
+//				pullRefresh: {
+//					container: '.refreshWrapper',
+//					up: {
+//						height: 30,
+//						auto: false,
+//						contentrefresh: '正在加载...',
+//						contentnomore: '没有更多数据了',
+//						callback: pullupRefresh1
+//					}
+//				}
+			});
+
+			function getDefaultData() {
+				return {
+					title: '',
+					source: '',
+					time: '',
+					content: ''
+				}
+			}
+
+			var vm = new Vue({
+				el: '#articleDetailWrapper',
+				data: getDefaultData(),
+				methods: {
+					resetData: function() {//重置数据
+						Object.assign(this.$data, getDefaultData());
+					}
+				}
+			});
+
+			//监听自定义事件，获取新闻详情
+			document.addEventListener('get_detail', function(event) {
+				var guid = event.detail.guid;
+				if(!guid) {
+					return;
+				}
+				//前页传入的数据，直接渲染，无需等待ajax请求详情后
+				vm.title = event.detail.title;
+				vm.source = event.detail.source;
+				vm.time = event.detail.time;
+				//向服务端请求文章详情内容  guid:文章id，暂时写成5085545
+				mui.ajax('http://spider.dcloud.net.cn/api/news/36kr/' + '5085545', {
+					type:'GET',
+					dataType: 'json', //服务器返回json格式数据
+					timeout: 15000, //15秒超时
+					success: function(rsp) {
+						vm.content = rsp.content;
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast('获取文章内容失败');
+						//TODO 此处可以向服务端告警
+					}
+				});
+			});
+
+			//重写返回逻辑
+			mui.back = function() {
+				plus.webview.currentWebview().hide("auto", 300);
+				//动画结束后，恢复默认值
+				setTimeout(function() {
+					window.scrollTo(0, 0);
+					vm.resetData();
+				}, 300);
+			}
+			
+			function pullupRefresh1(){
+				//ajax请求数据 就不用写在timeout里了
+				setTimeout(function() {
+					var table = document.body.querySelector('#comment-list');
+					for(var i = 0, len = 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						li.innerHTML = '<a javascript:;>' 
+											+'<img class="mui-media-object mui-pull-right" src="../../images/head-temp.png">' 
+											+'<div class="mui-media-body">' 
+												+'<div class="userName">YOYO切克闹</div>' 
+												+'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' 
+											+'</div>' 
+										+'</a>';
+						table.appendChild(li);
+					}
+				}, 1500);
+			}
+		</script>
+	</body>
+</html>
