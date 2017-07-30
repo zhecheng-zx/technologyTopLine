@@ -16,12 +16,44 @@
 				background-color: #3385ff;
 			}
 			.mui-title{color:#ffffff;}
+			.logoBox{
+				line-height: 44px;
+			}
+			.logo{
+				display: inline-block;
+				border:none;
+				width: 25px;
+				height: 18px;
+			}
+			.search-input{
+				display: inline-block;
+				position:absolute;
+				left: 40px;
+				right: 10px;
+			}
+			.search-input .mui-input-clear{
+				background-color: #ffffff;
+			}
+			.search-input .mui-search .mui-placeholder{
+				font-size:12px;
+				color:#999999;
+			}
+			.search-input .mui-search .mui-placeholder .mui-icon{
+				color:#999999;
+			}
 		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
-			<h1 id="title" class="mui-title">首页</h1>
+			<h1 id="title" class="mui-title mui-text-center"></h1>
+			<a class="mui-pull-left logoBox">
+				<img src="./images/logo.png" class="logo" width="25px" height="18px" />
+			</a>
+			<div id="search_title" class="search-input">
+				<div class="mui-input-row mui-search">
+				    <input type="search" class="mui-input-clear" placeholder="请输入关键字">
+				</div>
+			</div>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" data-wid="viewgroup" href="./html/card/index.html">
@@ -43,6 +75,7 @@
 		</nav>
 
 		<script src="js/mui.min.js"></script>
+		<script src="vendor/jQuery/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({statusBarBackground: '#3385ff'});
 			var subpages = ['./html/card/index.html', './html/techDictionary/index.html', './html/scientistStory/index.html', './html/myCenter/index.html'];
@@ -92,6 +125,15 @@
 					}
 					//更换标题
 					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+					if(title.innerHTML!="九大名片"){
+						document.querySelector("#title").style.display="block";
+						document.querySelector("#search_title").style.display="none";
+						document.querySelector(".logoBox").style.display="none";
+					}else{
+						document.querySelector("#search_title").style.display="block";
+						document.querySelector(".logoBox").style.display="block";
+						document.querySelector("#title").style.display="none";
+					}
 					//显示目标选项卡
 					//若为iOS平台或非首次显示，则直接显示
 					if(mui.os.ios || aniShow[targetTab]) {
@@ -103,8 +145,14 @@
 						mui.extend(aniShow, temp);
 						plus.webview.show(targetTab, "fade-in", 300);
 					}
+					console.log(targetTab,activeTab);
 					//隐藏当前;
-					plus.webview.hide(activeTab);
+					plus.webview.hide(activeTab,'fade-out',300);
+					if(activeTab=="./html/scientistStory/index.html"){
+						var stopVideo='$(document).find("video").each(function(){var $this=$(this)[0];$this.pause();});';
+						var _videoView=plus.webview.getWebviewById(activeTab);
+						_videoView.evalJS(stopVideo);
+					}
 					//更改当前活跃的选项卡
 					activeTab = targetTab;
 				});
