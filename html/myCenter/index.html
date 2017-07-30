@@ -17,20 +17,20 @@
 				margin: 10px auto;
 			}
 			.login-box .mui-table-view-cell{
-				padding: 16px 15px;
+				padding: 15px;
 			}
 			.login-box .mui-table-view-cell>a:not(.mui-btn){
-				margin: -16px -15px;
+				margin: -15px;
 			}
 			.mui-table-view .img-box{
-				width: 50px;
-				height: 50px;
+				width: 54px;
+				height: 54px;
 				border-radius: 50%;
 				background: #f8f8f8;
 			    margin-right: 17px;
    				margin-left: 25px;
 			}
-			.login-box .mui-media-body{
+			.login-box .noLoginBox{
 				line-height: 50px;
 				font-size: 16px;
 				color: #323232;
@@ -48,6 +48,20 @@
 			.myCenter .mui-icon-chat{
 				font-size: 19px;
 			}
+			
+			.userNameBox{
+				padding: 4px;
+			}
+			
+			.userNameBox .userName{
+				font-size: 16px;
+				color: #333;
+				margin-bottom: 8px;
+			}
+			
+			.userNameBox .info{
+				color: #999;
+			}
 		</style>
 	</head>
 	<body>
@@ -58,8 +72,12 @@
 						<div class="img-box mui-pull-left">
 							<img class="userImg">
 						</div>
-						<div class="mui-media-body">
+						<div class="mui-media-body noLoginBox" style="display: none;">
 							登录科技头条 体验更多功能
+						</div>
+						<div class="mui-media-body userNameBox">
+							<h4 class="userName">卖火柴的小女孩</h4>
+							<h6 class="info">这家伙很懒，什么都么留下</h6>
 						</div>
 					</a>
 				</li>
