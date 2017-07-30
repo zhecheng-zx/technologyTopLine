@@ -36,21 +36,11 @@
 		</style>
 	</head>
 	<body>
-		<div class="mui-content" id="articleList">
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media" v-for="item in articles">					
-					<a href="javascript:;" :data-guid="item.guid">
-						<img :src="item.src" class="mui-media-object mui-pull-right" />
-						<div class="mui-media-body">
-							<div class="article-title">{{item.title}}</div>
-							<p class="mui-ellipsis">
-								<span class="source">{{item.source}}</span> &nbsp;&nbsp;
-								<span class="dateTime">{{item.publishDateTime}}</span>
-							</p>
-						</div>
-					</a>
-				</li>				
-			</ul>
+		<div class="mui-content mui-scroll-wrapper" id="articleList">
+			<div class="mui-scroll">
+				<ul class="mui-table-view" id="articleUl">				
+				</ul>
+			</div>
 		</div>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/mui.min.js"></script>
@@ -90,66 +80,13 @@
 			};
 
 			mui.plusReady(function () {
-				//预加载详情页
-				webview_detail = mui.preload({
-					url: 'articleDetail.html',
-					id: 'articleDetailWrapper',
-					styles: {
-						"render": "always",
-						"popGesture": "hide",
-						"bounce": "vertical",
-						"bounceBackground": "#3385ff"
-					}
-				});
-				
 			    var self = plus.webview.currentWebview();
 			    // 或 var self = plus.webview.getWebviewById('new');
-			    //上个页面传的参数 具体怎么用  还不知道
+			    // 上个页面传的参数 具体怎么用  还不知道
 			    requestUrl = self.requestUrl;
 			});
-
-			var news = new Vue({
-				el: '#articleList',
-				data: {		
-					articles: [
-						{
-							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂',
-							publishDateTime: '20分钟前',
-							source: '科技头条',
-							src: '../../images/temp.jpg',
-							guid: 'article'
-						},
-						{
-							title: '特朗普郭台铭同台宣布',
-							publishDateTime: '20分钟前',
-							source: '科技头条',
-							src: '../../images/temp.jpg',
-							guid: 'article'
-						},
-						{
-							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿',
-							publishDateTime: '20分钟前',
-							source: '科技头条',
-							src: '../../images/temp.jpg',
-							guid: 'article'
-						},
-						{
-							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂',
-							publishDateTime: '20分钟前',
-							source: '科技头条',
-							src: '../../images/temp.jpg',
-							guid: 'article'
-						},
-						{
-							title: '特朗普郭台铭同台宣布：富士康将在美投资百亿设厂 特朗普郭台铭同台宣布：富士康将在美投资百亿设厂',
-							publishDateTime: '20分钟前',
-							source: '科技头条',
-							src: '../../images/temp.jpg',
-							guid: 'article'
-						}
-					] //列表信息流数据
-				}
-			});
+			
+			
 
 			var count = 0;
 
@@ -157,17 +94,17 @@
 				//ajax请求数据 就不用写在timeout里了
 				setTimeout(function() {
 					mui('#articleList').pullRefresh().endPullup((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
+					var table = document.body.querySelector('#articleUl');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
 					var newCount = cells.length > 0 ? 5 : 20; //首次加载20条，满屏
 					for(var i = cells.length, len = i + newCount; i < len; i++) {
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell mui-media';
-						li.innerHTML = '<a javascript:;>' 
+						li.innerHTML = '<a javascript:; data-guide="article">' 
 											+'<img class="mui-media-object mui-pull-right" src="../../images/temp.jpg">' 
 											+'<div class="mui-media-body">' 
 												+'<div class="article-title">我是自动加载出来的内容' + (i+1) + '</div>' 
-												+'<p class="mui-ellipsis">科技头条 &nbsp;&nbsp; 20分钟前</p>' 
+												+'<p class="mui-ellipsis"><span class="source">科技头条</span> &nbsp;&nbsp; <span class="time">20分钟前</span></p>' 
 											+'</div>' 
 										+'</a>';
 						table.appendChild(li);
@@ -176,16 +113,16 @@
 			}
 
 			function addData() {
-				var table = document.body.querySelector('.mui-table-view');
+				var table = document.body.querySelector('#articleUl');
 				var cells = document.body.querySelectorAll('.mui-table-view-cell');
 				for(var i = cells.length, len = i + 5; i < len; i++) {
 					var li = document.createElement('li');
 					li.className = 'mui-table-view-cell mui-media';
-						li.innerHTML = '<a javascript:;>' 
+						li.innerHTML = '<a javascript:; data-guide="article">' 
 											+'<img class="mui-media-object mui-pull-right" src="../../images/temp.jpg">'
 											+'<div class="mui-media-body">' 
 												+'<div class="article-title">我是下拉刷新的内容' + (i+1) + '</div>'
-												+'<p class="mui-ellipsis">科技头条 &nbsp;&nbsp; 20分钟前</p>' 
+												+'<p class="mui-ellipsis"><span class="source">科技头条</span> &nbsp;&nbsp; <span class="time">20分钟前</span></p>' 
 											+'</div>' 
 										+'</a>';
 					//下拉刷新，新纪录插到最前面；
@@ -202,47 +139,39 @@
 				}, 1500);
 			}
 			
-			//点击列表，打开详情
-			//TODO 后续应该封装一个v-tap指令，实现tap监听
-			mui('#articleList').on('tap', '[data-guid]', function() {
-				var guid = this.getAttribute('data-guid');
-				var title = this.querySelector(".article-title").innerHTML.trim();
-				var source = this.querySelector(".source").innerHTML;
-				var time = this.querySelector(".dateTime").innerHTML;				
-				open_detail(guid, title, source, time);
-			});
-			
 			/**
 			 * 打开新闻详情
 			 * 
 			 * @param {String} guid 新闻ID
 			 * @param {String} title  新闻标题
 			 */
-			function open_detail(guid, title, source, time) {
-				//若详情页尚未预加载完成，则延时等待再执行
-				console.log(webview_detail)
-				if(!webview_detail) {
-					setTimeout(function() {
-						open_detail(guid);
-					}, 100);
-				}
-				//触发子窗口变更新闻详情
-				mui.fire(webview_detail, 'get_detail', {
-					guid: guid,
-					title: title,
-					source: source,
-					time: time
-				});
-
-				//更改详情页原生导航条信息
-				titleNView.titleText = title;
-				webview_detail.setStyle({
-					"titleNView": titleNView
-				});
-				setTimeout(function () {
-					webview_detail.show("slide-in-right", 300);
-				},150);
+					
+			function open_detail(guid, title, source, time) {				
+				mui.openWindow({
+					url: 'articleDetail.html',
+					id: 'articleDetail',
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras:{
+				        title: title,  //扩展参数
+				        guid: guid,
+				        source:　source,
+				        time: time
+				    }
+				});								
 			}
+			
+			$(document).on('tap', '.mui-table-view li a', function(){
+				var _this = $(this);
+				var guid = _this.attr('data-guid');			
+				var title = _this.find('.article-title').text().trim();
+				var source = _this.find('.source').text().trim();
+				var time = _this.find('.time').text().trim();
+				open_detail(guid, title, source, time);
+			});
+
 		</script>
 	</body>
 
