@@ -74,9 +74,8 @@
 						contentnomore: '没有更多数据了',
 						callback: pullupRefresh
 					}
-				}
+				},
 			});
-
 			var requestUrl = '', webview_detail = null;
 			var	titleNView = { //详情页原生导航配置
 				backgroundColor: '#3385ff', //导航栏背景色
@@ -88,7 +87,6 @@
 					color: '#cccccc'
 				}
 			};
-
 			mui.plusReady(function () {
 				//预加载详情页
 				webview_detail = mui.preload({
@@ -107,7 +105,7 @@
 			    //上个页面传的参数 具体怎么用  还不知道
 			    requestUrl = self.requestUrl;
 			});
-
+			
 			var news = new Vue({
 				el: '#articleList',
 				data: {		
