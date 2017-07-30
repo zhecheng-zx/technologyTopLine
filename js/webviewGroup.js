@@ -30,10 +30,11 @@ proto._init = function() {
 proto._initNativeView = function() {
 	this.nativeView = new plus.nativeObj.View('__MUI_TAB_NATIVE', {
 		'top': '83px',//这个需要根据顶部导航及顶部选项卡高度自动调整
-		'height': (window.screen.height - 83)+"px",
+		'bottom': '0',
+		'height': (window.screen.height - 83 - 51)+"px",
 		'left': '100%',
 		'width': '100%',
-		"backgroundColor":"#ffffff"
+		"backgroundColor":"transparent"
 	});
 	this.nativeView.show();
 };
