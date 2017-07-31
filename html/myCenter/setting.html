@@ -8,7 +8,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/mui.min.css">
 		<style>
 			html,
 			body {
@@ -155,6 +155,11 @@
 			.mui-ios .mui-navbar .mui-bar .mui-title {
 				position: static;
 			}
+			.mui-bar.mui-bar-nav{
+				background-color: #3385ff;
+			}
+			.mui-title,
+			.mui-bar .mui-btn-link{color:#ffffff;}
 		</style>
 	</head>
 
@@ -186,7 +191,7 @@
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell mui-media">
 								<a class="mui-navigate-right" href="#account">
-									<img class="mui-media-object mui-pull-left head-img" id="head-img" src="">
+									<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../images/head-temp.png">
 									<div class="mui-media-body">
 										Hello MUI
 										<p class='mui-ellipsis'>账号:hellomui</p>
@@ -240,7 +245,7 @@
 							<li class="mui-table-view-cell">
 								<a id="head" class="mui-navigate-right">头像
 								<span class="mui-pull-right head">
-									<img class="head-img mui-action-preview" id="head-img1" src=""/>
+									<img class="head-img mui-action-preview" id="head-img1" src="../../images/head-temp.png"/>
 								</span>
 							</a>
 							</li>
@@ -763,12 +768,12 @@
 					document.getElementById("head-img").src = s;
 					document.getElementById("head-img1").src = s;
 				}, function(e) {
-					document.getElementById("head-img").src = '../images/logo.png';
-					document.getElementById("head-img1").src = '../images/logo.png';
+					document.getElementById("head-img").src = '../../images/head-temp.png';
+					document.getElementById("head-img1").src = '../../images/head-temp.png';
 				})
 			}else{
-				document.getElementById("head-img").src = '../images/logo.png';
-				document.getElementById("head-img1").src = '../images/logo.png';
+				document.getElementById("head-img").src = '../../images/head-temp.png';
+				document.getElementById("head-img1").src = '../../images/head-temp.png';
 			}
 			
 		}

@@ -29,6 +29,11 @@
 				background: #f8f8f8;
 			    margin-right: 17px;
    				margin-left: 25px;
+   				overflow: hidden;
+			}
+			.img-box .userImg{
+				width: 100%;
+				height: 100%;
 			}
 			.login-box .noLoginBox{
 				line-height: 50px;
@@ -70,7 +75,7 @@
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
 						<div class="img-box mui-pull-left">
-							<img class="userImg">
+							<img id="head-img" class="userImg">
 						</div>
 						<div class="mui-media-body noLoginBox" style="display: none;">
 							登录科技头条 体验更多功能
@@ -119,7 +124,7 @@
 		                </a>
 		            </li>
 		            <li class="mui-table-view-cell">
-		                <a class="mui-navigate-right">	
+		                <a class="mui-navigate-right" data-guid="setting">	
 		                	<span class="mui-icon mui-icon-gear icon-light-yellow"></span>
 		                    	系统设置
 		                </a>
@@ -159,6 +164,19 @@
 					feedbackWebview.show('slide-in-right', 300);
 				});
 			});
+			function defaultImg() {
+				if(mui.os.plus){
+					plus.io.resolveLocalFileSystemURL("_doc/head.jpg", function(entry) {
+						var s = entry.fullPath + "?version=" + new Date().getTime();;
+						document.getElementById("head-img").src = s;
+					}, function(e) {
+						document.getElementById("head-img").src = '../../images/head-temp.png';
+					})
+				}else{
+					document.getElementById("head-img").src = '../../images/head-temp.png';
+				}
+			}
+			defaultImg();
 		</script>
 	</body>
 </html>
