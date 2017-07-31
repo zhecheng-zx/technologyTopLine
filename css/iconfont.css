@@ -70,4 +70,10 @@
 
 .icon-shoucang.orange:before{ color: #ff8920; }
 
+.icon-new:before { content: "\e61a"; }
 
+.icon-hot2:before { content: "\e501"; }
+
+.icon-new.red:before{ color: #d81e06; }
+
+.icon-hot2.red:before{ color: #d81e06; }
