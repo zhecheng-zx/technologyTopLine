@@ -67,13 +67,19 @@
 			.userNameBox .info{
 				color: #999;
 			}
+			body>.mui-progressbar{
+				top:0;
+			}
+			/*.mui-progressbar span {
+				background-color: #8a6de9;
+			}*/
 		</style>
 	</head>
 	<body>
 		<div class="mui-content myCenter">
 			<ul class="mui-table-view login-box">
 				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;">
+					<a href="javascript:;" data-guid="userSet">
 						<div class="img-box mui-pull-left">
 							<img id="head-img" class="userImg">
 						</div>
@@ -82,7 +88,7 @@
 						</div>
 						<div class="mui-media-body userNameBox">
 							<h4 class="userName">卖火柴的小女孩</h4>
-							<h6 class="info">这家伙很懒，什么都么留下</h6>
+							<h6 class="info mui-ellipsis">这家伙很懒，什么都么留下这家伙很懒，什么都么留下</h6>
 						</div>
 					</a>
 				</li>
@@ -155,6 +161,10 @@
 			}
 			//点击列表，打开详情
 			mui('.mui-content').on('tap', '[data-guid]', function() {
+				mui('body').progressbar({
+					progress: 0
+				}).show();
+				simulateLoading(0);
 				var guid = this.getAttribute('data-guid');				
 				plus.nativeUI.showWaiting();
 				var url = './'+guid+'.html';
@@ -163,6 +173,7 @@
 					plus.nativeUI.closeWaiting();
 					feedbackWebview.show('slide-in-right', 300);
 				});
+				simulateLoading(100);
 			});
 			function defaultImg() {
 				if(mui.os.plus){
@@ -177,6 +188,24 @@
 				}
 			}
 			defaultImg();
+			/**
+			 * 通过随机数模拟业务进度，真实业务中需根据实际进度修改
+			 * @param {Object} container
+			 * @param {Object} progress
+			 */
+			function simulateLoading(container, progress) {
+				if (typeof container === 'number') {
+					progress = container;
+					container = 'body';
+				}
+				progress += Math.random() * 20;
+				mui(container).progressbar().setProgress(progress);
+				if (progress < 100) {
+					simulateLoading(container, progress);
+				} else {
+					mui(container).progressbar().hide();
+				}
+			}
 		</script>
 	</body>
 </html>

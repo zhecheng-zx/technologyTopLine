@@ -159,7 +159,7 @@
 				background-color: #3385ff;
 			}
 			.mui-title,
-			.mui-bar .mui-btn-link{color:#ffffff;}
+			.mui-bar .mui-btn-link{color:#ffffff;border:none !important;}
 		</style>
 	</head>
 
@@ -189,35 +189,25 @@
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<ul class="mui-table-view mui-table-view-chevron">
-							<li class="mui-table-view-cell mui-media">
-								<a class="mui-navigate-right" href="#account">
-									<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../../images/head-temp.png">
-									<div class="mui-media-body">
-										Hello MUI
-										<p class='mui-ellipsis'>账号:hellomui</p>
-									</div>
-								</a>
-							</li>
-						</ul>
-						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell">
-								<a href="#account" class="mui-navigate-right">账号与安全</a>
+								<a href="#account" class="mui-navigate-right">账号和绑定设置</a>
 							</li>
 						</ul>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell">
 								<a href="#notifications" class="mui-navigate-right">新消息通知</a>
 							</li>
-							<li class="mui-table-view-cell">
+							<!--<li class="mui-table-view-cell">
 								<a href="#privacy" class="mui-navigate-right">隐私</a>
 							</li>
 							<li class="mui-table-view-cell">
 								<a href="#general" class="mui-navigate-right">通用</a>
-							</li>
+							</li>-->
 						</ul>
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell">
-								<a href="#about" class="mui-navigate-right">关于MUI <i class="mui-pull-right update">V3.7.0</i></a>
+								<!--<a href="#about" class="mui-navigate-right">当前版本 <i class="mui-pull-right update">V3.7.0</i></a>-->
+								<a href="javascript:;">当前版本 <i class="mui-pull-right update">V1.0.0</i></a>
 							</li>
 						</ul>
 						<ul class="mui-table-view">
@@ -236,24 +226,14 @@
 				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
 					<span class="mui-icon mui-icon-left-nav"></span>设置
 				</button>
-				<h1 class="mui-center mui-title">账号与安全</h1>
+				<h1 class="mui-center mui-title">账号和绑定设置</h1>
 			</div>
 			<div class="mui-page-content">
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell">
-								<a id="head" class="mui-navigate-right">头像
-								<span class="mui-pull-right head">
-									<img class="head-img mui-action-preview" id="head-img1" src="../../images/head-temp.png"/>
-								</span>
-							</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a>姓名<span class="mui-pull-right">Hbuilder</span></a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a>HBuilder账号<span class="mui-pull-right">hbuilder@dcloud.io</span></a>
+								<a>账号<span class="mui-pull-right">builder</span></a>
 							</li>
 						</ul>
 						<ul class="mui-table-view">
@@ -261,10 +241,10 @@
 								<a>QQ号<span class="mui-pull-right">88888888</span></a>
 							</li>
 							<li class="mui-table-view-cell">
-								<a>手机号<span class="mui-pull-right">18601234567</span></a>
+								<a>手机号<span class="mui-pull-right">18600000000</span></a>
 							</li>
 							<li class="mui-table-view-cell">
-								<a>邮箱地址<span class="mui-pull-right">hbuilder@dcloud.io</span></a>
+								<a>邮箱地址<span class="mui-pull-right">builder@x.ioc</span></a>
 							</li>
 						</ul>
 					</div>
@@ -276,7 +256,7 @@
 				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
 					<span class="mui-icon mui-icon-left-nav"></span>设置
 				</button>
-				<h1 class="mui-center mui-title">新消息通知</h1>
+				<h1 class="mui-center mui-title">推送消息</h1>
 			</div>
 			<div class="mui-page-content">
 				<div class="mui-scroll-wrapper">
@@ -336,7 +316,7 @@
 		<div id="notifications_disturb" class="mui-page">
 			<div class="mui-navbar-inner mui-bar mui-bar-nav">
 				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
-					<span class="mui-icon mui-icon-left-nav"></span>新消息通知
+					<span class="mui-icon mui-icon-left-nav"></span>推送消息
 				</button>
 				<h1 class="mui-center mui-title">功能消息免打扰</h1>
 			</div>
@@ -415,7 +395,6 @@
 							</li>
 							<li class="mui-table-view-divider">关闭后，其他用户将不能通过HBuilder号搜索到你</li>
 						</ul>
-
 					</div>
 				</div>
 			</div>
@@ -453,7 +432,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div id="about" class="mui-page">
 			<div class="mui-navbar-inner mui-bar mui-bar-nav">
 				<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
@@ -515,12 +493,12 @@
 			});
 		});
 		
-		setTimeout(function () {
-			defaultImg();
-			setTimeout(function() {
-				initImgPreview();
-			}, 300);
-		},500);
+//		setTimeout(function () {
+//			defaultImg();
+//			setTimeout(function() {
+//				initImgPreview();
+//			}, 300);
+//		},500);
 		
 		//分享链接点击事件
 		document.getElementById("share").addEventListener('tap', function() {
@@ -772,14 +750,14 @@
 					document.getElementById("head-img1").src = '../../images/head-temp.png';
 				})
 			}else{
-				document.getElementById("head-img").src = '../../images/head-temp.png';
-				document.getElementById("head-img1").src = '../../images/head-temp.png';
+				document.getElementById("head-img").src = '../images/logo.png';
+				document.getElementById("head-img1").src = '../images/logo.png';
 			}
 			
 		}
-		document.getElementById("head-img1").addEventListener('tap', function(e) {
-			e.stopPropagation();
-		});
+//		document.getElementById("head-img1").addEventListener('tap', function(e) {
+//			e.stopPropagation();
+//		});
 		document.getElementById("welcome").addEventListener('tap', function(e) {
 			//显示启动导航
 			mui.openWindow({
