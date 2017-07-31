@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
 		<script src="../../js/autoSize.js"></script>
@@ -82,14 +85,14 @@
 			<div class="mui-card">
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
-		                <a class="mui-navigate-right" href="javascript:;" data-guid="message.guide">
+		                <a class="mui-navigate-right" href="javascript:;" data-guid="message">
 		                    <span class="mui-badge mui-badge-danger">15</span>
 		                    <span class="mui-icon mui-icon-chat icon-blue"></span>
 		                    	消息通知
 		                </a>
 		            </li>
 		            <li class="mui-table-view-cell">
-		                <a class="mui-navigate-right" data-guid="history.guide">	
+		                <a class="mui-navigate-right" data-guid="history">	
 		                	<span class="mui-icon mui-icon-star icon-dark-yellow"></span>
 		                    	历史与收藏
 		                </a>
@@ -110,7 +113,7 @@
 		    <div class="mui-card">
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
-		                <a class="mui-navigate-right">		
+		                <a class="mui-navigate-right" data-guid="feedback">		
 		                	<span class="mui-icon mui-icon-compose icon-green"></span>
 		                    	用户反馈
 		                </a>
@@ -126,7 +129,8 @@
 		</div>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
-		<script>		
+		<script>	
+			mui.init();
 			$(function(){
 				//判断用户是否登录 显示
 				$('.tech-pomp').hide();
@@ -135,64 +139,26 @@
 			//消息通知、历史与收藏
 			var message_detail = null, history_detail = null;
 			var titleNView = { //详情页原生导航配置
-				backgroundColor: '#f7f7f7', //导航栏背景色
+				backgroundColor: '#3385ff', //导航栏背景色
 				titleText: '', //导航栏标题
-				titleColor: '#333', //文字颜色
+				titleColor: '#ffffff', //文字颜色
 				type: 'transparent', //透明渐变样式
 				autoBackButton: true, //自动绘制返回箭头
 				splitLine: { //底部分割线
 					color: '#cccccc'
 				}
 			}
-			
-			mui.plusReady(function() {
-				//预加载详情页
-				message_detail = mui.preload({
-					url: 'message.html',
-					id: 'message'
-				});
-				history_detail = mui.preload({
-					url: 'history.html',
-					id: 'history'
-				});
-			});
-			
 			//点击列表，打开详情
 			mui('.mui-content').on('tap', '[data-guid]', function() {
 				var guid = this.getAttribute('data-guid');				
-				open_detail(guid);
-			});;
-
-			
-			/**
-			 * 打开子页面
-			 * 
-			 * @param {String} guid 
-			 */
-			function open_detail(guid) {
-				var showPage = '';
-				
-				//触发子窗口变更新闻详情
-				if(guid.indexOf('message') >= 0){
-					showPage = message_detail;
-					//更改详情页原生导航条信息
-					titleNView.titleText = '消息通知';										
-				}else if(guid.indexOf('history') >= 0){
-					showPage = history_detail;
-					titleNView.titleText = '历史与收藏';					
-				}
-				
-				
-				mui.fire(showPage, 'get_detail', {
-					guid: guid
+				plus.nativeUI.showWaiting();
+				var url = './'+guid+'.html';
+				var feedbackWebview = plus.webview.create(url, guid);
+				feedbackWebview.addEventListener('titleUpdate', function() {
+					plus.nativeUI.closeWaiting();
+					feedbackWebview.show('slide-in-right', 300);
 				});
-				showPage.setStyle({
-					"titleNView": titleNView
-				});
-				setTimeout(function(){
-					showPage.show('slide-in-right', 300);
-				});
-			}
+			});
 		</script>
 	</body>
 </html>

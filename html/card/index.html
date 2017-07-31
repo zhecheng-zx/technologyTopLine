@@ -134,7 +134,39 @@
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init();
-			
+			var href="../public/native-silder.html",id="slider-native",aniShow="pop-in";
+			var titleType = "native";
+//			var webview_style = {
+//				popGesture: "close"
+//			}
+//			var extras = {};
+//			webview_style.subNViews = [{ //配置图片轮播
+//				id: 'slider-native',
+//				type: 'ImageSlider',
+//				styles: {
+//					left: 0,
+//					right: 0,
+//					top: 0,
+//					height: '200px',
+//					position: 'static',
+//					loop: true,
+//					images: [{
+//						src: '_www/images/yuantiao.jpg',
+//						width: '100%'
+//					}, {
+//						src: '_www/images/shuijiao.jpg',
+//						width: '100%',
+//					}, {
+//						src: '_www/images/muwu.jpg',
+//						width: '100%',
+//					}, {
+//						src: '_www/images/cbd.jpg',
+//						width: '100%',
+//					}]
+//				}
+//			}];
+//			var webview = plus.webview.create(this.href, id, webview_style, extras);
+//			webview.show(aniShow,300);
 			mui.plusReady(function() {
 				var group = new webviewGroup("articleList.html", {
 					items: [
