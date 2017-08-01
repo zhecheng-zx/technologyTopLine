@@ -207,9 +207,9 @@
 					var img = articleList[i].img;
 					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
 					
-					//根据图片个数 显示不同的样式列表						
+					//根据图片个数 显示不同的样式列表	TODO a标签的属性data-guid指的是文章id！！！暂时写成article
 					if(img.length < 3){
-						$li.append('<a javascript:; data-guide="article">' 
+						$li.append('<a javascript:; data-guid="article">' 
 										+'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' 
 										+'<div class="mui-media-body">' 
 											+'<div class="article-title">' + articleList[i].title + '</div>' 
@@ -224,7 +224,7 @@
 							imgUl = imgUl + '<li class="mui-table-view mui-media mui-col-xs-4"><img class="mui-media-object" src="' + img[j] + '"></li>';
 						}
 						imgUl += '</ul>';
-						$li.append('<a javascript:; data-guide="article">' 
+						$li.append('<a javascript:; data-guid="article">' 
 										+'<div class="mui-media-body">' 
 											+'<div class="article-title special">' + articleList[i].title + '</div>' 
 											+ imgUl
@@ -298,7 +298,7 @@
 				e.stopPropagation();
 				e.preventDefault();
 				var _this = $(this);
-				var guid = _this.attr('data-guid');			
+				var guid = _this.attr('data-guid');
 				var title = _this.find('.article-title').text().trim();
 				var source = _this.find('.source').text().trim();
 				var time = _this.find('.time').text().trim();

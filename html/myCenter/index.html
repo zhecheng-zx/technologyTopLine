@@ -76,7 +76,7 @@
 		</style>
 	</head>
 	<body>
-		<div class="mui-content myCenter">
+		<div class="mui-content myCenter" id="myCenter">
 			<ul class="mui-table-view login-box">
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;" data-guid="userSet">
@@ -143,7 +143,7 @@
 		<script>	
 			mui.init();
 			$(function(){
-				//判断用户是否登录 显示
+				//判断用户是否登录  已登录显示tech-pomp  未登录 则不显示
 				$('.tech-pomp').hide();
 			});
 			
@@ -206,6 +206,12 @@
 					mui(container).progressbar().hide();
 				}
 			}
+			
+			//父页面添加自定义监听事件  子页面返回时调用该方法 用于刷新父页面信息
+		     window.addEventListener('freshInfo', function(e){	
+		     	//此处暂时调用defaultImg方法， 应该调用获取用户信息的ajax方法，来获取最新的用户信息
+	            defaultImg();
+	        });
 		</script>
 	</body>
 </html>

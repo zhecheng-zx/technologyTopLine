@@ -66,7 +66,12 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript">
-			mui.init();
+			mui.init({
+				preloadPages: [{
+					id: 'index.html', 
+					url: 'index.html'
+				}]
+			});
 			setTimeout(function(){
 				defaultImg();
 				setTimeout(function(){
@@ -184,44 +189,55 @@
 				e.stopPropagation();
 			});
 			function initImgPreview() {
-			var imgs = document.querySelectorAll("img.mui-action-preview");
-			imgs = mui.slice.call(imgs);
-			if (imgs && imgs.length > 0) {
-				var slider = document.createElement("div");
-				slider.setAttribute("id", "__mui-imageview__");
-				slider.classList.add("mui-slider");
-				slider.classList.add("mui-fullscreen");
-				slider.style.display = "none";
-				slider.addEventListener("tap", function() {
+				var imgs = document.querySelectorAll("img.mui-action-preview");
+				imgs = mui.slice.call(imgs);
+				if (imgs && imgs.length > 0) {
+					var slider = document.createElement("div");
+					slider.setAttribute("id", "__mui-imageview__");
+					slider.classList.add("mui-slider");
+					slider.classList.add("mui-fullscreen");
 					slider.style.display = "none";
-				});
-				slider.addEventListener("touchmove", function(event) {
-					event.preventDefault();
-				})
-				var slider_group = document.createElement("div");
-				slider_group.setAttribute("id", "__mui-imageview__group");
-				slider_group.classList.add("mui-slider-group");
-				imgs.forEach(function(value, index, array) {
-					//给图片添加点击事件，触发预览显示；
-					value.addEventListener('tap', function() {
-						slider.style.display = "block";
-						_slider.refresh();
-						_slider.gotoItem(index, 0);
+					slider.addEventListener("tap", function() {
+						slider.style.display = "none";
+					});
+					slider.addEventListener("touchmove", function(event) {
+						event.preventDefault();
 					})
-					var item = document.createElement("div");
-					item.classList.add("mui-slider-item");
-					var a = document.createElement("a");
-					var img = document.createElement("img");
-					img.setAttribute("src", value.src);
-					a.appendChild(img)
-					item.appendChild(a);
-					slider_group.appendChild(item);
-				});
-				slider.appendChild(slider_group);
-				document.body.appendChild(slider);
-				var _slider = mui(slider).slider();
+					var slider_group = document.createElement("div");
+					slider_group.setAttribute("id", "__mui-imageview__group");
+					slider_group.classList.add("mui-slider-group");
+					imgs.forEach(function(value, index, array) {
+						//给图片添加点击事件，触发预览显示；
+						value.addEventListener('tap', function() {
+							slider.style.display = "block";
+							_slider.refresh();
+							_slider.gotoItem(index, 0);
+						})
+						var item = document.createElement("div");
+						item.classList.add("mui-slider-item");
+						var a = document.createElement("a");
+						var img = document.createElement("img");
+						img.setAttribute("src", value.src);
+						a.appendChild(img)
+						item.appendChild(a);
+						slider_group.appendChild(item);
+					});
+					slider.appendChild(slider_group);
+					document.body.appendChild(slider);
+					var _slider = mui(slider).slider();
+				}
 			}
-		}
+			
+			//重写back方法 返回上一页时 调用上一页的刷新方法
+			var old_back = mui.back;
+			mui.back = function() {
+			    // 获取目标口窗口对象
+			    var view = plus.webview.currentWebview().opener();			   
+			    //执行父页面的事件
+			    mui.fire(view, 'freshInfo', {});			    
+			    // 执行关闭
+			    old_back();
+			};
 		</script>
 	</body>
 
