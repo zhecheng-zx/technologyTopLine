@@ -1,12 +1,24 @@
 <!doctype html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />	
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<style>
+			.mui-backdrop {
+				position: fixed;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 998;
+				background-color: rgba(0, 0, 0, .3);
+			}
+		</style>
 	</head>
 
 	<body>
@@ -19,103 +31,101 @@
 		</header>
 		<div class="mui-content article-detail-wrapper mui-scroll-wrapper" id="articleDetailWrapper">
 			<div class="mui-scroll">
-				<div>
-					<div class="kr-article-content">
-						<div class="article-title">{{title}}</div>
-						<div class="article-info">
-							<span class="source">{{source}}</span>&nbsp;&nbsp;&nbsp;
-							<span class="dateTime">{{time}}</span>
+				<div class="kr-article-content">
+					<div class="article-title">{{title}}</div>
+					<div class="article-info">
+						<span class="source">{{source}}</span>&nbsp;&nbsp;&nbsp;
+						<span class="dateTime">{{time}}</span>
+					</div>
+					<!--文章详细内容-->
+					<p id="kr-article-article" class="kr-article-article" v-html="content"></p>
+					<div class="related-words">
+						<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
+					</div>
+					<div class="article-like-wrapper">
+						<div class="item like-wrapper">
+							<span class="mui-icon iconfont icon-zan like orange"></span>点赞
 						</div>
-						<!--文章详细内容-->
-						<p id="kr-article-article" class="kr-article-article" v-html="content"></p>
-						<div class="related-words">
-							<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
-						</div>
-						<div class="article-like-wrapper">
-							<div class="item like-wrapper">
-								<span class="mui-icon iconfont icon-zan like orange"></span>点赞
-							</div>
-							<div class="item dislike-wrapper">
-								<span class="mui-icon iconfont icon-zan dislike"></span>不喜欢
-							</div>
+						<div class="item dislike-wrapper">
+							<span class="mui-icon iconfont icon-zan dislike"></span>不喜欢
 						</div>
 					</div>
-					<div class="ad-wrapper">
-						<img src="../../images/ad.png" alt="" />
-					</div>
-					<div class="related-article-wrapper">
-						<h5 class="text">猜你喜欢</h5>
-						<ul class="related-article-list">
-							<li class="item">
-								<a href="javascript:;">且慢！放下砸向电脑的板砖 XP上网卡慢也能一招解决</a>
-							</li>
-							<li class="item">
-								<a href="javascript:;">西班牙巴塞罗那发生火车撞站台事故 至少48人伤</a>
-							</li>
-							<li class="item">
-								<a href="javascript:;">火影、死神、海贼王三大动漫 死神的口碑为什么最不好？</a>
-							</li>
-						</ul>
-					</div>
+				</div>
+				<div class="ad-wrapper">
+					<img src="../../images/ad.png" alt="" />
+				</div>
+				<div class="related-article-wrapper">
+					<h5 class="text">猜你喜欢</h5>
+					<ul class="related-article-list">
+						<li class="item">
+							<a href="javascript:;">且慢！放下砸向电脑的板砖 XP上网卡慢也能一招解决</a>
+						</li>
+						<li class="item">
+							<a href="javascript:;">西班牙巴塞罗那发生火车撞站台事故 至少48人伤</a>
+						</li>
+						<li class="item">
+							<a href="javascript:;">火影、死神、海贼王三大动漫 死神的口碑为什么最不好？</a>
+						</li>
+					</ul>
+				</div>
 
-					<div class="comment-wrapper">
-						<h5 class="text">
+				<div class="comment-wrapper">
+					<h5 class="text">
 							评论区
 						</h5>
-						<ul class="mui-table-view comment-list" id="comment-list">
-							<li class="mui-table-view-cell mui-media">
-								<a href="javascript:;">
-									<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
-									<div class="mui-media-body">
-										<p class="userNameBox">
-											<span class="userName">卖火柴的小女孩</span>
-											<span class="zanNum mui-pull-right">22</span>
-											<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
-										</p>
-										<p class="comment">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-										<p class="comment-info">
-											<span class="publishDate">07-20 12:12</span>
-											<span class="replay">10回复</span>
-										</p>
-									</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media">
-								<a href="javascript:;">
-									<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
-									<div class="mui-media-body">
-										<p class="userNameBox">
-											<span class="userName">木屋</span>
-											<span class="zanNum mui-pull-right">50</span>
-											<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
-										</p>
-										<p class='comment'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-										<p class="comment-info">
-											<span class="publishDate">07-20 12:12</span>
-											<span class="replay">88回复</span>
-										</p>
-									</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media">
-								<a href="javascript:;">
-									<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
-									<div class="mui-media-body">
-										<p class="userNameBox">
-											<span class="userName">帅的不要不要的</span>
-											<span class="zanNum mui-pull-right">199</span>
-											<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
-										</p>
-										<p class='comment'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-										<p class="comment-info">
-											<span class="publishDate">07-20 12:12</span>
-											<span class="replay">10回复</span>
-										</p>
-									</div>
-								</a>
-							</li>
-						</ul>
-					</div>
+					<ul class="mui-table-view comment-list" id="comment-list">
+						<li class="mui-table-view-cell mui-media">
+							<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+								<div class="mui-media-body">
+									<p class="userNameBox">
+										<span class="userName">卖火柴的小女孩</span>
+										<span class="zanNum mui-pull-right">22</span>
+										<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+									</p>
+									<p class="comment">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+									<p class="comment-info">
+										<span class="publishDate">07-20 12:12</span>
+										<span class="replay">10回复</span>
+									</p>
+								</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+								<div class="mui-media-body">
+									<p class="userNameBox">
+										<span class="userName">木屋</span>
+										<span class="zanNum mui-pull-right">50</span>
+										<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+									</p>
+									<p class='comment'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+									<p class="comment-info">
+										<span class="publishDate">07-20 12:12</span>
+										<span class="replay">88回复</span>
+									</p>
+								</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media">
+							<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">
+								<div class="mui-media-body">
+									<p class="userNameBox">
+										<span class="userName">帅的不要不要的</span>
+										<span class="zanNum mui-pull-right">199</span>
+										<span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>
+									</p>
+									<p class='comment'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+									<p class="comment-info">
+										<span class="publishDate">07-20 12:12</span>
+										<span class="replay">10回复</span>
+									</p>
+								</div>
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -136,6 +146,10 @@
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script type="text/javascript">
 			mui.init({
+				//				 preloadPages:[{
+				//				 	id: 'keyboard.html',
+				//				 	url: 'keyboard.html'
+				//				 }],
 				pullRefresh: {
 					container: '.mui-content',
 					up: {
@@ -145,9 +159,9 @@
 						contentnomore: '没有更多数据了',
 						callback: function() {
 							var length = $('#comment-list li').length;
-							if(length >= 20){
+							if(length >= 20) {
 								this.endPullupToRefresh(true);
-							}else{
+							} else {
 								this.endPullupToRefresh(false);
 							}
 							var table = document.body.querySelector('#comment-list');
@@ -180,12 +194,12 @@
 			var vm = new Vue({
 				el: '#articleDetailWrapper',
 				data: {
-					title: 'mui初级入门教程（一）— 小白入手mui的学习路线',
+					title: '文章列表也传参过来的文章列表也传参过来的',
 					source: '科技头条',
-					time: '30分钟前',
-					content: ''
+					time: '20分钟前',
+					content: '文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的'
 				}
-			});		
+			});
 
 			window.onload = function() {
 				var extras = plus.webview.currentWebview();
@@ -221,7 +235,7 @@
 				});
 
 				//input框调用键盘方法
-				initNativeObjects();
+//				initNativeObjects();	
 			});
 
 			//分享链接点击事件
@@ -292,35 +306,39 @@
 				});
 			}
 
-			var nativeWebview, imm, InputMethodManager;
-			var initNativeObjects = function() {
-				if(mui.os.android) {
-					var main = plus.android.runtimeMainActivity();
-					var Context = plus.android.importClass("android.content.Context");
-					InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
-					imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
-				} else {
-					nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
-				}
-			};
+//			var nativeWebview, imm, InputMethodManager;
+//			var initNativeObjects = function() {
+//				if(mui.os.android) {
+//					var main = plus.android.runtimeMainActivity();
+//					var Context = plus.android.importClass("android.content.Context");
+//					InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+//					imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+//				} else {
+//					nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+//				}
+//			};
 
-			$(document).on('tap', 'input.write-comment', function() {
-				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
-				if(mui.os.android) {
-					//强制当前webview获得焦点
-					plus.android.importClass(nativeWebview);
-					nativeWebview.requestFocus();
-					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-				} else {
-					nativeWebview.plusCallMethod({
-						"setKeyboardDisplayRequiresUserAction": false
-					});
-				}
-				setTimeout(function() {
-					//此处可写具体逻辑设置获取焦点的input
-					var inputElem = document.querySelector('input.write-comment');
-					inputElem.focus();
-				}, 200);
+			$(document).on('tap', 'input.write-comment', function(e) {
+				e.preventDefault();
+				e.stopPropagation();			
+				console.log(1111)
+				var w = plus.webview.open('keyboard.html', 'keyboard', {statusbar: {background: '#ccc'}});
+//				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+//				if(mui.os.android) {
+//					//强制当前webview获得焦点
+//					plus.android.importClass(nativeWebview);
+//					nativeWebview.requestFocus();
+//					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+//				} else {
+//					nativeWebview.plusCallMethod({
+//						"setKeyboardDisplayRequiresUserAction": false
+//					});
+//				}
+//				setTimeout(function() {
+//					//此处可写具体逻辑设置获取焦点的input
+//					var inputElem = document.querySelector('input.write-comment');
+//					inputElem.focus();
+//				}, 200);
 			});
 		</script>
 	</body>

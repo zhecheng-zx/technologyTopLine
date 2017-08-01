@@ -232,9 +232,9 @@
 			var old_back = mui.back;
 			mui.back = function() {
 			    // 获取目标口窗口对象
-			    var view = plus.webview.currentWebview().opener();			   
-			    //执行父页面的事件
-			    mui.fire(view, 'freshInfo', {});			    
+			    var view = plus.webview.currentWebview().opener();
+			    //父页面刷新
+			    view.reload(true);		    
 			    // 执行关闭
 			    old_back();
 			};

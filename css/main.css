@@ -24,7 +24,7 @@
 	color: #12b7f5;
 }
 
-.article-detail-header.mui-title {
+.article-detail-header .mui-title {
 	left: 10px;
 	right: 10px;
 }
@@ -37,7 +37,7 @@
 	font-size: 20px;
 }
 
-.article-detail-wrapper{
+.mui-content.article-detail-wrapper{
 	padding: 10px;
 	background: #fff;
 	margin: 44px auto 50px;
@@ -154,6 +154,7 @@
 .comment-box input{
 	height: 30px;
 	margin: 0px ;
+	padding: 4px 10px;
 	font-size: 11px;
 	background: #EAEAEC;
 	border: none;

@@ -206,12 +206,6 @@
 					mui(container).progressbar().hide();
 				}
 			}
-			
-			//父页面添加自定义监听事件  子页面返回时调用该方法 用于刷新父页面信息
-		     window.addEventListener('freshInfo', function(e){	
-		     	//此处暂时调用defaultImg方法， 应该调用获取用户信息的ajax方法，来获取最新的用户信息
-	            defaultImg();
-	        });
 		</script>
 	</body>
 </html>
