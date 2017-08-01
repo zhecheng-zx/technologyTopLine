@@ -154,47 +154,20 @@
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init();
-			var href="../public/native-silder.html",id="slider-native",aniShow="pop-in";
-			var titleType = "native";
-//			var webview_style = {
-//				popGesture: "close"
-//			}
-//			var extras = {};
-//			webview_style.subNViews = [{ //配置图片轮播
-//				id: 'slider-native',
-//				type: 'ImageSlider',
-//				styles: {
-//					left: 0,
-//					right: 0,
-//					top: 0,
-//					height: '200px',
-//					position: 'static',
-//					loop: true,
-//					images: [{
-//						src: '_www/images/yuantiao.jpg',
-//						width: '100%'
-//					}, {
-//						src: '_www/images/shuijiao.jpg',
-//						width: '100%',
-//					}, {
-//						src: '_www/images/muwu.jpg',
-//						width: '100%',
-//					}, {
-//						src: '_www/images/cbd.jpg',
-//						width: '100%',
-//					}]
-//				}
-//			}];
-//			var webview = plus.webview.create(this.href, id, webview_style, extras);
-//			webview.show(aniShow,300);
 			mui.plusReady(function() {
+				var id="silderBanner",
+					styles={top:'38px',left:'0px',height:'200px',width:'100%',fullscreen:'false',position:'static',images:[{src:'../../images/muwu.jpg',width:"100%",verticalAlign:"middle"},{src:'../../images/shuijiao.jpg',width:'100%',verticalAlign:'middle'},{src:'../../images/yuantiao.jpg',width:'100%',verticalAlign:'middle'}]},
+					tags=null;
+				var view = new plus.nativeObj.ImageSlider(id, styles, tags);
+//					view.show("zoom-fade-out");
+					plus.webview.currentWebview().append(view);
 				var group = new webviewGroup("articleList.html", {
 					items: [
 					{
 						id: "pullrefresh_sub.html",
 						url: "../public/articleList.html",
 						styles:{
-							top:"38px",
+							top:"238px",
 							bottom:"0"
 						},
 						extras: {}
@@ -256,6 +229,11 @@
 						extras: {closeFlag: true}
 					}],
 					onChange: function(obj) {
+						if(obj.index!=0){
+							view.hide("zoom-fade-in");
+						}else{
+							view.show("zoom-fade-in");
+						}
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
 							c.classList.remove("mui-active");
@@ -264,10 +242,12 @@
 					}
 				});
 				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
+					view.hide();
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
 				mui(".plus-box").on("tap",".plus_btn",function(e){
+					view.hide();
 					var _this=this,
 					wid=_this.getAttribute("data-wid");
 					mui('body').progressbar({
