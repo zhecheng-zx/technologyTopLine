@@ -261,6 +261,12 @@
 				background-color:#0062CC;
 				border-radius: 50px;
 			}
+			.imgBox>div:nth-child(odd){
+				padding-right: 5px;
+			}
+			.imgBox>div:nth-child(even){
+				padding-left: 5px;
+			}
 		</style>
 	</head>
 
@@ -360,7 +366,26 @@
 						_card+='</div>';
 						_card+='<div class="mui-media-footer">';
 						if(i!=0){
-							_card+='<img src="../../images/ad.png" data-preview-src="" data-preview-group="1"/>';
+							//TODO 图片显示逻辑： 后台传的数据 小于四张图 显示第一张  大于等于四张图  显示前四张 
+							//暂时这样判断
+							if(i%2 == 0){
+								_card+='<img src="../../images/ad.png" data-preview-src="" data-preview-group="1"/>';	
+							}else{
+								_card+='<div class="mui-row imgBox">' 
+										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
+											+ '<img src="../../images/muwu.jpg" data-preview-src="" data-preview-group="2"/>' 
+										+ '</div>'
+										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
+											+ '<img src="../../images/cbd.jpg" data-preview-src="" data-preview-group="2"/>' 
+										+ '</div>'
+										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
+											+ '<img src="../../images/shuijiao.jpg" data-preview-src="" data-preview-group="2"/>' 
+										+ '</div>'
+										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
+											+ '<img src="../../images/yuantiao.jpg" data-preview-src="" data-preview-group="2"/>'
+										+ '</div>'
+									+ '</div>'
+							}
 						}else{
 							_card+='<div class="videoBox">';
 						    _card+='<img class="playBtn" src="../../images/playBtn.png" />';

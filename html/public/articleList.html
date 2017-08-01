@@ -208,7 +208,7 @@
 					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
 					
 					//根据图片个数 显示不同的样式列表						
-					if( 1 == img.length){
+					if(img.length < 3){
 						$li.append('<a javascript:; data-guide="article">' 
 										+'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' 
 										+'<div class="mui-media-body">' 
@@ -220,7 +220,7 @@
 									+'</a>');
 					}else{
 						var imgUl = '<ul class="mui-table-view mui-grid-view">';
-						for(var j = 0; j < img.length; j++){
+						for(var j = 0; j < 3; j++){
 							imgUl = imgUl + '<li class="mui-table-view mui-media mui-col-xs-4"><img class="mui-media-object" src="' + img[j] + '"></li>';
 						}
 						imgUl += '</ul>';
