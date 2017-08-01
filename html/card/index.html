@@ -90,9 +90,26 @@
 			.mui-pull-top-canvas canvas {
 				width: 40px;
 			}
-			
 			.mui-slider-indicator.mui-segmented-control {
-				background-color: #efeff4;
+				background-color: #ffffff;
+			}
+			.plus-box {
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    width: 36px;
+			    line-height: 38px;
+			    text-align: center;
+			    background-color: #ffffff;
+			    z-index: 2;
+			}
+			.plus-box>a{
+				display: block;
+				height: 100%;
+			}
+			.plus-box>a,
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
+				color:#666666;
 			}
 		</style>
 	</head>
@@ -128,6 +145,9 @@
 						</a>
 					</div>
 				</div>
+			</div>
+			<div class="plus-box">
+				<a href="javascript:;" data-wid="plus_channel" class="plus_btn"><span class="mui-icon mui-icon-plusempty"></span></a>
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
@@ -247,7 +267,40 @@
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
-
+				mui(".plus-box").on("tap",".plus_btn",function(e){
+					var _this=this,
+					wid=_this.getAttribute("data-wid");
+					mui('body').progressbar({
+						progress: 0
+					}).show();
+					simulateLoading(0);				
+					plus.nativeUI.showWaiting();
+					var url = './'+wid+'.html';
+					var feedbackWebview = plus.webview.create(url, wid);
+					feedbackWebview.addEventListener('titleUpdate', function() {
+						plus.nativeUI.closeWaiting();
+						feedbackWebview.show('slide-in-bottom', 300);
+					});
+					simulateLoading(100);
+				});
+				/**
+				 * 通过随机数模拟业务进度，真实业务中需根据实际进度修改
+				 * @param {Object} container
+				 * @param {Object} progress
+				 */
+				function simulateLoading(container, progress) {
+					if (typeof container === 'number') {
+						progress = container;
+						container = 'body';
+					}
+					progress += Math.random() * 20;
+					mui(container).progressbar().setProgress(progress);
+					if (progress < 100) {
+						simulateLoading(container, progress);
+					} else {
+						mui(container).progressbar().hide();
+					}
+				}
 			});
 		</script>
 	</body>
