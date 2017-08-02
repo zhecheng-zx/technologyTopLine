@@ -25,8 +25,7 @@
 		<header class="mui-bar mui-bar-nav article-detail-header">
 			<h1 id="title" class="mui-title mui-clearfix">
 				<span class="mui-icon mui-icon-back mui-pull-left" id="mui-icon-back"></span>
-				<span class="text">内容页</span>
-				<span class="mui-pull-right" id="share">···</span>
+				<span class="text">内容页</span>				
 			</h1>
 		</header>
 		<div class="mui-content article-detail-wrapper mui-scroll-wrapper" id="articleDetailWrapper">
@@ -136,7 +135,7 @@
 			<li class="mui-tab-item">
 				<span class="mui-icon iconfont icon-shoucang orange"></span> 收藏
 			</li>
-			<li class="mui-tab-item">
+			<li class="mui-tab-item" id="share">
 				<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
 			</li>
 		</nav>
@@ -145,11 +144,7 @@
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script type="text/javascript">
-			mui.init({
-				//				 preloadPages:[{
-				//				 	id: 'keyboard.html',
-				//				 	url: 'keyboard.html'
-				//				 }],
+			mui.init({		
 				pullRefresh: {
 					container: '.mui-content',
 					up: {
@@ -215,7 +210,7 @@
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
 				vm.content = 'mui.get()方法和mui.post()方法类似，只不过是直接使用GET请求方式向服务器发送数据、且不处理timeout和异常（若需处理异常及超时，请使用mui.ajax()方法），使用方法： mui.get(url[,data][,success][,dataType])，如下为获得某服务器新闻列表的代码片段，服务器以json格式返回数据列表';
-				//向服务端请求文章详情内容  guid:文章id  mui.ajax
+				//TODO 向服务端请求文章详情内容  guid:文章id  mui.ajax
 
 			}
 
@@ -252,7 +247,8 @@
 						id: "qq"
 					}],
 					bts = [{
-						title: "发送给微信好友"
+						title: "发送给微信好友",
+						img: "../../images/logo.png"
 					}, {
 						title: "分享到微信朋友圈"
 					}, {
@@ -320,9 +316,16 @@
 
 			$(document).on('tap', 'input.write-comment', function(e) {
 				e.preventDefault();
-				e.stopPropagation();			
-				console.log(1111)
-				var w = plus.webview.open('keyboard.html', 'keyboard', {statusbar: {background: '#ccc'}});
+				e.stopPropagation();
+				var w = plus.webview.create('keyboard.html', 'keyboard', {subNViews: [{
+					id: 'keyboard',
+					styles: {top: '0px', height: '100%', backgroundColor: 'rgba(238,238,238, 0.1)'}
+				}]});
+				w.addEventListener('close', function(){
+					w = null;
+				});
+				w.show('pop-in');
+			
 //				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
 //				if(mui.os.android) {
 //					//强制当前webview获得焦点

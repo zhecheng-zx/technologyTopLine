@@ -11,6 +11,15 @@
 		<script src="../../js/mui-keyboard.js"></script>
 		<script>
 			mui.init()
+			
+			
+			mui.plusReady(function(){
+				// 获取所有可视的Webview窗口
+				var wvs=plus.webview.getDisplayWebview();
+				for(var i=0;i<wvs.length;i++){
+					console.log('Display webview '+i+': '+wvs[i].getURL());
+				}
+			});
 		</script>
 	</body>
 </html>
