@@ -1,114 +1,141 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>搜索页</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link href="../../css/mui.min.css" rel="stylesheet" type="text/css"/>
-		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
 		<style>
-			.mui-content{
+			.mui-content {
 				background: #fff;
 			}
-			.search-wrapper{
+			
+			.search-wrapper {
 				background: #3385FF;
 				padding: 15px;
 				color: #fff;
-			} 
-			
-			.cancel-search{
-			    width: 40px;
-			    color: #fff;
-			    font-size: 13px;
-			    height: 34px;
-			    line-height: 34px;
-			    text-align: center;
 			}
 			
-			.mui-search{
+			.cancel-search {
+				width: 40px;
+				color: #fff;
+				font-size: 13px;
+				height: 26px;
+				line-height: 26px;
+				text-align: center;
+			}
+			
+			.mui-search {
 				width: calc(100% - 50px);
 			}
 			
-			input.mui-input-clear{
+			input.mui-input-clear {
 				background: #fff;
 				font-size: 12px;
-				/*height: 26px;*/
+				height: 26px;
 				color: #333;
 			}
 			
-			.mui-search .mui-placeholder{
+			.mui-search .mui-placeholder.mui-placeholder {
+				height: 26px;
+				line-height: 26px;
+			}
+			
+			.mui-input-row.mui-search .mui-icon-clear {
+				top: 3px;
+			}
+			
+			.mui-search .mui-placeholder .mui-icon {
+				font-size: 16px;
+			}
+			
+			.mui-search .mui-placeholder {
 				font-size: 12px;
 			}
 			
-			.mui-card{
+			.mui-card {
 				background: #3385FF;
 				-webkit-box-shadow: none;
 				box-shadow: none;
 			}
-			.mui-card .mui-card-header{
+			
+			.mui-card .mui-card-header {
 				padding: 10px 0px;
-				color:#eee;
+				color: #eee;
 				font-size: 14px;
 			}
-			.mui-card .mui-card-header>a{
+			
+			.mui-card .mui-card-header>a {
 				font-size: 12px;
-				color:#ffffff;
+				color: #ffffff;
 			}
-			.mui-card .mui-card-header:after{
+			
+			.mui-card .mui-card-header:after {
 				display: none;
 			}
-			.mui-card-content{
+			
+			.mui-card-content {
 				height: 100px;
 				overflow: hidden;
 			}
+			
 			.wanna-search-ul {
-			    margin:0;
-			    padding: 0;
-			    width: 100%;
-			    list-style: none;
-			    font-size: 0px;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				list-style: none;
+				font-size: 0px;
 			}
+			
 			.wanna-search-ul:before,
-			.wanna-search-ul:after{
+			.wanna-search-ul:after {
 				display: table;
 				content: " ";
 			}
-			.wanna-search-ul:after{
+			
+			.wanna-search-ul:after {
 				clear: both;
 			}
-			.wanna-search-ul>li{
+			
+			.wanna-search-ul>li {
 				display: inline-block;
 				padding: 0px 10px 0px 0px;
 			}
-			.wanna-search-item{
+			
+			.wanna-search-item {
 				display: block;
-			    position:relative;
-			    margin: 0 auto 20px;
-			    color:#ffffff;
+				position: relative;
+				margin: 0 auto 20px;
+				color: #ffffff;
 			}
-			.wanna-search-item>.item{
+			
+			.wanna-search-item>.item {
 				display: block;
-			    width:100%;
-			    padding:5px 15px;
-			    color: #ffffff;
-			    font-size:12px;
-			    text-align:center;
-			    border-radius: 3px;
-			    background-color:rgba(255,255,255,.2);
-			    overflow:hidden;
-			    white-space:nowrap;
-			    text-overflow:ellipsis;
+				width: 100%;
+				padding: 5px 15px;
+				color: #ffffff;
+				font-size: 12px;
+				text-align: center;
+				border-radius: 3px;
+				background-color: rgba(255, 255, 255, .2);
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
-			.wanna-search-item>.mui-icon{
-			    position:absolute;
-			    right:-10px;
-			    top:-10px;
-			    z-index: 2;
+			
+			.wanna-search-item>.mui-icon {
+				position: absolute;
+				right: -10px;
+				top: -10px;
+				z-index: 2;
 				display: none;
-			    font-size:18px;
+				font-size: 18px;
 			}
+			
 			.shake {
 				-webkit-transform-origin: center center;
 				-webkit-animation-name: shake-rotate;
@@ -116,42 +143,52 @@
 				-webkit-animation-timing-function: linear;
 				-webkit-animation-iteration-count: infinite;
 			}
+			
 			.shakecontainer .img-content {
 				display: none;
 			}
+			
 			.shakecontainer .icon-remove {
 				display: block;
 			}
-				ul li[draggable=true] {
+			
+			ul li[draggable=true] {
 				transform: scale(1.2);
 				-webkit-transform: scale(1.2);
 			}
+			
 			ul li[draggable=true]>div {
 				-webkit-animation-name: none;
 			}
+			
 			.item-index,
 			.shakecontainer .item-index,
 			ul li[draggable=true] .icon-remove,
 			ul li[draggable=true] .item-index {
 				display: none;
 			}
+			
 			.sort-handle {
 				cursor: move;
 				cursor: -webkit-grabbing;
 			}
+			
 			.sort-ghost {
 				opacity: 0;
 			}
+			
 			.sort-chosen {
 				transform: scale(1.2);
 				-webkit-transform: scale(1.2);
 				transition: transform .3s;
 				-webkit-transition: transform .3s;
 			}
+			
 			.sort-chosen:last-child {
 				transition: none;
 				-webkit-transition: none;
 			}
+			
 			@-webkit-keyframes shake-rotate {
 				0% {
 					-webkit-transform: rotate(0deg);
@@ -182,51 +219,57 @@
 				}
 			}
 			
-			.more-box{
+			.more-box {
 				display: none;
 			}
 			
-			.more-box a{
+			.more-box a {
 				color: #fff;
 			}
 			
-			.search-history{
+			.search-history {
 				padding: 15px;
 			}
 			
-			h5.text{
+			h5.text {
 				color: #333;
 			}
 			
-			.mui-icon-trash{
+			.mui-icon-trash {
 				font-size: 11px;
 			}
-			.mui-icon-trash:before{
+			
+			.mui-icon-trash:before {
 				font-size: 13px;
 			}
-			.history-ul:before{
+			
+			.history-ul:before {
 				display: none;
 			}
-			.history-ul:after{
+			
+			.history-ul:after {
 				left: 15px;
 			}
-			.history-ul .mui-table-view-cell{
+			
+			.history-ul .mui-table-view-cell {
 				font-size: 13px;
 				color: #666;
 				width: 100%;
 			}
-			.history-ul .iconfont{
+			
+			.history-ul .iconfont {
 				font-size: 13px;
 				margin-right: 5px;
 			}
 		</style>
 	</head>
+
 	<body>
 		<div class="mui-content">
 			<div class="search-wrapper">
 				<div class="search-box mui-clearfix">
 					<div class="mui-input-row mui-search mui-pull-left">
-					    <input type="search" class="mui-input-clear" placeholder="请输入关键字" id="searchInput">
+						<input type="search" class="mui-input-clear" placeholder="请输入关键字" id="searchInput">
 					</div>
 					<a href="javascript:;" class="text mui-pull-right cancel-search" id="cancelSearch">取消</a>
 				</div>
@@ -240,63 +283,63 @@
 					<!--内容区-->
 					<div class="mui-card-content">
 						<ul class="wanna-search-ul" id="wannaSearchUl">
-							<li data-li = "1">
+							<li data-li="1">
 								<div class="wanna-search-item">
 									<div class="item drag-item">机器人</div>
 									<span class="item-index">1</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "2">
+							<li data-li="2">
 								<div class="wanna-search-item">
 									<div class="item drag-item">铝基新材料</div>
 									<span class="item-index">2</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "3">
+							<li data-li="3">
 								<div class="wanna-search-item">
 									<div class="item drag-item">3D打印材料</div>
 									<span class="item-index">3</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "4">
+							<li data-li="4">
 								<div class="wanna-search-item">
 									<div class="item drag-item">互联网经济</div>
 									<span class="item-index">4</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "5">
+							<li data-li="5">
 								<div class="wanna-search-item">
 									<div class="item drag-item">纳米制造技术</div>
 									<span class="item-index">5</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "6">
+							<li data-li="6">
 								<div class="wanna-search-item">
 									<div class="item drag-item">石墨烯</div>
 									<span class="item-index">6</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "7">
+							<li data-li="7">
 								<div class="wanna-search-item">
 									<div class="item drag-item">跨境电商</div>
 									<span class="item-index">7</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "8">
+							<li data-li="8">
 								<div class="wanna-search-item">
 									<div class="item drag-item">智慧旅游</div>
 									<span class="item-index">8</span>
 									<span class="mui-icon mui-icon-close icon-remove"></span>
 								</div>
 							</li>
-							<li data-li = "9">
+							<li data-li="9">
 								<div class="wanna-search-item">
 									<div class="item drag-item">互联网金融</div>
 									<span class="item-index">9</span>
@@ -320,54 +363,87 @@
 					</p>
 				</h5>
 				<ul class="mui-table-view history-ul">
-				    <li class="mui-table-view-cell">
-				    	<span class="mui-icon iconfont icon-liulanjilu"></span>大数据人工智能
-				    	<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
-				    </li>
-				    <li class="mui-table-view-cell">
-				    	<span class="mui-icon iconfont icon-liulanjilu"></span>新能源汽车
-				    	<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
-				    </li>
-				    <li class="mui-table-view-cell">
-				    	<span class="mui-icon iconfont icon-liulanjilu"></span>海洋资源
-				    	<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
-				    </li>
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-liulanjilu"></span>大数据人工智能
+						<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-liulanjilu"></span>新能源汽车
+						<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-liulanjilu"></span>海洋资源
+						<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
+					</li>
 				</ul>
 			</div>
 		</div>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
 		<script>
-			
-			mui.plusReady(function(){
-				
+			mui.plusReady(function() {
+
 			})
-			
-			$(document).ready(function(){				 
-				if($('.wanna-search-ul').height() > 110){
-					$('.more-box').show();	
-				}else{
+
+			$(document).ready(function() {
+				if($('.wanna-search-ul').height() > 110) {
+					$('.more-box').show();
+				} else {
 					$('.more-box').hide();
 				}
 			});
-			
-			mui('.mui-content').on('tap', '#searchMore', function(){
+
+			mui('.mui-content').on('tap', '#searchMore', function() {
 				var height = $('.mui-card-content').height();
-				if(height == 100){
+				if(height == 100) {
 					var ulHeight = $('.wanna-search-ul').height();
 					$('.mui-card-content').height(ulHeight);
 					$('#searchMore .text').text('收起');
 					$('#searchMore .mui-icon').removeClass('icon-down').addClass('icon-up');
-				}else{
+				} else {
 					$('.mui-card-content').height(100);
 					$('#searchMore .text').text('查看更多');
 					$('#searchMore .mui-icon').addClass('icon-down').removeClass('icon-up');
 				}
 			});
-			
-			mui('.mui-content').on('tap', '#cancelSearch', function(){
+
+			mui('.mui-content').on('tap', '#cancelSearch', function() {
 				mui.back();
-			})
+			});
+
+			var nativeWebview, imm, InputMethodManager;
+			var initNativeObjects = function() {
+				if(mui.os.android) {
+					var main = plus.android.runtimeMainActivity();
+					var Context = plus.android.importClass("android.content.Context");
+					InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+					imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+				} else {
+					nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				}
+			};
+			var showSoftInput = function() {
+				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				if(mui.os.android) {
+					//强制当前webview获得焦点
+					plus.android.importClass(nativeWebview);
+					nativeWebview.requestFocus();
+					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				} else {
+					nativeWebview.plusCallMethod({
+						"setKeyboardDisplayRequiresUserAction": false
+					});
+				}
+				setTimeout(function() {
+					//此处可写具体逻辑设置获取焦点的input
+					var inputElem = document.querySelector('input');
+					inputElem.focus();
+				}, 200);
+			};
+			mui.plusReady(function() {
+				initNativeObjects();
+				showSoftInput();
+			});
 		</script>
 	</body>
 </html>
