@@ -314,17 +314,44 @@
 //				}
 //			};
 
+			var ws = null, wn = null;
+			function plusReady(){
+				ws=plus.webview.currentWebview();
+				// 预创建新窗口（显示在可视区域外）
+				wn=plus.webview.create('keyboard.html', 'keyboard',{left:'50%',render:'always',backgroundColor: '#333'});
+				wn.show('none');
+				// 右滑隐藏新窗口
+				wn.drag({direction:'top',moveMode:'followFinger'}, {view:ws,moveMode:'follow'}, function(e){
+					console.log('Right drag event: '+JSON.stringify(e));
+				});
+			}
+			if(window.plus){
+				plusReady();
+			}else{
+				document.addEventListener('plusready', plusReady, false);
+			}
+			
 			$(document).on('tap', 'input.write-comment', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				var w = plus.webview.create('keyboard.html', 'keyboard', {subNViews: [{
-					id: 'keyboard',
-					styles: {top: '0px', height: '100%', backgroundColor: 'rgba(238,238,238, 0.1)'}
-				}]});
-				w.addEventListener('close', function(){
-					w = null;
-				});
-				w.show('pop-in');
+				
+//				plus.webview.startAnimation({view:ws,styles:{fromLeft:'0%',toLeft:'-50%'},action:'none'},
+//				{view:wn,styles:{fromLeft:'100%',toLeft:'50%'},action:'none'},
+//				function(e){
+//					console.log('Animation finished: '+JSON.stringify(e));
+//				});
+				
+				
+//				var w = plus.webview.create('keyboard.html', 'keyboard', {subNViews: [{
+//					id: 'keyboard',
+//					styles: {top: '0px', height: '100%', backgroundColor: 'rgba(238,238,238, 0.1)'}
+//				}]});
+//				w.addEventListener('close', function(){
+//					w = null;
+//				});
+//				w.show('pop-in');
+
+				
 			
 //				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
 //				if(mui.os.android) {

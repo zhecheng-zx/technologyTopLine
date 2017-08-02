@@ -90,6 +90,27 @@
 				background-color: #ffffff !important;
 				opacity: 1;
 			}
+			.search-box{
+				display: inline-block;
+				width: 100%;
+				height: 30px;
+				margin-top: 7px;
+				background-color: #fff;
+				border-radius: 6px;
+				text-align: center;
+				font-size: 12px;
+				color: #999;
+				line-height: 30px;
+			}
+			.search-box:active,
+			.search-box:hover{
+				color: #999;
+			}
+			.search-box .mui-icon-search{
+				font-size: 20px;
+				vertical-align: middle;
+				padding: 0px 6px;
+			}
 		</style>
 	</head>
 	<body>
@@ -99,9 +120,10 @@
 				<img src="./images/logo.png" class="logo" width="25px" height="18px" />
 			</a>
 			<div id="search_title" class="search-input">
-				<div class="mui-input-row mui-search">
-				    <input type="search" id="search_input" class="mui-input-clear" placeholder="请输入关键字" />
-				</div>
+				<a class="search-box" id="search_input" href="javascript:;">
+					<span class="mui-icon mui-icon-search"></span>
+					<span class="placeholder">请输入关键字</span>
+				</a>
 			</div>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
@@ -202,8 +224,15 @@
 					}
 					//更改当前活跃的选项卡
 					activeTab = targetTab;
-				});
+				});						
 			}
+			
+			$(document).on('tap', '#search_input', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var w = plus.webview.create('./html/public/plus_search.html');
+				w.show();
+			});
 		</script>
 	</body>
 

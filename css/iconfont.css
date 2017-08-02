@@ -77,3 +77,9 @@
 .icon-new.red:before{ color: #d81e06; }
 
 .icon-hot2.red:before{ color: #d81e06; }
+
+.icon-down:before { content: "\e64f"; }
+
+.icon-history:before { content: "\e722"; }
+
+.icon-liulanjilu:before { content: "\e666"; }
