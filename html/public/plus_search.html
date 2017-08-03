@@ -24,8 +24,8 @@
 				width: 40px;
 				color: #fff;
 				font-size: 13px;
-				height: 26px;
-				line-height: 26px;
+				height: 30px;
+				line-height: 30px;
 				text-align: center;
 			}
 			
@@ -36,21 +36,25 @@
 			input.mui-input-clear {
 				background: #fff;
 				font-size: 12px;
-				height: 26px;
+				height: 30px;
 				color: #333;
+				margin-bottom: 10px;
 			}
 			
-			.mui-search .mui-placeholder.mui-placeholder {
-				height: 26px;
-				line-height: 26px;
-			}
+			.mui-search .mui-placeholder {
+				height: 30px;
+				line-height: 30px;
+				text-align: left;
+				left: 20px;
+			}						
 			
 			.mui-input-row.mui-search .mui-icon-clear {
-				top: 3px;
+				top: 5px;
 			}
 			
 			.mui-search .mui-placeholder .mui-icon {
 				font-size: 16px;
+			    margin-right: 3px;
 			}
 			
 			.mui-search .mui-placeholder {
@@ -61,6 +65,7 @@
 				background: #3385FF;
 				-webkit-box-shadow: none;
 				box-shadow: none;
+			    margin: 10px 0px 0px;
 			}
 			
 			.mui-card .mui-card-header {
@@ -255,6 +260,7 @@
 				font-size: 13px;
 				color: #666;
 				width: 100%;
+			    padding: 8px 15px;
 			}
 			
 			.history-ul .iconfont {
@@ -382,28 +388,35 @@
 		<script src="../../js/mui.min.js"></script>
 		<script>
 			mui.plusReady(function() {
-
+				//内容高度设置为手机屏幕高度
+				var height = plus.screen.resolutionHeight;
+				$('.mui-content').height(height);
 			})
 
 			$(document).ready(function() {
+				//猜你想搜的   查看更多是否显示
+				var $box = $('.more-box');
 				if($('.wanna-search-ul').height() > 110) {
-					$('.more-box').show();
+					$box.show();
 				} else {
-					$('.more-box').hide();
+					$box.hide();
 				}
 			});
 
 			mui('.mui-content').on('tap', '#searchMore', function() {
-				var height = $('.mui-card-content').height();
-				if(height == 100) {
+				var $content = $('.mui-card-content'),
+					$moreText = $('#searchMore .text'),
+					$moreIcon = $('#searchMore .mui-icon');
+					
+				if($content.height() == 100) {
 					var ulHeight = $('.wanna-search-ul').height();
-					$('.mui-card-content').height(ulHeight);
-					$('#searchMore .text').text('收起');
-					$('#searchMore .mui-icon').removeClass('icon-down').addClass('icon-up');
+					$content.height(ulHeight);
+					$moreText.text('收起');
+					$moreIcon.removeClass('icon-down').addClass('icon-up');
 				} else {
-					$('.mui-card-content').height(100);
-					$('#searchMore .text').text('查看更多');
-					$('#searchMore .mui-icon').addClass('icon-down').removeClass('icon-up');
+					$content.height(100);
+					$moreText.text('查看更多');
+					$moreIcon.addClass('icon-down').removeClass('icon-up');
 				}
 			});
 

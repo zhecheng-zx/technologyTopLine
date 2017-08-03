@@ -4,22 +4,81 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
 		<style>
+			.mui-content {
+				background: rgba(238, 238, 238, .1);
+				padding: 10px;
+			}
+			.mui-row>div{
+				height: 40px;
+				line-height: 40px;
+			}
 		</style>
 	</head>
 
 	<body>
+		<div class="mui-content">
+			<div class="mui-input-group">
+				<div class="mui-row">
+					<div class="mui-col-sm-10 mui-col-xs-10">
+						 <div class="mui-input-row">
+					  		<input type="text" class="mui-input-clear" placeholder="优质评论将会被优先展示">
+					    </div>
+						
+					</div>
+					<div class="mui-col-sm-2 mui-col-xs-2">
+						<a href="javascritp:;" class="publish">发布</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/mui-keyboard.js"></script>
 		<script>
 			mui.init()
-			mui.plusReady(function(){
+			mui.plusReady(function() {
 				// 获取所有可视的Webview窗口
-				var wvs=plus.webview.getDisplayWebview();
-				for(var i=0;i<wvs.length;i++){
-					console.log('Display webview '+i+': '+wvs[i].getURL());
+				var wvs = plus.webview.getDisplayWebview();
+				for(var i = 0; i < wvs.length; i++) {
+					console.log('Display webview ' + i + ': ' + wvs[i].getURL());
 				}
+			});
+			
+			var nativeWebview, imm, InputMethodManager;
+			var initNativeObjects = function() {
+				if(mui.os.android) {
+					var main = plus.android.runtimeMainActivity();
+					var Context = plus.android.importClass("android.content.Context");
+					InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+					imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+				} else {
+					nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				}
+			};
+			var showSoftInput = function() {
+				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				if(mui.os.android) {
+					//强制当前webview获得焦点
+					plus.android.importClass(nativeWebview);
+					nativeWebview.requestFocus();
+					imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				} else {
+					nativeWebview.plusCallMethod({
+						"setKeyboardDisplayRequiresUserAction": false
+					});
+				}
+				setTimeout(function() {
+					//此处可写具体逻辑设置获取焦点的input
+					var inputElem = document.querySelector('input');
+					inputElem.focus();
+				}, 200);
+			};
+			mui.plusReady(function() {
+				initNativeObjects();
+				showSoftInput();
 			});
 		</script>
 	</body>
+
 </html>

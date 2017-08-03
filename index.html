@@ -101,15 +101,16 @@
 				font-size: 12px;
 				color: #999;
 				line-height: 30px;
+				padding: 0px 20px;
 			}
 			.search-box:active,
 			.search-box:hover{
 				color: #999;
 			}
-			.search-box .mui-icon-search{
-				font-size: 20px;
-				vertical-align: middle;
-				padding: 0px 6px;
+			.search-box .mui-icon.mui-icon-search{
+				font-size: 16px;
+				margin: 0px;
+				padding: 0px;
 			}
 		</style>
 	</head>
@@ -120,7 +121,7 @@
 				<img src="./images/logo.png" class="logo" width="25px" height="18px" />
 			</a>
 			<div id="search_title" class="search-input">
-				<a class="search-box" id="search_input" href="javascript:;">
+				<a class="search-box mui-text-left" id="search_input" href="javascript:;">
 					<span class="mui-icon mui-icon-search"></span>
 					<span class="placeholder">请输入关键字</span>
 				</a>
