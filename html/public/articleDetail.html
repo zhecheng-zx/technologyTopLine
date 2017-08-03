@@ -228,9 +228,6 @@
 				}, function() {
 					console.log("获取分享服务列表失败");
 				});
-
-				//input框调用键盘方法
-//				initNativeObjects();	
 			});
 
 			//分享链接点击事件
@@ -247,8 +244,7 @@
 						id: "qq"
 					}],
 					bts = [{
-						title: "发送给微信好友",
-						img: "../../images/logo.png"
+						title: "发送给微信好友"
 					}, {
 						title: "分享到微信朋友圈"
 					}, {
@@ -302,12 +298,10 @@
 				});
 			}
 
-			var ws = null, wn = null;
+			var wn = null;
 			function plusReady(){
-				ws=plus.webview.currentWebview();
-				// 预创建新窗口（显示在可视区域外）
-				var height = plus.screen.resolutionHeight / 2;
-				wn=plus.webview.create('keyboard.html', 'keyboard',{top: '200px', bottom: '0px'});
+				// 预创建新窗口（显示在可视区域外）, 高度有提问
+				wn=plus.webview.create('keyboard.html', 'keyboard', {top: '250px', bottom: '0px'});
 			}
 			if(window.plus){
 				plusReady();
@@ -315,13 +309,18 @@
 				document.addEventListener('plusready', plusReady, false);
 			}
 			
+			var callback = function(){				
+				wn.hide();
+			}
+			var mask = mui.createMask(callback);
 			$(document).on('tap', 'input.write-comment', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				//1、当前窗口显示遮罩层  2、新窗口显示一定的高度
+				//1、当前窗口显示遮罩层  2、新窗口显示一定的高度(高度待计算)
+				mask.show();
 				wn.show();
 			});
+					
 		</script>
 	</body>
-
 </html>

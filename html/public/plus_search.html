@@ -10,6 +10,12 @@
 		<link href="../../css/mui.min.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
 		<style>
+			body{
+				width: 100%;
+				height: 100%;	
+				background: #fff;
+			}
+			
 			.mui-content {
 				background: #fff;
 			}
@@ -386,13 +392,7 @@
 		</div>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
-		<script>
-			mui.plusReady(function() {
-				//内容高度设置为手机屏幕高度
-				var height = plus.screen.resolutionHeight;
-				$('.mui-content').height(height);
-			})
-
+		<script>	
 			$(document).ready(function() {
 				//猜你想搜的   查看更多是否显示
 				var $box = $('.more-box');

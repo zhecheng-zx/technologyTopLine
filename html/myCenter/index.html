@@ -83,10 +83,10 @@
 						<div class="img-box mui-pull-left">
 							<img id="head-img" class="userImg">
 						</div>
-						<div class="mui-media-body noLoginBox" style="display: none;">
+						<div class="mui-media-body noLoginBox">
 							登录科技头条 体验更多功能
 						</div>
-						<div class="mui-media-body userNameBox">
+						<div class="mui-media-body userNameBox" style="display: none;">
 							<h4 class="userName">卖火柴的小女孩</h4>
 							<h6 class="info mui-ellipsis">这家伙很懒，什么都么留下这家伙很懒，什么都么留下</h6>
 						</div>
@@ -110,7 +110,7 @@
 		            </li>
 		        </ul>
 		    </div>
-		    <div class="mui-card tech-pomp">
+		    <div class="mui-card tech-pomp" style="display: none;">
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
 		                <a class="mui-navigate-right">
@@ -141,11 +141,7 @@
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
 		<script>	
-			mui.init();
-			$(function(){
-				//判断用户是否登录  已登录显示tech-pomp  未登录 则不显示
-				$('.tech-pomp').hide();
-			});
+			mui.init();		
 			
 			//消息通知、历史与收藏
 			var message_detail = null, history_detail = null;
@@ -205,7 +201,14 @@
 				} else {
 					mui(container).progressbar().hide();
 				}
-			}
+			}			
+			
+			mui('.mui-content').on('tap', '.noLoginBox', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var w = plus.webview.create('../login/login.html', 'login.html');
+				w.show(); // 显示窗口
+			});
 		</script>
 	</body>
 </html>

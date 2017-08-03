@@ -33,7 +33,7 @@
 	margin-top: 10px;
 }
 
-.mui-content.article-detail-wrapper{
+.mui-content.article-detail-wrapper {
 	padding: 10px;
 	background: #fff;
 	margin: 44px auto 50px;
@@ -44,7 +44,7 @@
 	margin: auto;
 }
 
-.article-detail-wrapper .article-title{
+.article-detail-wrapper .article-title {
 	font-size: 20px;
 	color: #333;
 	overflow: hidden;
@@ -56,35 +56,35 @@
 	line-height: 25px;
 }
 
-.article-detail-wrapper .article-info{
+.article-detail-wrapper .article-info {
 	font-size: 11px;
 	color: #999;
 	margin: 10px auto;
 }
 
-.article-detail-wrapper .related-words{
+.article-detail-wrapper .related-words {
 	margin: 10px auto;
 }
 
-.article-detail-wrapper .related-words span{
-    font-size: 11px;
-    color: #666;
-    padding: 5px 8px;
-    background: #eaeaec;
-    margin: auto 5px;
-    border-radius: 3px;
+.article-detail-wrapper .related-words span {
+	font-size: 11px;
+	color: #666;
+	padding: 5px 8px;
+	background: #eaeaec;
+	margin: auto 5px;
+	border-radius: 3px;
 }
 
-.article-detail-wrapper .related-words span:first-child{
+.article-detail-wrapper .related-words span:first-child {
 	margin-left: 0px;
 }
 
-.article-like-wrapper{
+.article-like-wrapper {
 	text-align: center;
-    margin: 20px auto;
+	margin: 20px auto;
 }
 
-.article-like-wrapper .item{
+.article-like-wrapper .item {
 	display: inline-block;
 	width: 126px;
 	height: 52px;
@@ -94,62 +94,62 @@
 	padding: 16px 0px;
 }
 
-.like-wrapper{
+.like-wrapper {
 	background: #ffd100;
 	margin-right: 32px;
 }
 
-.dislike-wrapper{
+.dislike-wrapper {
 	background: #eaeaec;
 }
 
-.article-detail-wrapper .iconfont{
+.article-detail-wrapper .iconfont {
 	font-size: 21px;
 }
 
-.article-detail-wrapper .iconfont.icon-zan{
+.article-detail-wrapper .iconfont.icon-zan {
 	margin-right: 8px;
 	vertical-align: top;
 }
 
-.ad-wrapper img{
+.ad-wrapper img {
 	height: 127px;
 	width: 100%;
 }
 
-.related-article-wrapper{
+.related-article-wrapper {
 	color: #333;
-    margin: 20px auto;
+	margin: 20px auto;
 }
 
-.related-article-list{
-    list-style: none;
-    background-color: #f7f7f7;
-    padding: 15px;
-    font-size: 14px;
-    color: #999;
-    line-height: 22px;
+.related-article-list {
+	list-style: none;
+	background-color: #f7f7f7;
+	padding: 15px;
+	font-size: 14px;
+	color: #999;
+	line-height: 22px;
 }
 
-.related-article-list a{
+.related-article-list a {
 	text-decoration: none;
 	color: inherit;
 }
 
-.comment-box{
+.comment-box {
 	background: #fff;
 	font-size: 0px;
 	margin-top: 150px;
 }
 
-.comment-box .mui-tab-item:first-child{
+.comment-box .mui-tab-item:first-child {
 	width: 60%;
- 	padding: 0px 10px; 
+	padding: 0px 10px;
 }
 
-.comment-box input{
+.comment-box input {
 	height: 30px;
-	margin: 0px ;
+	margin: 0px;
 	padding: 4px 10px;
 	font-size: 11px;
 	background: #EAEAEC;
@@ -158,61 +158,137 @@
 
 .comment-box .mui-tab-item:not(:first-child) {
 	width: 20%;
-    font-size: 14px;
-    color: #333;
-    height: 30px;
-    padding: 5px 0px;
+	font-size: 14px;
+	color: #333;
+	height: 30px;
+	padding: 5px 0px;
 }
 
-.comment-list::before{
+.comment-list::before {
 	height: 0px;
 }
 
-.comment-list .userName{
+.comment-list .userName {
 	color: #3385ff;
 	font-size: 12px;
 }
 
-.comment-list .comment{
+.comment-list .comment {
 	color: #666;
 	font-size: #666666;
 }
 
-.comment-list .mui-media-body{
+.comment-list .mui-media-body {
 	white-space: normal;
 }
 
-.comment-list .mui-table-view-cell{
+.comment-list .mui-table-view-cell {
 	padding: 11px 0px;
 }
 
-.comment-list .mui-table-view-cell a{
+.comment-list .mui-table-view-cell a {
 	margin: -11px 0px;
 }
 
-.comment-info{
+.comment-info {
 	margin: 10px auto;
 }
 
-.comment-info .publishDate{
+.comment-info .publishDate {
 	color: #C2C0C0;
 	font-size: 12px;
 	margin-right: 20px;
 }
 
-.comment-info .replay{
+.comment-info .replay {
 	display: inline-block;
 	background: #F7F7F7;
 	border-radius: 18px;
 	font-size: 11px;
 	color: #333;
-    padding: 2px 10px;
+	padding: 2px 10px;
 }
 
-.comment-list .mui-table-view-cell:after{
+.comment-list .mui-table-view-cell:after {
 	background-color: #eee;
 }
 
-h5.text{
+h5.text {
 	color: #333;
+}
+
+
+/*------------------登录注册页用到的公共样式-------------*/
+
+.login.mui-content {
+	height: 100%;
+	background: transparent;
+}
+
+.login .mui-input-group {
+	padding: 10px;
+	background: transparent;
+}
+
+.login .mui-input-group:before,
+.login .mui-input-group:after {
+	height: 0px;
+}
+
+.login .mui-input-group .mui-input-row {
+	margin: 10px auto;
+	background: #fff;
+	height: 50px;
+}
+
+.login .mui-input-group .mui-input-row:after {
+	height: 0px;
+}
+
+.login .mui-input-group input {
+	height: 50px;
+	font-size: 12px;
+	color: #bdbdbd;
+}
+
+.login .mui-content-padded {
+	margin: 0px 10px;
+}
+
+.login .mui-content-padded .link-area {
+	text-align: right;
+	margin-bottom: 20px;
+}
+
+.login .link-area a {
+	font-size: 12px;
+	color: #996666;
+}
+
+.login .mui-btn-block {
+	padding: 12px 0px;
+}
+
+.login .mui-content-padded.oauth-area {
+	position: fixed;
+	bottom: 50px;
+	margin: 0px;
+	width: 100%;	
+}
+
+.login .mui-input-row label.code{
+    float: right;
+    width: initial;
+    background: #3385FF;
+    color: #fff;
+    border-radius: 1px;
+    height: 30px;
+    line-height: 10px;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+.mui-text-white{
+	color:#ffffff;
 }

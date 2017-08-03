@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<style>
+			body{
+				background-color: #F4F4F4;
+				width: 100%;
+				height: 100%;
+			}	
+			.login .mui-input-row input.phoneNum{
+				float: left;
+				padding-left: 15px;
+			}		
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
+			<h1 id="title" class="mui-title mui-text-center">手机号注册</h1>
+		</header>
+		<div class="mui-content login">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label for="account" class="code">发送验证码</label>
+					<input id='account' type="number" class="mui-input-clear mui-input phoneNum" placeholder="请输入手机号">
+				</div>
+				<div class="mui-input-row">
+					<input id='text' type="text" class="mui-input-clear mui-input" placeholder="请输入验证码">
+				</div>
+			</form>	
+			<div class="mui-content-padded">
+				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">确定</button>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script>
+			mui('.mui-content').on('tap', '#submit', function(){
+				var w = plus.webview.create('registInfo.html', 'registInfo.html');
+					w.show(); // 显示窗口
+				});
+		</script>	
+	</body>
+</html>

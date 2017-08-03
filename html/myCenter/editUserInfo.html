@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
-		<style>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+		<style type="text/css">
 			.mui-content {
 				padding: 10px;
 			}
@@ -15,23 +14,27 @@
 			}
 		</style>
 	</head>
-
 	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>			
+			<h1 class="mui-title">编辑用户名</h1>
+		</header>
 		<div class="mui-content">
 			<div class="mui-input-group">
 				<div class="mui-row">
 					<div class="mui-col-sm-10 mui-col-xs-10">
 						 <div class="mui-input-row">
-					  		<input type="text" class="mui-input-clear comment" placeholder="优质评论将会被优先展示">
+					  		<textarea id='textarea' class="mui-input-clear" placeholder=""></textarea>
 					    </div>
 						
 					</div>
 					<div class="mui-col-sm-2 mui-col-xs-2">
-						<a href="javascript:;" class="publish">发布</a>
+						<a href="javascritp:;" class="submit">提交</a>
 					</div>
 				</div>
 			</div>
 		</div>
+		
 		<script src="../../js/mui.min.js"></script>
 		<script>
 			mui.init();		
@@ -61,7 +64,7 @@
 				}
 				setTimeout(function() {
 					//此处可写具体逻辑设置获取焦点的input
-					var inputElem = document.querySelector('input');
+					var inputElem = document.querySelector('textarea');
 					inputElem.focus();
 				}, 200);
 			};
@@ -70,19 +73,15 @@
 				showSoftInput();
 			});
 			
-			
 			//发布功能
-			mui('.mui-content').on('tap', '.publish', function(){
-				var comments = mui('.comment').value;
-				console.log(comments)
+			mui('.mui-content').on('tap', '.submit', function(){
+				var comments = $('input').val();
 				if(!comments){
-					mui.toast('请输入评论');
+					plus.toast('请输入评论');
 				}else{
 					//ajax请求后台 保存评论后   在文章详情的评论列表前插入该评论
-					console.log(comments)
 				}
 			});
 		</script>
 	</body>
-
 </html>
