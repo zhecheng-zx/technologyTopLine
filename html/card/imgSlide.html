@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+	</head>
+
+	<body>
+		<div class="mui-content"></div>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script>
+			mui.init();
+			mui.plusReady(function() {
+				var id = "silderBanner",
+					styles = {
+						top: '38px',
+						left: '0px',
+						height: '200px',
+						width: '100%',
+						fullscreen: 'false',
+						position: 'static',
+						images: [{
+							src: '../../images/muwu.jpg',
+							width: "100%",
+							verticalAlign: "middle"
+						}, {
+							src: '../../images/shuijiao.jpg',
+							width: '100%',
+							verticalAlign: 'middle'
+						}, {
+							src: '../../images/yuantiao.jpg',
+							width: '100%',
+							verticalAlign: 'middle'
+						}]
+					},
+					tags = null;
+				var view = new plus.nativeObj.ImageSlider(id, styles, tags);
+				plus.webview.currentWebview().append(view);
+			});
+		</script>
+	</body>
+
+</html>

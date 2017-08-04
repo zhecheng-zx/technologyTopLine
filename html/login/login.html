@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html class="ui-page-login">
-
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="no">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>登录</title>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
-		<style>
+		<style>		
 			.ui-page-login,
 			body {
 				width: 100%;
+				height: 100%;
 				margin: 0px;
 				padding: 0px;
 				background-image: url(../../images/login.png);
-			}						
+				background-repeat: no-repeat;
+				background-size: 100%;
+			}				
+			
+			.mui-content{
+				background-color: rgba(0, 0, 0, 0);
+			}	
+				
+			.logo-wrap{
+				padding: 50px 0px;
+			}
 			
 			.logo-box{
 			    width: 68px;
@@ -22,7 +34,7 @@
 			    background: #3385ff;
 			    border-radius: 18px;   
 			    padding: 16px 9px;
-			    margin: 66px auto;
+			    margin: 0px auto;
 			}
 			
 			.area {
@@ -51,7 +63,7 @@
 				<div class="link-area">
 					<a id='forgetPassword'>忘记密码</a>
 				</div>
-				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary" data-loading-icon="mui-spinner mui-spinner-custom">登录</button>
 			</div>
 			<div class="mui-content-padded oauth-area">
 				<div class="link-area mui-text-center">
@@ -64,16 +76,14 @@
 		<script src="../../js/login.js"></script>
 		<script>
 			(function($, doc) {
-				$.init({
-					statusBarBackground: '#f7f7f7'
-				});
+				$.init({});
 				$.plusReady(function() {
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
 					var state = app.getState();
 					var mainPage = $.preload({
 						"id": 'main',
-						"url": 'main.html'
+						"url": '../myCenter/index'
 					});
 					var main_loaded_flag = false;
 					mainPage.addEventListener("loaded",function () {

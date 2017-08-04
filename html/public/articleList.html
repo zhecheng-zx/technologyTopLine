@@ -9,13 +9,14 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<style>
-			.mui-table-view-cell>a:not(.mui-btn){
+			.mui-table-view-cell>a:not(.mui-btn) {
 				margin: auto;
 				padding: 0px;
 			}
+			
 			.article-title {
 				font-size: 17px;
 				color: #333;
@@ -28,7 +29,7 @@
 				height: 50px;
 			}
 			
-			.article-title.special{
+			.article-title.special {
 				height: 25px;
 			}
 			
@@ -43,72 +44,87 @@
 				margin-top: 4px;
 			}
 			
-			.mui-media .iconfont{
+			.mui-media .iconfont {
 				vertical-align: middle;
 			}
 			
-			.mui-media-body ul.mui-grid-view{
+			.mui-media-body ul.mui-grid-view {
 				padding: 0px;
 			}
 			
-			.mui-media-body ul.mui-grid-view:before{
+			.mui-media-body ul.mui-grid-view:before {
 				height: 0px;
 			}
 			
-			.mui-media-body ul.mui-grid-view:after{
+			.mui-media-body ul.mui-grid-view:after {
 				height: 0px;
 			}
 			
-			.mui-media-body ul.mui-grid-view li.mui-table-view{
-			    display: inline-block;
-			    padding: 10px 0 0 0px;
-			    text-align: center;
-			    vertical-align: middle;
-			    background: 0 0;
+			.mui-media-body ul.mui-grid-view li.mui-table-view {
+				display: inline-block;
+				padding: 10px 0 0 0px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
 			}
 			
-			.mui-media-body ul.mui-grid-view li:not(:last-child){
+			.mui-media-body ul.mui-grid-view li:not(:last-child) {
 				padding-right: 5px;
 			}
 			
 			.mui-media-body ul.mui-grid-view li.mui-table-view:before,
-			.mui-media-body ul.mui-grid-view li.mui-table-view:after{
+			.mui-media-body ul.mui-grid-view li.mui-table-view:after {
 				height: 0px;
 			}
 			
-			.mui-media-body ul.mui-grid-view li.mui-table-view img{
+			.mui-media-body ul.mui-grid-view li.mui-table-view img {
 				max-width: 100%;
 				width: 100%;
 			}
-			.closeempty{
-				color:#dedede;
+			
+			.closeempty {
+				color: #dedede;
 			}
-			.mui-popover .remove-box{
+			
+			.mui-popover .remove-box {
 				padding: 10px 10px;
 			}
-			.remove-box .remove-title{
+			
+			.remove-box .remove-title {
 				font-size: 13px;
-				color:#333333;
+				color: #333333;
 			}
-			.remove-box .remove-item{
+			
+			.remove-box .remove-item {
 				display: inline-block;
 				padding: 5px 8px;
 				margin-bottom: 10px;
 				font-size: 13px;
-				color:#999999;
+				color: #999999;
 				transition: all .5s ease-in-out;
 			}
-			.remove-box .remove-item.active{
-				color:#ffffff;
-				background-color:#0062CC;
+			
+			.remove-box .remove-item.active {
+				color: #ffffff;
+				background-color: #0062CC;
 				border-radius: 50px;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				height: 200px;
+			}
+			
+			.slider-li {
+				display: none;
 			}
 		</style>
 	</head>
+
 	<body>
 		<div class="mui-content mui-scroll-wrapper" id="articleList">
 			<div class="mui-scroll">
-				<ul class="mui-table-view" id="articleUl">				
+				<ul class="mui-table-view" id="articleUl">
+					
 				</ul>
 			</div>
 		</div>
@@ -131,10 +147,10 @@
 					container: '#articleList',
 					down: {
 						style: 'circle',
-						color:'#333', //可选，默认“#2BD009” 下拉刷新控件颜色
-					    height:'50px',//可选,默认50px.下拉刷新控件的高度,
-					    range:'100px', //可选 默认100px,控件可下拉拖拽的范围
-					    offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+						color: '#333', //可选，默认“#2BD009” 下拉刷新控件颜色
+						height: '50px', //可选,默认50px.下拉刷新控件的高度,
+						range: '100px', //可选 默认100px,控件可下拉拖拽的范围
+						offset: '0px', //可选 默认0px,下拉刷新控件的起始位置
 						callback: pulldownRefresh
 					},
 					up: {
@@ -146,8 +162,9 @@
 					}
 				},
 			});
-			var requestUrl = '', webview_detail = null;
-			var	titleNView = { //详情页原生导航配置
+			var requestUrl = '',
+				webview_detail = null;
+			var titleNView = { //详情页原生导航配置
 				backgroundColor: '#3385ff', //导航栏背景色
 				titleText: '', //导航栏标题
 				titleColor: '#fff', //文字颜色
@@ -157,46 +174,101 @@
 					color: '#cccccc'
 				}
 			};
-			
-			mui.plusReady(function () {
-			    var self = plus.webview.currentWebview();
-			    // 或 var self = plus.webview.getWebviewById('new');
-			    // 上个页面传的参数 具体怎么用  还不知道
-			});
 
 			var count = 0;
-			var articleList = [
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: true, hotFlag: false, img: ['../../images/article.png']},
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: false, hotFlag: false, img: ['../../images/article.png']},
+			var articleList = [{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: true,
+					hotFlag: false,
+					img: ['../../images/article.png']
+				},
 				{
-					title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: false, hotFlag: false,
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: false,
+					hotFlag: false,
+					img: ['../../images/article.png']
+				},
+				{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: false,
+					hotFlag: false,
 					img: ['../../images/article.png', '../../images/yuantiao.jpg', '../../images/shuijiao.jpg']
 				},
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: false, hotFlag: true, img: ['../../images/article.png']},
 				{
-					title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: false, hotFlag: false, 
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: false,
+					hotFlag: true,
+					img: ['../../images/article.png']
+				},
+				{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: false,
+					hotFlag: false,
 					img: ['../../images/yuantiao.jpg']
 				},
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: true, hotFlag: false, img: ['../../images/article.png']},
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: false, hotFlag: true, img: ['../../images/temp.jpg']},
 				{
-					title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: true, hotFlag: false, 
-					img: ['../../images/muwu.jpg','../../images/shuijiao.jpg','../../images/yuantiao.jpg']
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: true,
+					hotFlag: false,
+					img: ['../../images/article.png']
 				},
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: true, hotFlag: false, img: ['../../images/temp.jpg']},
-				{title: '山西十所重点高校 你知道几所？', source: '科技头条', publishDateTime: '20分钟前', newFlag: true, hotFlag: false, img: ['../../images/article.png']}
+				{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: false,
+					hotFlag: true,
+					img: ['../../images/temp.jpg']
+				},
+				{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: true,
+					hotFlag: false,
+					img: ['../../images/muwu.jpg', '../../images/shuijiao.jpg', '../../images/yuantiao.jpg']
+				},
+				{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: true,
+					hotFlag: false,
+					img: ['../../images/temp.jpg']
+				},
+				{
+					title: '山西十所重点高校 你知道几所？',
+					source: '科技头条',
+					publishDateTime: '20分钟前',
+					newFlag: true,
+					hotFlag: false,
+					img: ['../../images/article.png']
+				}
 			];
+
 			function pullupRefresh() {
 				//ajax请求数据 就不用写在timeout里了
-				setTimeout(function() {					
+				setTimeout(function() {
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
 					//这里根据实际数据判断是否还有数据 
-					if(cells.length >　30){
+					if(cells.length > 　30) {
 						mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-					}else{
+					} else {
 						mui('#articleList').pullRefresh().endPullup(false); //参数为true代表没有更多数据了。
 					}
-										
+
 					addData('after');
 				}, 1500);
 			}
@@ -206,56 +278,54 @@
 				for(var i = 0; i < articleList.length; i++) {
 					var img = articleList[i].img;
 					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
-					
+
 					//根据图片个数 显示不同的样式列表	TODO a标签的属性data-guid指的是文章id！！！暂时写成article
-					if(img.length < 3){
-						$li.append('<a javascript:; data-guid="article">' 
-										+'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' 
-										+'<div class="mui-media-body">' 
-											+'<div class="article-title">' + articleList[i].title + '</div>' 
-											+'<p class="mui-ellipsis">'
-												+ '<span class="source">' + articleList[i].source + '</span> &nbsp;&nbsp;'
-												+ '<span class="time">' + articleList[i].publishDateTime + '</span></p>'
-										+'</div>' 
-									+'</a>');
-					}else{
+					if(img.length < 3) {
+						$li.append('<a javascript:; data-guid="article">' +
+							'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title">' + articleList[i].title + '</div>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].source + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + articleList[i].publishDateTime + '</span></p>' +
+							'</div>' +
+							'</a>');
+					} else {
 						var imgUl = '<ul class="mui-table-view mui-grid-view">';
-						for(var j = 0; j < 3; j++){
+						for(var j = 0; j < 3; j++) {
 							imgUl = imgUl + '<li class="mui-table-view mui-media mui-col-xs-4"><img class="mui-media-object" src="' + img[j] + '"></li>';
 						}
 						imgUl += '</ul>';
-						$li.append('<a javascript:; data-guid="article">' 
-										+'<div class="mui-media-body">' 
-											+'<div class="article-title special">' + articleList[i].title + '</div>' 
-											+ imgUl
-										+'</div>' 
-									+'</a>'
-									+'<p class="mui-ellipsis">'
-										+ '<span class="source">' + articleList[i].source + '</span> &nbsp;&nbsp;'
-										+ '<span class="time">' + articleList[i].publishDateTime + '</span>' 
-									+ '</p>'			
+						$li.append('<a javascript:; data-guid="article">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title special">' + articleList[i].title + '</div>' +
+							imgUl +
+							'</div>' +
+							'</a>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].source + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + articleList[i].publishDateTime + '</span>' +
+							'</p>'
 						);
 					}
-					
+
 					//此处根据具体的文章性质  判断是否添加 new hot标志。
-					if(i == 1){
+					if(i == 1) {
 						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-new red"></span>&nbsp;&nbsp;');
 					}
-					if(i == 2){
+					if(i == 2) {
 						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-hot2 red"></span>&nbsp;&nbsp;');
 					}
-					
+
 					//有的页面需要 ×按钮  有的不需要 根据参数判断是否显示
-//					var self = plus.webview.currentWebview();
-//					console.log(self)
-//					console.log(self.closeFlag)
-					if(1==1){
+					//					var self = plus.webview.currentWebview();
+					if(1 == 1) {
 						$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty"><span class="mui-icon mui-icon-closeempty"></span></p>');
 					}
-										
-					if(position == 'before'){
-						table.prepend($li);
-					}else{
+
+					if(position == 'before') {
+						$li.insertAfter($('.slider-li'))
+					} else {
 						table.append($li);
 					}
 				}
@@ -263,21 +333,21 @@
 			/**
 			 * 下拉刷新具体业务实现
 			 */
-			function pulldownRefresh() {			
+			function pulldownRefresh() {
 				setTimeout(function() {
 					addData('before');
 					mui('#articleList').pullRefresh().endPulldown();
 				}, 1500);
 			}
-			
+
 			/**
 			 * 打开新闻详情
 			 * 
 			 * @param {String} guid 新闻ID
 			 * @param {String} title  新闻标题
 			 */
-					
-			function open_detail(guid, title, source, time) {				
+
+			function open_detail(guid, title, source, time) {
 				mui.openWindow({
 					url: 'articleDetail.html',
 					id: 'articleDetail',
@@ -285,16 +355,16 @@
 						autoShow: true,
 						title: '正在加载...'
 					},
-					extras:{
-				        title: title,  //扩展参数
-				        guid: guid,
-				        source:　source,
-				        time: time
-				    }
-				});								
+					extras: {
+						title: title, //扩展参数
+						guid: guid,
+						source: 　source,
+						time: time
+					}
+				});
 			}
-			
-			$(document).on('tap', '.mui-table-view li>a', function(e){
+
+			$(document).on('tap', '.mui-table-view li>a', function(e) {
 				e.stopPropagation();
 				e.preventDefault();
 				var _this = $(this);
@@ -304,16 +374,37 @@
 				var time = _this.find('.time').text().trim();
 				open_detail(guid, title, source, time);
 			});
-		
-			$(document).on("tap",".remove-box>a.remove-item",function(){
+
+			$(document).on("tap", ".remove-box>a.remove-item", function() {
 				$(this).addClass("active").siblings(".remove-item").removeClass("active");
-			});			
-			
-			$(document).on('tap', '.closeempty', function(e){
+			});
+
+			$(document).on('tap', '.closeempty', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 				mui('.mui-popover').popover('toggle', this);
 			});
+
+			function plusReady() {
+				var wn = plus.webview.currentWebview();
+//				if(wn.hasBanner === true) {
+//					$('.slider-li').show();
+//					var gallery = mui('.mui-slider');
+//					gallery.slider({
+//						interval: 1000 //自动轮播周期，若为0则不自动播放，默认为0；
+//					});
+//				}
+
+				if(wn.closeFlag === false) {
+					$('.mui-icon-closeempty').hide();
+				}
+			}
+
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
 		</script>
 	</body>
 
