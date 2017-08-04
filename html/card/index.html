@@ -155,19 +155,19 @@
 		<script>
 			mui.init();
 			mui.plusReady(function() {
-//				var id="silderBanner",
-//					styles={top:'38px',left:'0px',height:'200px',width:'100%',fullscreen:'false',position:'static',images:[{src:'../../images/muwu.jpg',width:"100%",verticalAlign:"middle"},{src:'../../images/shuijiao.jpg',width:'100%',verticalAlign:'middle'},{src:'../../images/yuantiao.jpg',width:'100%',verticalAlign:'middle'}]},
-//					tags=null;
-//				var view = new plus.nativeObj.ImageSlider(id, styles, tags);
-////					view.show("zoom-fade-out");
-//					plus.webview.currentWebview().append(view);
+				var id="silderBanner",
+					styles={top:'38px',left:'0px',height:'200px',width:'100%',fullscreen:'false',position:'static',images:[{src:'../../images/muwu.jpg',width:"100%",verticalAlign:"middle"},{src:'../../images/shuijiao.jpg',width:'100%',verticalAlign:'middle'},{src:'../../images/yuantiao.jpg',width:'100%',verticalAlign:'middle'}]},
+					tags=null;
+				var view = new plus.nativeObj.ImageSlider(id, styles, tags);
+//					view.show("zoom-fade-out");
+					plus.webview.currentWebview().append(view);
 				var group = new webviewGroup("articleList.html", {
 					items: [
 					{
 						id: "pullrefresh_sub.html",
 						url: "../public/articleList.html",
 						styles:{
-							top:"38px",
+							top:"238px",
 							bottom:"0"
 						},
 						extras: {hasBanner: true}
@@ -254,11 +254,7 @@
 						progress: 0
 					}).show();
 					simulateLoading(0);				
-					plus.nativeUI.showWaiting();
-					if(wid == 'pullrefresh_sub.html'){
-						var sw = plus.webview.create('imgSlide.html', 'imgSlide');
-						sw.show()
-					}
+					plus.nativeUI.showWaiting();					
 					var url = './'+wid+'.html';
 					var feedbackWebview = plus.webview.create(url, wid);
 					feedbackWebview.addEventListener('titleUpdate', function() {
