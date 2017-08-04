@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>注册</title>
+		<title></title>
 		<link rel="stylesheet" href="../../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
 		<style>
@@ -14,18 +14,18 @@
 			.login .mui-input-row input.phoneNum{
 				float: left;
 				padding-left: 15px;
-			}		
+			}	
 		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
-			<h1 id="title" class="mui-title mui-text-center">手机号注册</h1>
+			<h1 id="title" class="mui-title mui-text-center">修改密码</h1>
 		</header>
 		<div class="mui-content login">
 			<form id='login-form' class="mui-input-group">
 				<div class="mui-input-row">
-					<label for="phoneNum" class="code">发送验证码</label>
+					<label for="account" class="code">发送验证码</label>
 					<input id='phoneNum' type="number" class="mui-input-clear mui-input phoneNum" placeholder="请输入手机号">
 				</div>
 				<div class="mui-input-row">
@@ -33,15 +33,18 @@
 				</div>
 			</form>	
 			<div class="mui-content-padded">
+				<div class="text">
+					我们已经给{phoneNum}手机发送了一条短信，里面含了一个6位数的验证码，请填写到上面的输入框中。
+				</div>
 				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">确定</button>
 			</div>
 		</div>
-		<script src="../../js/mui.min.js"></script>
-		<script>
-			mui('.mui-content').on('tap', '#submit', function(){
-				var w = plus.webview.create('registInfo.html', 'registInfo.html');
-				w.show(); // 显示窗口
-			});
-		</script>	
 	</body>
+	<script type="text/javascript" src="../../js/mui.min.js" ></script>
+	<script>
+		mui('.mui-content-padded').on('tap', '.submit', function(){
+			var w = plus.webview.create('setPwd.html', 'setPwd.html');
+			w.show(); //
+		});
+	</script>
 </html>

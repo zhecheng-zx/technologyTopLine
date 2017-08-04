@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<style>
+			body{
+				background-color: #F4F4F4;
+				width: 100%;
+				height: 100%;
+			}	
+			.login .mui-input-row input.phoneNum{
+				float: left;
+				padding-left: 15px;
+			}	
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
+			<h1 id="title" class="mui-title mui-text-center">修改密码</h1>
+		</header>
+		<div class="mui-content login">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入重置密码">
+				</div>
+			</form>	
+			<div class="mui-content-padded">
+				<div class="text">
+					本手机号绑定的用户是{userName}，重置后可自动登录
+				</div>
+				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">提交</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/mui.min.js" ></script>
+	<script>
+		mui('.mui-content-padded').on('tap', '.submit', function(){
+			// 先到后台更新密码   然后登录到首页
+		});
+	</script>
+</html>
