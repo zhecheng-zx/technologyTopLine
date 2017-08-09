@@ -10,23 +10,33 @@
 	owner.login = function(loginInfo, callback) {
 		callback = callback || $.noop;
 		loginInfo = loginInfo || {};
-		loginInfo.account = loginInfo.account || '';
+		loginInfo.phone = loginInfo.phone || '';
 		loginInfo.password = loginInfo.password || '';
-		if (loginInfo.account.length < 5) {
-			return callback('账号最短为 5 个字符');
+		
+		if(loginInfo.phone.length <= 0){
+				return callback('手机号不能为空');
 		}
-		if (loginInfo.password.length < 6) {
-			return callback('密码最短为 6 个字符');
+		if(loginInfo.password.length <= 0){
+			return callback('密码不能为空');
 		}
-		var users = JSON.parse(localStorage.getItem('$users') || '[]');
-		var authed = users.some(function(user) {
-			return loginInfo.account == user.account && loginInfo.password == user.password;
-		});
-		if (authed) {
-			return owner.createState(loginInfo.account, callback);
-		} else {
-			return callback('用户名或密码错误');
-		}
+		
+		mui.ajax('http://172.168.30.33:8080/mis-app/public/toLogin', {
+			data: loginInfo,
+			success: function(result){
+				console.log(typeof result)
+				console.log(JSON.stringify(result.data))
+				if(result.status != 0){
+					return callback(result.msg);
+				}else{
+					return owner.createState(loginInfo.phone, callback);
+				}
+			},
+			error: function(xhr,type,errorThrown){
+				console.error(xhr)
+				console.error(type)
+				return callback(type);
+			}
+		});			
 	};
 
 	owner.createState = function(name, callback) {

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="defult">
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../vendor/cropper/cropper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			.mui-bar.mui-bar-nav {
+				background-color: #3385ff;
+			}
+			
+			.mui-title {
+				color: #ffffff;
+			}
+			
+			.mui-content {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.container {
+				width: 100%;
+				height: calc(100% - 44px);
+			}
+			
+			.container img {
+				width: 100%;
+				max-height: 500px;
+			}
+			
+			.btn-box {
+				height: 44px;
+				background: #78787a;
+				padding-right: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
+			<h1 id="title" class="mui-title mui-text-center">移动和缩放</h1>
+		</header>
+		<div class="mui-content">
+			<div class="container">
+				<img class="img"/>
+			</div>
+			<div class="mui-text-right btn-box">
+				<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+					
+						完成
+		            
+				</button>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../vendor/jQuery/jquery.min.js"></script>
+		<script src="../../vendor/cropper/cropper.js"></script>
+		<script>
+			var $image = $('.container img'),
+				images = new Image();
+
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+
+			mui.plusReady(function() {
+				var extras = plus.webview.currentWebview();
+				var imgPath = extras.imgPath;
+				$('.img').attr('src', imgPath);
+				images.src = imgPath;
+				images.onload = function() {
+					$image.cropper({
+						aspectRatio: 1 / 1,
+						resizable: false, //是否允许改变剪裁框的大小。
+						movable: false, //是否允许移动剪裁框。
+						background: false,
+						zoomable: true //是否允许放大缩小图片。
+					});
+				}
+			});
+
+			$(document).on('tap', '.mui-btn', function() {
+				var data = $(this).data(), result;
+				var cropBoxData = $image.cropper('getCropBoxData');
+				var opt = {
+					width: 200,
+					height: 200
+				}
+				result = $image.cropper('getCroppedCanvas', opt);
+				var dataUrl = result.toDataURL('image/jpeg', 0.8);
+				var parentW = plus.webview.getWebviewById('registInfo.html');
+				mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
+				plus.webview.close('uploadImg.html');
+			});		
+		</script>
+	</body>
+
+</html>

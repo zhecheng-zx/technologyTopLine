@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title></title>
 		<link rel="stylesheet" href="../../css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<style>
-			body{
+			body {
 				background-color: #F4F4F4;
 				width: 100%;
 				height: 100%;
-			}	
+			}
 			
-			.img-box{
-			    width: 72px;
-			    height: 72px;
-			    background: #DBDBDB;
-			    border-radius: 50%;
-			    margin: 25px auto;
+			.img-box {
+				width: 72px;
+				height: 72px;
+				background: #DBDBDB;
+				border-radius: 50%;
+				margin: 25px auto;
+			}
+			
+			.img-box img {
+				display: inline-block;
+				width: 72px;
+				height: 72px;
+				border: none;
 			}
 		</style>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
@@ -29,12 +41,12 @@
 		<div class="mui-content login">
 			<div class="img-wrap">
 				<div class="img-box">
-					<img src="" alt="" />
+					<img src="" alt="" id="user_img" />
 				</div>
 			</div>
 			<form id='login-form' class="mui-input-group">
 				<div class="mui-input-row">
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入用户名">
+					<input id='userName' type="text" class="mui-input-clear mui-input" placeholder="请输入用户名">
 				</div>
 				<div class="mui-input-row">
 					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
@@ -42,11 +54,178 @@
 				<div class="mui-input-row">
 					<input id='password1' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
 				</div>
-			</form>	
+			</form>
 			<div class="mui-content-padded">
 				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">确认</button>
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
-	</body> 
+		<script src="../../js/md5.min.js"></script>
+		<script src="../../vendor/jQuery/jquery.js"></script>
+		<script>
+			var userImg = '';
+			mui.init();
+
+			mui.plusReady(function() {
+				var extras = plus.webview.currentWebview();
+				var md5Code = extras.md5Code,
+					phoneNum = extras.phoneNum;
+
+				mui('.mui-content').on('tap', '#submit', function() {
+					var userName = document.getElementById('userName').value;
+					if(!userName) {
+						mui.toast('请输入用户名');
+						return;
+					}
+					var pwd = document.getElementById('password').value;
+					if(!pwd) {
+						mui.toast('请输入密码');
+						return;
+					}
+					var pwd1 = document.getElementById('password1').value;
+					if(!pwd1) {
+						mui.toast('请再次输入密码');
+						return;
+					}
+
+					if(pwd != pwd1) {
+						mui.toast('两次输入密码不一致');
+						return;
+					}
+
+					console.log(md5(pwd) + '-----' + userName + '-----' + md5Code + '-----' + phoneNum + '-------------' + userImg)
+					mui.ajax('http://172.168.17.13:8080/mis-app/public/register', {
+						data: {
+							password: md5(pwd),
+							userName: 　userName,
+							md5Code: md5Code,
+							phone: phoneNum,
+							personImages: ''
+						},
+						success: function(result) {
+							console.log(JSON.stringify(result))
+							var status = result.status;
+							if(status == 0) {
+								console.log(JSON.stringify(result.data))
+								mui.toast('注册成功')
+							}else{
+								mui.toast(status.msg);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							console.error(JSON.stringify(xhr))
+							console.error(type)
+						}
+					})
+				});
+
+				mui('.mui-content').on('tap', '#user_img', function() {
+					if(mui.os.plus) {
+						var a = [{
+							title: '拍照'
+						}, {
+							title: '从手机相册选择'
+						}];
+						plus.nativeUI.actionSheet({
+							title: '修改头像',
+							cancel: '取消',
+							buttons: a
+						}, function(b) {
+							switch(b.index) {
+								case 0:
+									break;
+								case 1:
+									//拍照
+									getImages();
+									break;
+								case 2:
+									//打开相册
+									galleryImages();
+									break;
+								default:
+									break;
+							}
+						}, false);
+					}
+				});
+
+				document.addEventListener('getImgUrl', function(event) {
+					userImg = event.detail.imgUrl;
+					$('.img-box img').attr('src', event.detail.imgUrl);
+				});
+			});
+
+			//拍照
+			function getImages() {
+				var mobileCamera = plus.camera.getCamera();
+				mobileCamera.captureImage(function(e) {
+					plus.io.resolveLocalFileSystemURL(e, function(entry) {
+						var path = entry.toLocalURL() + '?version=' + new Date().getTime();
+						uploadHeadImg(path);
+					}, function(err) {
+						console.log("读取拍照文件错误");
+					});
+				}, function(e) {
+					console.log("er", err);
+				}, function() {
+					filename: '../../images/head-temp.png';
+				});
+			}
+
+			//从本地相册选择
+			function galleryImages() {
+				plus.gallery.pick(function(a) {
+					plus.io.resolveLocalFileSystemURL(a, function(entry) {
+						plus.io.resolveLocalFileSystemURL('_doc/', function(root) {
+							root.getFile('head.png', {}, function(file) {
+								//文件已经存在
+								file.remove(function() {
+									console.log("文件移除成功");
+									entry.copyTo(root, 'head.png', function(e) {
+										var path = e.fullPath + '?version=' + new Date().getTime();
+										uploadHeadImg(path);
+									}, function(err) {
+										console.log("copy image fail: ", err);
+									});
+								}, function(err) {
+									console.log("删除图片失败：（" + JSON.stringify(err) + ")");
+								});
+							}, function(err) {
+								//打开文件失败
+								entry.copyTo(root, 'head.png', function(e) {
+									var path = e.fullPath + '?version=' + new Date().getTime();
+									uploadHeadImg(path);
+								}, function(err) {
+									console.log("上传图片失败：（" + JSON.stringify(err) + ")");
+								});
+							});
+						}, function(err) {
+							console.log("读取文件夹失败：（" + JSON.stringify(err) + ")");
+						});
+					});
+				}, function(err) {
+					console.log("读取拍照文件失败: ", err);
+				}, {
+					filter: 'image'
+				});
+			};
+
+			//上传图片
+			function uploadHeadImg(imgPath) {
+				//打开新的webview， 进行图片裁剪
+				mui.openWindow({
+					url: 'uploadImg.html',
+					id: 'uploadImg.html',
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						imgPath: imgPath, //扩展参数
+					}
+				});
+			}		
+		</script>
+	</body>
+
 </html>

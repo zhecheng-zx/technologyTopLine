@@ -128,7 +128,12 @@
 			</div>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" data-wid="viewgroup" href="./html/card/index.html">
+			<a id="defaultTab" class="mui-tab-item mui-active" data-wid="viewgroup" href="./html/index/index.html">
+				<span class="icon icon-tab-bar1"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+
+			<a class="mui-tab-item" data-wid="viewgroup" href="./html/card/index.html">
 				<span class="icon icon-tab-bar1"></span>
 				<span class="mui-tab-label">九大名片</span>
 			</a>
@@ -150,7 +155,7 @@
 		<script src="vendor/jQuery/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({statusBarBackground: '#3385ff'});
-			var subpages = ['./html/card/index.html', './html/techDictionary/index.html', './html/scientistStory/index.html', './html/myCenter/index.html'];
+			var subpages = ['./html/index/index.html','./html/card/index.html', './html/techDictionary/index.html', './html/scientistStory/index.html', './html/myCenter/index.html'];
 			var subpage_style = {
 				top: '45px',
 				bottom: '51px'
@@ -174,7 +179,7 @@
 			});
 			function onPlusReady(){
 				var self = plus.webview.currentWebview();			
-				for(var i = 0; i < 4; i++) {
+				for(var i = 0; i < 5; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
 					if(i > 0) {
@@ -196,7 +201,7 @@
 					}
 					//更换标题
 					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
-					if(title.innerHTML!="九大名片"){
+					if(title.innerHTML!="九大名片" && title.innerHTML!="首页"){
 						document.querySelector("#title").style.display="block";
 						document.querySelector("#search_title").style.display="none";
 						document.querySelector(".logoBox").style.display="none";

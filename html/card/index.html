@@ -111,6 +111,9 @@
 			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
 				color:#666666;
 			}
+			.mui-slider .mui-scroll a:last-child{
+				padding-right: 60px;
+			}
 		</style>
 	</head>
 
@@ -118,31 +121,7 @@
 		<div class="mui-content">
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="pullrefresh_sub.html">
-							推荐
-						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="pullrefresh_sub2.html">
-							电子信息
-						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="pullrefresh_sub3.html">
-							航天航空
-						</a>
-						<a class="mui-control-item" href="#item4mobile" data-wid="pullrefresh_sub4.html">
-							生物制药
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub5.html">
-							新能源
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub6.html">
-							现代互联网技术
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub7.html">
-							数字娱乐
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub8.html">
-							高端装备制造
-						</a>
+					<div class="mui-scroll" id="nav-list">
 					</div>
 				</div>
 			</div>
@@ -152,88 +131,50 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../../vendor/jQuery/jquery.js" ></script>
 		<script>
 			mui.init();
+			var  _items = [];
+			$.ajax({
+				url: 'http://58.16.181.24:9203/mis-app/VisitingCard/baseQuery',
+				data: {
+             		"pFile":"VisitingCard",
+             		"pKey":"classification",
+             		"jdbcTemplateName":"mysqlTemplate"
+                },
+                async: false,
+ 				success: function(data){
+ 					var res = JSON.parse(data);
+ 					var list = res.listInfo;
+ 					//导航插入数据
+ 					var _a = "";
+ 					for(var i = 0; i < list.length; i++){
+ 						var className = (i == 0)?'mui-active':'';
+ 						_a +=  '<a class="mui-control-item ' + className + '" data-wid="subPage' + i + '.html" data-id="' + list[i].id + '">' + list[i].name + '</a>';
+ 					
+ 						var item = {
+ 							'id': "subPage" + i + ".html",
+ 							'url': '../public/articleList.html',
+ 							'styles': {
+ 								top: '38px',
+ 								bottom: '0px'
+ 							},
+ 							'extras': {navName: list[i].name, navId: list[i].id, hasBanner: (i==0)?true:false, requestParam: 'card'}
+ 						}
+ 						_items.push(item);
+ 					}
+ 					$('#nav-list').append(_a);
+ 				},
+ 				error: function(xhr, type, error){
+ 					console.error(xhr);
+ 					console.error(type);
+ 				}
+			});
 			mui.plusReady(function() {
-				var id="silderBanner",
-					styles={top:'38px',left:'0px',height:'200px',width:'100%',fullscreen:'false',position:'static',images:[{src:'../../images/muwu.jpg',width:"100%",verticalAlign:"middle"},{src:'../../images/shuijiao.jpg',width:'100%',verticalAlign:'middle'},{src:'../../images/yuantiao.jpg',width:'100%',verticalAlign:'middle'}]},
-					tags=null;
-				var view = new plus.nativeObj.ImageSlider(id, styles, tags);
-//					view.show("zoom-fade-out");
-					plus.webview.currentWebview().append(view);
-				var group = new webviewGroup("articleList.html", {
-					items: [
-					{
-						id: "pullrefresh_sub.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"238px",
-							bottom:"0"
-						},
-						extras: {hasBanner: true}
-					}, {
-						id: "pullrefresh_sub2.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}, {
-						id: "pullrefresh_sub3.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}, {
-						id: "pullrefresh_sub4.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}, {
-						id: "pullrefresh_sub5.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}, {
-						id: "pullrefresh_sub6.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}, {
-						id: "pullrefresh_sub7.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}, {
-						id: "pullrefresh_sub8.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {}
-					}],
-					onChange: function(obj) {
-						if(obj.index!=0){
-							view.hide("zoom-fade-in");
-						}else{
-							view.show("zoom-fade-in");
-						}
+				
+				var group = new webviewGroup('articleList.html', {
+					items: _items,
+					onChange: function(obj){						
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
 							c.classList.remove("mui-active");
@@ -241,13 +182,15 @@
 						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
 					}
 				});
-				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
-					view.hide();
+				
+				mui('.mui-scroll').on("tap", ".mui-control-item", function(e) {
+//					view.hide();
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
+					
 				mui(".plus-box").on("tap",".plus_btn",function(e){
-					view.hide();
+//					view.hide();
 					var _this=this,
 					wid=_this.getAttribute("data-wid");
 					mui('body').progressbar({

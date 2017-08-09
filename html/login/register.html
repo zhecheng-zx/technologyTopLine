@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>注册</title>
 		<link rel="stylesheet" href="../../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
@@ -29,7 +32,7 @@
 					<input id='phoneNum' type="number" class="mui-input-clear mui-input phoneNum" placeholder="请输入手机号">
 				</div>
 				<div class="mui-input-row">
-					<input id='text' type="text" class="mui-input-clear mui-input" placeholder="请输入验证码">
+					<input id='userCode' type="number" class="mui-input-clear mui-input" placeholder="请输入验证码">
 				</div>
 			</form>	
 			<div class="mui-content-padded">
@@ -37,10 +40,74 @@
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script>
+            var md5Code = '',
+				phoneNum = document.getElementById('phoneNum').value;
+			mui('.mui-content').on('tap', '.code', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				phoneNum = document.getElementById('phoneNum').value;
+				console.log(phoneNum)
+				if(!phoneNum){
+					mui.toast('请输入手机号');
+					return ;
+				}
+				
+				var reg = /^1(3|4|5|7|8)\d{9}$/;
+                if (!reg.test(phoneNum.trim())) {
+                   mui.toast('请输入正确的手机号码');
+                }
+                console.log(1212)
+                mui.ajax('http://172.168.17.13:8080/mis-app/public/getVerificationCode', {
+                	data: {phone: phoneNum},
+                	success: function(result){
+                		if(result.status == 0){
+                			md5Code = result.data;
+                		}else{
+                			mui.toast(result.msg);
+                		}
+                	},
+                	error: function(xhr,type,errorThrown){
+                		console.error(type)
+                	}
+                });
+			});
+			
 			mui('.mui-content').on('tap', '#submit', function(){
-				var w = plus.webview.create('registInfo.html', 'registInfo.html');
-				w.show(); // 显示窗口
+				var userCode = document.getElementById('userCode').value;
+				if(!userCode){
+					mui.toast('请输入验证码');
+					return ;
+				}
+				
+				mui.ajax('http://172.168.17.13:8080/mis-app/public/md5code', {
+					data: {
+						userCode: userCode,
+						md5Code: md5Code
+					},
+					success: function(result){
+						console.log(JSON.stringify(result))
+						if(result.status == 0){							
+							mui.openWindow({
+								url: 'registInfo.html',
+								id: 'registInfo.html',
+								waiting: {
+									autoShow: true,
+									title: '正在加载...'
+								},
+								extras: {
+									md5Code: md5Code, //扩展参数
+									phoneNum: document.getElementById('phoneNum').value
+								}
+							});
+						}
+					},
+					error: function(xhr,type,errorThrown){
+						console.error(type)
+					}
+				});
+				
 			});
 		</script>	
 	</body>

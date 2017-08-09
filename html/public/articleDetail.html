@@ -3,8 +3,10 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>		
 		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
@@ -189,13 +191,15 @@
 			var vm = new Vue({
 				el: '#articleDetailWrapper',
 				data: {
-					title: '文章列表也传参过来的文章列表也传参过来的',
-					source: '科技头条',
-					time: '20分钟前',
-					content: '文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的文章列表也传参过来的'
+					title: '',
+					source: '',
+					time: '',
+					content: ''
 				}
 			});
 
+			//分享到朋友圈  微信 需要的参数
+			var msg = {};
 			window.onload = function() {
 				var extras = plus.webview.currentWebview();
 				var guid = extras.guid; //文章id  文章列表也传参过来的
@@ -209,9 +213,26 @@
 				vm.source = extras.source;
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
-				vm.content = 'mui.get()方法和mui.post()方法类似，只不过是直接使用GET请求方式向服务器发送数据、且不处理timeout和异常（若需处理异常及超时，请使用mui.ajax()方法），使用方法： mui.get(url[,data][,success][,dataType])，如下为获得某服务器新闻列表的代码片段，服务器以json格式返回数据列表';
-				//TODO 向服务端请求文章详情内容  guid:文章id  mui.ajax
-
+				vm.content = ''
+				
+				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
+					data: {
+						id: guid
+					},
+					success: function(data) {
+						if(data){
+							vm.content = data.clearContent;
+							msg.href = data.url;
+							msg.title = data.clearTitle;
+							msg.content = data.summary;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.error(xhr);
+						console.error(type);
+					}
+				});
 			}
 
 			//分享操作
@@ -276,21 +297,14 @@
 					}
 				});
 			});
-
-			//届时替换成项目的地址
+			
 			function shareMessage(share, ex) {
-				var msg = {
-					extra: {
-						scene: ex
-					}
+				msg.extra = {
+					scene: ex
 				};
-				msg.href = "http://www.dcloud.io/hellomui/";
-				msg.title = "最接近原生APP体验的高性能前端框架";
-				msg.content = "我正在体验HelloMUI，果然很流畅，基本看不出和原生App的差距";
 				if(~share.id.indexOf('weibo')) {
-					msg.content += "；体验地址：http://www.dcloud.io/hellomui/";
+					msg.content += "；文章地址：" + msg.href;
 				}
-				msg.thumbs = ["_www/images/logo.png"];
 				share.send(msg, function() {
 					console.log("分享到\"" + share.description + "\"成功！ ");
 				}, function(e) {

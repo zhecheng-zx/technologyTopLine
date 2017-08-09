@@ -22,7 +22,7 @@
 			
 			.search-wrapper {
 				background: #3385FF;
-				padding: 15px;
+			    padding: 15px 15px 10px 15px;
 				color: #fff;
 			}
 			
@@ -75,7 +75,8 @@
 			}
 			
 			.mui-card .mui-card-header {
-				padding: 10px 0px;
+				min-height: 36px;
+				padding: 0px 0px;
 				color: #eee;
 				font-size: 14px;
 			}
@@ -90,7 +91,7 @@
 			}
 			
 			.mui-card-content {
-				height: 100px;
+				height: 75px;
 				overflow: hidden;
 			}
 			
@@ -114,128 +115,27 @@
 			
 			.wanna-search-ul>li {
 				display: inline-block;
-				padding: 0px 10px 0px 0px;
-			}
-			
-			.wanna-search-item {
-				display: block;
-				position: relative;
-				margin: 0 auto 20px;
-				color: #ffffff;
-			}
-			
-			.wanna-search-item>.item {
-				display: block;
-				width: 100%;
-				padding: 5px 15px;
-				color: #ffffff;
 				font-size: 12px;
-				text-align: center;
-				border-radius: 3px;
-				background-color: rgba(255, 255, 255, .2);
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
+				color: #fff;
+				padding: 6px 10px;
+			    background: #5c9dff;
+			    margin-right: 5px;
+			    margin-bottom: 5px;
+			    border-radius: 3px;
 			}
-			
-			.wanna-search-item>.mui-icon {
-				position: absolute;
-				right: -10px;
-				top: -10px;
-				z-index: 2;
-				display: none;
-				font-size: 18px;
-			}
-			
-			.shake {
-				-webkit-transform-origin: center center;
-				-webkit-animation-name: shake-rotate;
-				-webkit-animation-duration: 0.5s;
-				-webkit-animation-timing-function: linear;
-				-webkit-animation-iteration-count: infinite;
-			}
-			
-			.shakecontainer .img-content {
-				display: none;
-			}
-			
-			.shakecontainer .icon-remove {
-				display: block;
-			}
-			
-			ul li[draggable=true] {
-				transform: scale(1.2);
-				-webkit-transform: scale(1.2);
-			}
-			
-			ul li[draggable=true]>div {
-				-webkit-animation-name: none;
-			}
-			
-			.item-index,
-			.shakecontainer .item-index,
-			ul li[draggable=true] .icon-remove,
-			ul li[draggable=true] .item-index {
-				display: none;
-			}
-			
-			.sort-handle {
-				cursor: move;
-				cursor: -webkit-grabbing;
-			}
-			
-			.sort-ghost {
-				opacity: 0;
-			}
-			
-			.sort-chosen {
-				transform: scale(1.2);
-				-webkit-transform: scale(1.2);
-				transition: transform .3s;
-				-webkit-transition: transform .3s;
-			}
-			
-			.sort-chosen:last-child {
-				transition: none;
-				-webkit-transition: none;
-			}
-			
-			@-webkit-keyframes shake-rotate {
-				0% {
-					-webkit-transform: rotate(0deg);
-				}
-				12.5% {
-					-webkit-transform: rotate(1.25deg);
-				}
-				25% {
-					-webkit-transform: rotate(2.5deg);
-				}
-				37.5% {
-					-webkit-transform: rotate(1.25deg);
-				}
-				50% {
-					-webkit-transform: rotate(0deg);
-				}
-				62.5% {
-					-webkit-transform: rotate(-1.25deg);
-				}
-				75% {
-					-webkit-transform: rotate(-2.5deg);
-				}
-				87.5% {
-					-webkit-transform: rotate(-1.25deg);
-				}
-				100% {
-					-webkit-transform: rotate(0deg);
-				}
-			}
-			
+									
 			.more-box {
 				display: none;
+			    margin-top: 5px;
 			}
 			
 			.more-box a {
 				color: #fff;
+				font-size: 11px;
+			}
+			
+			.more-box .iconfont {
+				font-size: 11px;
 			}
 			
 			.search-history {
@@ -273,6 +173,18 @@
 				font-size: 13px;
 				margin-right: 5px;
 			}
+			
+			.hide-wanna-search{
+				display: none;
+			}
+			
+			.show-wanna-search,
+			.hide-wanna-search{
+				margin: 0px;
+			    width: 100%;
+			    color: #eee;
+			    font-size: 14px;
+			}				
 		</style>
 	</head>
 
@@ -287,76 +199,45 @@
 				</div>
 				<div class="mui-card wanna-search-box">
 					<!--页眉，放置标题-->
-					<div class="mui-card-header">猜你想搜的
-						<a id="remove" href="javascript:;" class="mui-pull-right">
-							<span class="mui-icon mui-icon-closeempty mui-pull-right"></span>
-						</a>
+					<div class="mui-card-header">
+						<p class="show-wanna-search">
+							猜你想搜的
+							<span class="mui-icon iconfont icon-DLS_Hide_ mui-pull-right"></span>
+						</p>
+						<p class="hide-wanna-search mui-text-center">
+							<span class="mui-icon iconfont icon-eye"></span>
+							查看全部推荐词
+						</p>
 					</div>
 					<!--内容区-->
 					<div class="mui-card-content">
 						<ul class="wanna-search-ul" id="wannaSearchUl">
 							<li data-li="1">
-								<div class="wanna-search-item">
-									<div class="item drag-item">机器人</div>
-									<span class="item-index">1</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								科技驱动创新
 							</li>
 							<li data-li="2">
-								<div class="wanna-search-item">
-									<div class="item drag-item">铝基新材料</div>
-									<span class="item-index">2</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								铝基新材料
 							</li>
 							<li data-li="3">
-								<div class="wanna-search-item">
-									<div class="item drag-item">3D打印材料</div>
-									<span class="item-index">3</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								3D打印材料
 							</li>
 							<li data-li="4">
-								<div class="wanna-search-item">
-									<div class="item drag-item">互联网经济</div>
-									<span class="item-index">4</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								互联网经济
 							</li>
 							<li data-li="5">
-								<div class="wanna-search-item">
-									<div class="item drag-item">纳米制造技术</div>
-									<span class="item-index">5</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								纳米制造技术
 							</li>
 							<li data-li="6">
-								<div class="wanna-search-item">
-									<div class="item drag-item">石墨烯</div>
-									<span class="item-index">6</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								石墨烯
 							</li>
 							<li data-li="7">
-								<div class="wanna-search-item">
-									<div class="item drag-item">跨境电商</div>
-									<span class="item-index">7</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								跨境电商
 							</li>
 							<li data-li="8">
-								<div class="wanna-search-item">
-									<div class="item drag-item">智慧旅游</div>
-									<span class="item-index">8</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								智慧旅游
 							</li>
 							<li data-li="9">
-								<div class="wanna-search-item">
-									<div class="item drag-item">互联网金融</div>
-									<span class="item-index">9</span>
-									<span class="mui-icon mui-icon-close icon-remove"></span>
-								</div>
+								互联网金融
 							</li>
 						</ul>
 					</div>
@@ -408,13 +289,13 @@
 					$moreText = $('#searchMore .text'),
 					$moreIcon = $('#searchMore .mui-icon');
 					
-				if($content.height() == 100) {
+				if($content.height() == 75) {
 					var ulHeight = $('.wanna-search-ul').height();
 					$content.height(ulHeight);
 					$moreText.text('收起');
 					$moreIcon.removeClass('icon-down').addClass('icon-up');
 				} else {
-					$content.height(100);
+					$content.height(75);
 					$moreText.text('查看更多');
 					$moreIcon.addClass('icon-down').removeClass('icon-up');
 				}
@@ -456,6 +337,20 @@
 			mui.plusReady(function() {
 				initNativeObjects();
 				showSoftInput();
+			});
+			
+			//是否隐藏 猜你想搜 内容
+			mui('.mui-content').on('tap', '.icon-DLS_Hide_', function(){
+				$('.hide-wanna-search').show();
+				$('.show-wanna-search').hide();
+				$('.mui-card-content').hide();
+				$('.more-box').hide();
+			});
+			
+			mui('.mui-content').on('tap', '.hide-wanna-search', function(){
+				$('.hide-wanna-search').hide();
+				$('.show-wanna-search').show();
+				$('.mui-card-content').show();
 			});
 		</script>
 	</body>

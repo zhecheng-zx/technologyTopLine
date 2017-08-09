@@ -109,6 +109,14 @@
 				background-color: #0062CC;
 				border-radius: 50px;
 			}
+			
+			.mui-table-view-cell>a:not(.mui-btn).mui-active {
+				background-color: transparent;
+			}
+			
+			.img-li img{
+				height: 180px;
+			}
 		</style>
 	</head>
 
@@ -116,7 +124,6 @@
 		<div class="mui-content mui-scroll-wrapper" id="articleList">
 			<div class="mui-scroll">
 				<ul class="mui-table-view" id="articleUl">
-					
 				</ul>
 			</div>
 		</div>
@@ -134,6 +141,8 @@
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/vue.min.js"></script>
 		<script>
+			var pageNum = 0,
+				pageSize = 10;
 			mui.init({
 				pullRefresh: {
 					container: '#articleList',
@@ -152,134 +161,38 @@
 						contentnomore: '没有更多数据了',
 						callback: pullupRefresh
 					}
-				},
-			});
-			var requestUrl = '',
-				webview_detail = null;
-			var titleNView = { //详情页原生导航配置
-				backgroundColor: '#3385ff', //导航栏背景色
-				titleText: '', //导航栏标题
-				titleColor: '#fff', //文字颜色
-				type: 'transparent', //透明渐变样式
-				autoBackButton: true, //自动绘制返回箭头
-				splitLine: { //底部分割线
-					color: '#cccccc'
 				}
-			};
-
-			var count = 0;
-			var articleList = [{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: true,
-					hotFlag: false,
-					img: ['../../images/article.png']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: false,
-					hotFlag: false,
-					img: ['../../images/article.png']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: false,
-					hotFlag: false,
-					img: ['../../images/article.png', '../../images/yuantiao.jpg', '../../images/shuijiao.jpg']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: false,
-					hotFlag: true,
-					img: ['../../images/article.png']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: false,
-					hotFlag: false,
-					img: ['../../images/yuantiao.jpg']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: true,
-					hotFlag: false,
-					img: ['../../images/article.png']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: false,
-					hotFlag: true,
-					img: ['../../images/temp.jpg']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: true,
-					hotFlag: false,
-					img: ['../../images/muwu.jpg', '../../images/shuijiao.jpg', '../../images/yuantiao.jpg']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: true,
-					hotFlag: false,
-					img: ['../../images/temp.jpg']
-				},
-				{
-					title: '山西十所重点高校 你知道几所？',
-					source: '科技头条',
-					publishDateTime: '20分钟前',
-					newFlag: true,
-					hotFlag: false,
-					img: ['../../images/article.png']
-				}
-			];
+			});					
 
 			function pullupRefresh() {
-				//ajax请求数据 就不用写在timeout里了
-				setTimeout(function() {
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					//这里根据实际数据判断是否还有数据 
-					if(cells.length > 　30) {
-						mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-					} else {
-						mui('#articleList').pullRefresh().endPullup(false); //参数为true代表没有更多数据了。
-					}
-
-					addData('after');
-				}, 1500);
+				pageNum = pageNum + 　1;
+				getArticleList('after');
 			}
 
-			function addData(position) {
+			function addData(position, articleList) {
 				var table = $('#articleUl');
 				for(var i = 0; i < articleList.length; i++) {
-					var img = articleList[i].img;
+					var img = articleList[i].images;
 					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
 
 					//根据图片个数 显示不同的样式列表	TODO a标签的属性data-guid指的是文章id！！！暂时写成article
-					if(img.length < 3) {
+					if(!img) {
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title">' + articleList[i].title + '</div>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
+							'</div>' +
+							'</a>');
+					} else if(img.length < 3) {
 						$li.append('<a javascript:; data-guid="article">' +
 							'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' +
 							'<div class="mui-media-body">' +
 							'<div class="article-title">' + articleList[i].title + '</div>' +
 							'<p class="mui-ellipsis">' +
-							'<span class="source">' + articleList[i].source + '</span> &nbsp;&nbsp;' +
-							'<span class="time">' + articleList[i].publishDateTime + '</span></p>' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
 							'</div>' +
 							'</a>');
 					} else {
@@ -295,8 +208,8 @@
 							'</div>' +
 							'</a>' +
 							'<p class="mui-ellipsis">' +
-							'<span class="source">' + articleList[i].source + '</span> &nbsp;&nbsp;' +
-							'<span class="time">' + articleList[i].publishDateTime + '</span>' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span>' +
 							'</p>'
 						);
 					}
@@ -316,21 +229,22 @@
 					}
 
 					if(position == 'before') {
-//						$li.insertAfter($('.slider-li'))
 						table.prepend($li);
 					} else {
 						table.append($li);
 					}
+//					var wn = plus.webview.currentWebview();
+//					if(pageNum == 1 && !wn.navName){
+//						table.prepend('<li class="img-li"><img src="../../images/muwu.jpg"></li>');
+//					}
 				}
 			}
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				setTimeout(function() {
-					addData('before');
-					mui('#articleList').pullRefresh().endPulldown();
-				}, 1500);
+				pageNum = 1;
+				getArticleList('before');
 			}
 
 			/**
@@ -361,10 +275,10 @@
 				e.stopPropagation();
 				e.preventDefault();
 				var _this = $(this);
-				var guid = _this.attr('data-guid');
-				var title = _this.find('.article-title').text().trim();
-				var source = _this.find('.source').text().trim();
-				var time = _this.find('.time').text().trim();
+				var guid = _this.attr('data-guid'),
+					title = _this.find('.article-title').text().trim(),
+					source = _this.find('.source').text().trim(),
+					time = _this.find('.time').text().trim();
 				open_detail(guid, title, source, time);
 			});
 
@@ -380,14 +294,6 @@
 
 			function plusReady() {
 				var wn = plus.webview.currentWebview();
-//				if(wn.hasBanner === true) {
-//					$('.slider-li').show();
-//					var gallery = mui('.mui-slider');
-//					gallery.slider({
-//						interval: 1000 //自动轮播周期，若为0则不自动播放，默认为0；
-//					});
-//				}
-
 				if(wn.closeFlag === false) {
 					$('.mui-icon-closeempty').hide();
 				}
@@ -397,6 +303,66 @@
 				plusReady();
 			} else {
 				document.addEventListener('plusready', plusReady, false);
+			}
+
+			function getArticleList(position) {
+				$('.img-li').remove();
+				var wn = plus.webview.currentWebview();
+				var name = wn.navName, requestParam = wn.requestParam;
+				
+				var param = {
+					page_no: pageNum,
+					page_size: pageSize,
+					sortType: 'desc',
+					sortField: 'publishTime'
+				}
+				if(name){
+					param[requestParam] = name;
+				}
+				
+				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
+					data: param,
+					type: 'post', //HTTP请求类型
+					success: function(data) {
+						if(position == "after"){
+							mui('#articleList').pullRefresh().endPullup(false);
+						}else{
+							mui('#articleList').pullRefresh().endPulldown();
+						}
+						var list = data.list;
+						if(list.length > 0) {
+							addData(position, list);
+						} else {							
+							if(position == 'after') {
+								mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.error(xhr);
+						console.error(type);
+					}
+				});
+			}
+
+			function formatDate(date) {
+				var date1 = new Date(date),
+					now = new Date();
+				var milliseconds = now.getTime() - date1.getTime(),
+					timeSpanStr = '';
+				if(milliseconds <= 1000 * 60 * 1) {
+					timeSpanStr = '刚刚';
+				} else if(1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
+					timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前';
+				} else if(1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
+					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
+				} else if(1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
+					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
+				} else {
+					timeSpanStr = date.substring(5, 10) + ' ' + date.substring(11, 16);
+				}
+				return timeSpanStr;
 			}
 		</script>
 	</body>
