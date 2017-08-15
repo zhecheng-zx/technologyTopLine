@@ -20,6 +20,10 @@
 				z-index: 998;
 				background-color: rgba(0, 0, 0, .3);
 			}
+			
+			.mui-content .kr-article-article img{
+				width: 100%;
+			}
 		</style>
 	</head>
 
@@ -213,7 +217,7 @@
 				vm.source = extras.source;
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
-				vm.content = ''
+				vm.content = '';
 				
 				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
 					data: {
@@ -221,7 +225,7 @@
 					},
 					success: function(data) {
 						if(data){
-							vm.content = data.clearContent;
+							vm.content = data.content;
 							msg.href = data.url;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;

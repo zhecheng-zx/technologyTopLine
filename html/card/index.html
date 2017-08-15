@@ -159,7 +159,7 @@
  								top: '38px',
  								bottom: '0px'
  							},
- 							'extras': {navName: list[i].name, navId: list[i].id, hasBanner: (i==0)?true:false, requestParam: 'card'}
+ 							'extras': {navName: list[i].name, navId: list[i].id, requestParam: 'card'}
  						}
  						_items.push(item);
  					}
@@ -184,13 +184,11 @@
 				});
 				
 				mui('.mui-scroll').on("tap", ".mui-control-item", function(e) {
-//					view.hide();
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
 					
 				mui(".plus-box").on("tap",".plus_btn",function(e){
-//					view.hide();
 					var _this=this,
 					wid=_this.getAttribute("data-wid");
 					mui('body').progressbar({
