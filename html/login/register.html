@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -7,19 +8,26 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>注册</title>
 		<link rel="stylesheet" href="../../css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<style>
-			body{
+			body {
 				background-color: #F4F4F4;
 				width: 100%;
 				height: 100%;
-			}	
-			.login .mui-input-row input.phoneNum{
+			}
+			
+			.login .mui-input-row input.phoneNum {
 				float: left;
 				padding-left: 15px;
-			}		
+			}
+			
+			.phone-wrapper.mui-input-row span.mui-icon-clear {
+				right: 90px;
+				top: 15px;
+			}
 		</style>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
@@ -27,14 +35,14 @@
 		</header>
 		<div class="mui-content login">
 			<form id='login-form' class="mui-input-group">
-				<div class="mui-input-row">
+				<div class="mui-input-row phone-wrapper">
 					<label for="phoneNum" class="code">发送验证码</label>
 					<input id='phoneNum' type="number" class="mui-input-clear mui-input phoneNum" placeholder="请输入手机号">
 				</div>
 				<div class="mui-input-row">
 					<input id='userCode' type="number" class="mui-input-clear mui-input" placeholder="请输入验证码">
 				</div>
-			</form>	
+			</form>
 			<div class="mui-content-padded">
 				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">确定</button>
 			</div>
@@ -42,53 +50,55 @@
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script>
-            var md5Code = '',
+			var md5Code = '',
 				phoneNum = document.getElementById('phoneNum').value;
-			mui('.mui-content').on('tap', '.code', function(e){
+			mui('.mui-content').on('tap', '.code', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 				phoneNum = document.getElementById('phoneNum').value;
 				console.log(phoneNum)
-				if(!phoneNum){
+				if(!phoneNum) {
 					mui.toast('请输入手机号');
-					return ;
+					return;
 				}
-				
+
 				var reg = /^1(3|4|5|7|8)\d{9}$/;
-                if (!reg.test(phoneNum.trim())) {
-                   mui.toast('请输入正确的手机号码');
-                }
-                console.log(1212)
-                mui.ajax('http://172.168.17.13:8080/mis-app/public/getVerificationCode', {
-                	data: {phone: phoneNum},
-                	success: function(result){
-                		if(result.status == 0){
-                			md5Code = result.data;
-                		}else{
-                			mui.toast(result.msg);
-                		}
-                	},
-                	error: function(xhr,type,errorThrown){
-                		console.error(type)
-                	}
-                });
-			});
-			
-			mui('.mui-content').on('tap', '#submit', function(){
-				var userCode = document.getElementById('userCode').value;
-				if(!userCode){
-					mui.toast('请输入验证码');
-					return ;
+				if(!reg.test(phoneNum.trim())) {
+					mui.toast('请输入正确的手机号码');
 				}
-				
+				console.log(1212)
+				mui.ajax('http://172.168.17.13:8080/mis-app/public/getVerificationCode', {
+					data: {
+						phone: phoneNum
+					},
+					success: function(result) {
+						if(result.status == 0) {
+							md5Code = result.data;
+						} else {
+							mui.toast(result.msg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.error(type)
+					}
+				});
+			});
+
+			mui('.mui-content').on('tap', '#submit', function() {
+				var userCode = document.getElementById('userCode').value;
+				if(!userCode) {
+					mui.toast('请输入验证码');
+					return;
+				}
+
 				mui.ajax('http://172.168.17.13:8080/mis-app/public/md5code', {
 					data: {
 						userCode: userCode,
 						md5Code: md5Code
 					},
-					success: function(result){
+					success: function(result) {
 						console.log(JSON.stringify(result))
-						if(result.status == 0){							
+						if(result.status == 0) {
 							mui.openWindow({
 								url: 'registInfo.html',
 								id: 'registInfo.html',
@@ -103,12 +113,13 @@
 							});
 						}
 					},
-					error: function(xhr,type,errorThrown){
+					error: function(xhr, type, errorThrown) {
 						console.error(type)
 					}
 				});
-				
+
 			});
-		</script>	
+		</script>
 	</body>
+
 </html>
