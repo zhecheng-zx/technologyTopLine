@@ -194,6 +194,16 @@
 					-webkit-transform: rotate(0deg);
 				}
 			}
+			
+			#recommend_channel .mui-icon-plusempty {
+				font-size: 15px;
+				vertical-align: middle;
+			}
+			
+			#recommend_channel .channel_name {
+				display: inline-block;
+				vertical-align: middle;
+			}
 		</style>
 	</head>
 
@@ -211,7 +221,7 @@
 					</div>
 					<!--内容区-->
 					<div class="mui-card-content">
-						<ul class="channel_box" id="my_channel">							
+						<ul class="channel_box" id="my_channel">
 						</ul>
 					</div>
 				</div>
@@ -237,22 +247,22 @@
 			mui(".mui-scroll-wrapper").scroll();
 			var sort = null;
 			var ispaixu = false;
-//			mui.ready(function() {
-//				document.getElementById("edit").addEventListener('tap', function() {
-//					init(false, true);
-//				});
-//				[].forEach.call(document.querySelectorAll(".icon-remove"), function(item, index) {
-//					item.addEventListener('tap', function() {
-//						this.parentNode.parentNode.removeChild(this.parentNode);
-//					});
-//				});
-//				mui("ul#my_channel li").on('longtap', '.channel', function() {
-//					if(document.querySelector("ul#my_channel li .channel_item").className.indexOf('shake') != -1)
-//						return;
-//					initForSort(false);
-//				});
-//				setSortable(false);
-//			});
+			//			mui.ready(function() {
+			//				document.getElementById("edit").addEventListener('tap', function() {
+			//					init(false, true);
+			//				});
+			//				[].forEach.call(document.querySelectorAll(".icon-remove"), function(item, index) {
+			//					item.addEventListener('tap', function() {
+			//						this.parentNode.parentNode.removeChild(this.parentNode);
+			//					});
+			//				});
+			//				mui("ul#my_channel li").on('longtap', '.channel', function() {
+			//					if(document.querySelector("ul#my_channel li .channel_item").className.indexOf('shake') != -1)
+			//						return;
+			//					initForSort(false);
+			//				});
+			//				setSortable(false);
+			//			});
 
 			function init(islongtap, isTriggerByBtn) {
 				if(!ispaixu) {
@@ -336,43 +346,74 @@
 						"pKey": "recommend",
 						"myKey": "mychannel"
 					},
-					success: function(result){
+					success: function(result) {
 						var data = JSON.parse(result);
 						addRecommendChannel(data.listInfo);
 						addMyChannel(data.mychanel);
 					},
-					error: function(xhr,type,errorThrown){						
+					error: function(xhr, type, errorThrown) {
 						console.error(type);
 					}
 				});
 			}
 			getChannels();
-			
-			function addRecommendChannel(list){		
+
+			function addRecommendChannel(list) {
+				console.log(list)
 				var ul = document.getElementById('recommend_channel');
-				for(var i = 0; i < list.length; i++){
+				for(var i = 0; i < list.length; i++) {
 					var li = document.createElement('li');
 					li.setAttribute('dataId', list[i].id);
-					li.innerHTML = '<div class="channel_item"><div class="channel drag-channel">' + list[i].channel_theme + '</div></div>';
-					ul.appendChild(li);
-				}		
-			}
-			
-			function addMyChannel(list){
-				var ul = document.getElementById('my_channel');
-				for(var i = 0; i < list.length; i++){
-					var li = document.createElement('li');
-					li.setAttribute('data-li', i+1);
-					li.innerHTML = '<div class="channel_item">'
-									+ '<div class="channel drag-channel">' + list[i].channel_theme + '</div>' 
-									+ '<span class="channel-index">' + (i+1) + '</span>' 
-									+ '<span class="mui-icon mui-icon-close icon-remove"></span>' 
-								+ '</div>';
+					li.innerHTML = '<div class="channel_item"><div class="channel drag-channel"><span class="mui-icon mui-icon-plusempty"></span>' 
+									+ '<span class="channel_name">' + list[i].channel_theme + '</span></div></div>';
 					ul.appendChild(li);
 				}
 			}
-			
-			window.onload = function(){
+
+			function addMyChannel(list) {
+				var ul = document.getElementById('my_channel');
+				for(var i = 0; i < list.length; i++) {
+					var li = document.createElement('li');
+					li.className = 'my-channel-li';
+					li.setAttribute('data-li', i + 1);
+					li.setAttribute('dataId', list[i].id);
+					li.innerHTML = '<div class="channel_item">' +
+						'<div class="channel drag-channel">' + list[i].channel_theme + '</div>' +
+						'<span class="channel-index">' + (i + 1) + '</span>' +
+						'<span class="mui-icon mui-icon-close icon-remove"></span>' +
+						'</div>';
+					ul.appendChild(li);
+				}
+
+				[].forEach.call(document.querySelectorAll(".icon-remove"), function(item, index) {
+					item.addEventListener('tap', function() {
+						var dataId = this.parentNode.parentNode.getAttribute('dataId');
+						deleteMyChannel(dataId, this);
+					});
+				});
+			}
+
+			function deleteMyChannel(dataId, source) {
+				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+					data: {
+						"jdbcTemplateName": "mysqlTemplate",
+						"pFile": "Personal",
+						"pKey": "deletechannel",
+						"myKey": "mychannel",
+						"id": dataId
+					},
+					success: function(result) {
+						if(result.status == 'success') {
+							source.parentNode.parentNode.removeChild(this.parentNode);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.error(type);
+					}
+				});
+			}
+
+			window.onload = function() {
 				document.getElementById("edit").addEventListener('tap', function() {
 					init(false, true);
 				});
@@ -387,6 +428,43 @@
 					initForSort(false);
 				});
 				setSortable(false);
+
+				mui('.mui-content').on('tap', '#recommend_channel li', function() {
+					var session = JSON.parse(localStorage.getItem('$state')),
+						dataId = this.getAttribute('dataId'),
+						channelName = this.querySelector('channel_name').innerText,
+						_this = this;
+
+					mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+						data: {
+							"user_id": session.userId,
+							"channel_id": dataId,
+							"jdbcTemplateName": "mysqlTemplate,mysqlTemplate",
+							"pFile": "Personal,Personal",
+							"pKey": "addchannel,deleterecommend"
+						},
+						success: function(result) {
+							if(result.result == 'success') {
+								//我的频道插入值
+								var index = document.getElementsByClassName('my-channel-li').length;
+								var li = document.createElement('li');
+								li.className = 'my-channel-li';
+								li.setAttribute('data-li', index + 1);
+								li.setAttribute('dataId', dataId);
+								li.innerHTML = '<div class="channel_item">' +
+									'<div class="channel drag-channel">' + channelName + '</div>' +
+									'<span class="channel-index">' + (index + 1) + '</span>' +
+									'<span class="mui-icon mui-icon-close icon-remove"></span>' +
+									'</div>';
+								document.getElementById('my_channel').appendChild(li);
+								//推荐频道删除该标签
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							console.error(type);
+						}
+					})
+				});
 			}
 		</script>
 	</body>
