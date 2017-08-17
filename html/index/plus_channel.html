@@ -1,0 +1,394 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-text-white {
+				color: #ffffff;
+			}
+			
+			.mui-bar .mui-title {
+				font-size: 18px;
+			}
+			
+			.mui-bar.mui-bar-nav {
+				background-color: #3385ff;
+				box-shadow: none;
+			}
+			
+			.mui-title,
+			.mui-bar .mui-btn-link {
+				color: #ffffff;
+			}
+			
+			body,
+			.mui-scroll-wrapper {
+				background: #3385ff;
+			}
+			
+			body>.mui-progressbar {
+				top: 0;
+			}
+			
+			.mui-card {
+				background-color: transparent;
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+			
+			.mui-card .mui-card-header {
+				padding-left: 0;
+				padding-right: 0;
+				padding-bottom: 35px;
+				color: #ffffff;
+				font-size: 14px;
+			}
+			
+			.mui-card .mui-card-header>a {
+				font-size: 12px;
+				color: #ffffff;
+			}
+			
+			.mui-card .mui-card-header:after {
+				display: none;
+			}
+			
+			.channel_box {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				list-style: none;
+			}
+			
+			.channel_box:before,
+			.channel_box:after {
+				display: table;
+				content: " ";
+			}
+			
+			.channel_box:after {
+				clear: both;
+			}
+			
+			.channel_box>li {
+				float: left;
+				width: 33%;
+			}
+			
+			.channel_item {
+				display: block;
+				position: relative;
+				margin: 0 auto 20px;
+				width: 90%;
+				color: #ffffff;
+			}
+			
+			.channel_item>.channel {
+				display: block;
+				width: 100%;
+				padding: 5px 5px;
+				color: #ffffff;
+				font-size: 12px;
+				text-align: center;
+				border-radius: 3px;
+				background-color: rgba(255, 255, 255, .2);
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			
+			.channel_item>.mui-icon {
+				position: absolute;
+				right: -10px;
+				top: -10px;
+				z-index: 2;
+				display: none;
+				font-size: 18px;
+			}
+			
+			.shake {
+				-webkit-transform-origin: center center;
+				-webkit-animation-name: shake-rotate;
+				-webkit-animation-duration: 0.5s;
+				-webkit-animation-timing-function: linear;
+				-webkit-animation-iteration-count: infinite;
+			}
+			
+			.shakecontainer .img-content {
+				display: none;
+			}
+			
+			.shakecontainer .icon-remove {
+				display: block;
+			}
+			
+			ul li[draggable=true] {
+				transform: scale(1.2);
+				-webkit-transform: scale(1.2);
+			}
+			
+			ul li[draggable=true]>div {
+				-webkit-animation-name: none;
+			}
+			
+			.channel-index,
+			.shakecontainer .channel-index,
+			ul li[draggable=true] .icon-remove,
+			ul li[draggable=true] .channel-index {
+				display: none;
+			}
+			
+			.sort-handle {
+				cursor: move;
+				cursor: -webkit-grabbing;
+			}
+			
+			.sort-ghost {
+				opacity: 0;
+			}
+			
+			.sort-chosen {
+				transform: scale(1.2);
+				-webkit-transform: scale(1.2);
+				transition: transform .3s;
+				-webkit-transition: transform .3s;
+			}
+			
+			.sort-chosen:last-child {
+				transition: none;
+				-webkit-transition: none;
+			}
+			
+			@-webkit-keyframes shake-rotate {
+				0% {
+					-webkit-transform: rotate(0deg);
+				}
+				12.5% {
+					-webkit-transform: rotate(1.25deg);
+				}
+				25% {
+					-webkit-transform: rotate(2.5deg);
+				}
+				37.5% {
+					-webkit-transform: rotate(1.25deg);
+				}
+				50% {
+					-webkit-transform: rotate(0deg);
+				}
+				62.5% {
+					-webkit-transform: rotate(-1.25deg);
+				}
+				75% {
+					-webkit-transform: rotate(-2.5deg);
+				}
+				87.5% {
+					-webkit-transform: rotate(-1.25deg);
+				}
+				100% {
+					-webkit-transform: rotate(0deg);
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-closeempty mui-pull-right mui-text-white"></a>
+			<h1 class="mui-title">频道管理</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="mui-card">
+					<!--页眉，放置标题-->
+					<div class="mui-card-header">我的频道
+						<a id="edit" href="javascript:;" class="mui-pull-right">编辑</a>
+					</div>
+					<!--内容区-->
+					<div class="mui-card-content">
+						<ul class="channel_box" id="my_channel">							
+						</ul>
+					</div>
+				</div>
+				<div class="mui-card">
+					<!--页眉，放置标题-->
+					<div class="mui-card-header">推荐频道</div>
+					<!--内容区-->
+					<div class="mui-card-content">
+						<ul class="channel_box" id="recommend_channel">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/sortable.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				gestureConfig: {
+					longtap: true,
+				}
+			});
+			mui(".mui-scroll-wrapper").scroll();
+			var sort = null;
+			var ispaixu = false;
+//			mui.ready(function() {
+//				document.getElementById("edit").addEventListener('tap', function() {
+//					init(false, true);
+//				});
+//				[].forEach.call(document.querySelectorAll(".icon-remove"), function(item, index) {
+//					item.addEventListener('tap', function() {
+//						this.parentNode.parentNode.removeChild(this.parentNode);
+//					});
+//				});
+//				mui("ul#my_channel li").on('longtap', '.channel', function() {
+//					if(document.querySelector("ul#my_channel li .channel_item").className.indexOf('shake') != -1)
+//						return;
+//					initForSort(false);
+//				});
+//				setSortable(false);
+//			});
+
+			function init(islongtap, isTriggerByBtn) {
+				if(!ispaixu) {
+					if(isTriggerByBtn) {
+						mui("ul#my_channel li .channel_item").each(function() {
+							this.classList.add('shakecontainer');
+							this.classList.add('shake');
+						});
+						document.getElementById("edit").innerText = '完成';
+					}!sort && setSortable(isTriggerByBtn);
+					ispaixu = true;
+				} else {
+					if(islongtap) return;
+					ispaixu = false;
+					document.getElementById("edit").innerText = '编辑';
+					mui("ul#my_channel li .channel_item").each(function() {
+						this.classList.remove('shakecontainer');
+						this.classList.remove('shake');
+					});
+				}
+			};
+
+			function initForSort(isTriggerByBtn) {
+				if(isTriggerByBtn) return;
+				mui("ul#my_channel li .channel_item").each(function() {
+					this.classList.add('shakecontainer');
+					this.classList.add('shake');
+				});
+				document.getElementById("edit").innerText = '完成';
+				ispaixu = true;
+			};
+			var touchtime, item_offset = {
+				left: '',
+				top: ''
+			};
+
+			function setSortable(isTriggerByBtn) {
+				sort = new Sortable(document.getElementById("my_channel"), {
+					chosenClass: 'sort-chosen',
+					ghostClass: 'sort-ghost',
+					delay: 150,
+					animation: 400,
+					handle: '.channel.drag-channel',
+					//-------- 自定义属性
+					isDropAnimation: false, //DragDrop时是否对DragEl启用滑动效果
+					ghostScale: 1.2, //DragGhostEl 缩放效果
+					//--------
+					onStart: function( /**Event*/ evt) { // 拖拽
+						touchtime = evt.timeStamp;
+						item_offset.left = evt.item.offsetLeft;
+						item_offset.top = evt.item.offsetTop;
+						var itemEl = evt.item;
+					},
+					onEnd: function( /**Event*/ evt) { // 拖拽
+						var itemEl = evt.item;
+						var timespan = evt.timeStamp - touchtime;
+						if(timespan < 200) {} else if(itemEl.offsetLeft == item_offset.left && itemEl.offsetTop == item_offset.top) {} else {
+							reset_order();
+						}
+						touchtime = null;
+					},
+				});
+			};
+
+			function reset_order() {
+				//重新进行排序
+				[].forEach.call(document.querySelectorAll("#my_channel li"), function(item, index) {
+					var li = item;
+					li.setAttribute('new-data-li', index + 1);
+					li.querySelector('.channel-index').innerText = index + 1;
+				});
+			};
+
+			function getChannels() {
+				var session = JSON.parse(localStorage.getItem('$state'));
+				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/mychannel', {
+					data: {
+						"user_id": session.userId,
+						"jdbcTemplateName": "mysqlTemplate",
+						"pFile": "Personal",
+						"pKey": "recommend",
+						"myKey": "mychannel"
+					},
+					success: function(result){
+						var data = JSON.parse(result);
+						addRecommendChannel(data.listInfo);
+						addMyChannel(data.mychanel);
+					},
+					error: function(xhr,type,errorThrown){						
+						console.error(type);
+					}
+				});
+			}
+			getChannels();
+			
+			function addRecommendChannel(list){		
+				var ul = document.getElementById('recommend_channel');
+				for(var i = 0; i < list.length; i++){
+					var li = document.createElement('li');
+					li.setAttribute('dataId', list[i].id);
+					li.innerHTML = '<div class="channel_item"><div class="channel drag-channel">' + list[i].channel_theme + '</div></div>';
+					ul.appendChild(li);
+				}		
+			}
+			
+			function addMyChannel(list){
+				var ul = document.getElementById('my_channel');
+				for(var i = 0; i < list.length; i++){
+					var li = document.createElement('li');
+					li.setAttribute('data-li', i+1);
+					li.innerHTML = '<div class="channel_item">'
+									+ '<div class="channel drag-channel">' + list[i].channel_theme + '</div>' 
+									+ '<span class="channel-index">' + (i+1) + '</span>' 
+									+ '<span class="mui-icon mui-icon-close icon-remove"></span>' 
+								+ '</div>';
+					ul.appendChild(li);
+				}
+			}
+			
+			window.onload = function(){
+				document.getElementById("edit").addEventListener('tap', function() {
+					init(false, true);
+				});
+				[].forEach.call(document.querySelectorAll(".icon-remove"), function(item, index) {
+					item.addEventListener('tap', function() {
+						this.parentNode.parentNode.removeChild(this.parentNode);
+					});
+				});
+				mui("ul#my_channel li").on('longtap', '.channel', function() {
+					if(document.querySelector("ul#my_channel li .channel_item").className.indexOf('shake') != -1)
+						return;
+					initForSort(false);
+				});
+				setSortable(false);
+			}
+		</script>
+	</body>
+
+</html>

@@ -20,15 +20,13 @@
 			return callback('密码不能为空');
 		}
 		
-		mui.ajax('http://172.168.30.33:8080/mis-app/public/toLogin', {
+		mui.ajax('http://172.168.17.60:8080/mis-app/public/toLogin', {
 			data: loginInfo,
-			success: function(result){
-				console.log(typeof result)
-				console.log(JSON.stringify(result.data))
+			success: function(result){			
 				if(result.status != 0){
 					return callback(result.msg);
 				}else{
-					return owner.createState(loginInfo.phone, callback);
+					return owner.createState(result.data, callback);
 				}
 			},
 			error: function(xhr,type,errorThrown){
@@ -39,10 +37,13 @@
 		});			
 	};
 
-	owner.createState = function(name, callback) {
+	owner.createState = function(userInfo, callback) {
 		var state = owner.getState();
-		state.account = name;
-		state.token = "token123456789";
+		state.userId = userInfo.id;
+		state.account = userInfo.userName;
+		state.phone = userInfo.phone;
+		state.personImages = userInfo.personImages;
+		state.userIntroduced = userInfo.userIntroduced;
 		owner.setState(state);
 		return callback();
 	};
@@ -83,10 +84,13 @@
 	 **/
 	owner.setState = function(state) {
 		state = state || {};
-		localStorage.setItem('$state', JSON.stringify(state));
-		//var settings = owner.getSettings();
-		//settings.gestures = '';
-		//owner.setSettings(settings);
+		try{
+			localStorage.clear('$state');
+			localStorage.setItem('$state', JSON.stringify(state));
+		}catch(e){
+			//TODO handle the exception
+			console.error(e);
+		}
 	};
 
 	var checkEmail = function(email) {

@@ -67,7 +67,7 @@
 					mui.toast('请输入正确的手机号码');
 				}
 				console.log(1212)
-				mui.ajax('http://172.168.17.13:8080/mis-app/public/getVerificationCode', {
+				mui.ajax('http://172.168.17.60:8080/mis-app/public/getVerificationCode', {
 					data: {
 						phone: phoneNum
 					},
@@ -91,7 +91,7 @@
 					return;
 				}
 
-				mui.ajax('http://172.168.17.13:8080/mis-app/public/md5code', {
+				mui.ajax('http://172.168.17.60:8080/mis-app/public/md5code', {
 					data: {
 						userCode: userCode,
 						md5Code: md5Code

@@ -141,7 +141,7 @@
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
 		<script>	
-			mui.init();		
+			mui.init();								
 			
 			//消息通知、历史与收藏
 			var message_detail = null, history_detail = null;
@@ -208,6 +208,14 @@
 				e.stopPropagation();
 				var w = plus.webview.create('../login/login.html', 'login.html');
 				w.show(); // 显示窗口
+			});					
+			
+			window.addEventListener('getUserInfo', function(e){
+				console.log(1)
+				var w = localStorage.getItem('state');
+				console.log(w)
+				var q = localStorage.getItem('$state');
+				console.log(q)
 			});
 		</script>
 	</body>

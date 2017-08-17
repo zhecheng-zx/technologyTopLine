@@ -94,17 +94,24 @@
 						main_loaded_flag = true;
 					});
 					var toMain = function() {
+						var w =  plus.webview.currentWebview();
+						w.close();
+//						clearInterval(id);
+						$.fire(mainPage, 'show', null);
+						mainPage.show("pop-in");
+						$.fire(mainPage, 'getUserInfo');
 						//使用定时器的原因：
 						//可能执行太快，main页面loaded事件尚未触发就执行自定义事件，此时必然会失败
-						var id = setInterval(function () {
-							if(main_loaded_flag){
-								var w =  plus.webview.currentWebview();
-								w.close();
-								clearInterval(id);
-								$.fire(mainPage, 'show', null);
-								mainPage.show("pop-in");
-							}
-						},20);
+//						var id = setInterval(function () {
+//							console.log(main_loaded_flag)
+//							if(main_loaded_flag){
+//								var w =  plus.webview.currentWebview();
+//								w.close();
+//								clearInterval(id);
+//								$.fire(mainPage, 'show', null);
+//								mainPage.show("pop-in");
+//							}
+//						},20);
 					};
 					//检查 "登录状态/锁屏状态" 开始
 					if (settings.autoLogin && state.token && settings.gestures) {
@@ -186,7 +193,6 @@
 							password: md5(passwordBox.value) 
 						};
 						
-						console.log(JSON.stringify(loginInfo))
 						app.login(loginInfo, function(err){
 							if(err){
 								plus.nativeUI.toast(err);
