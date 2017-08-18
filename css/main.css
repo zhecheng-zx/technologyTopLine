@@ -164,6 +164,12 @@
 	padding: 5px 0px;
 }
 
+.comment-box .mui-icon-star{
+	font-size: 20px;
+	color: #ff8920;
+	vertical-align: middle;
+}
+
 .comment-list::before {
 	height: 0px;
 }

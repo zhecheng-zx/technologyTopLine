@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+		<style>
+			.mui-table-view-cell>a:not(.mui-btn) {
+				margin: auto;
+				padding: 0px;
+			}
+			
+			.article-title {
+				font-size: 17px;
+				color: #333;
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				white-space: normal;
+				line-height: 25px;
+				height: 50px;
+			}
+			
+			.article-title.special {
+				height: 25px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				height: 75px;
+				max-width: 103px;
+			}
+			
+			p.mui-ellipsis {
+				font-size: 11px;
+				color: #999;
+				margin-top: 4px;
+			}
+			
+			.mui-media .iconfont {
+				vertical-align: middle;
+			}
+			
+			.mui-media-body ul.mui-grid-view {
+				padding: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view:before {
+				height: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view:after {
+				height: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view li.mui-table-view {
+				display: inline-block;
+				padding: 10px 0 0 0px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-media-body ul.mui-grid-view li:not(:last-child) {
+				padding-right: 5px;
+			}
+			
+			.mui-media-body ul.mui-grid-view li.mui-table-view:before,
+			.mui-media-body ul.mui-grid-view li.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view li.mui-table-view img {
+				max-width: 100%;
+				width: 100%;
+			}
+			
+			.closeempty {
+				color: #dedede;
+			}
+			
+			.mui-popover .remove-box {
+				padding: 10px 10px;
+			}
+			
+			.remove-box .remove-title {
+				font-size: 13px;
+				color: #333333;
+			}
+			
+			.remove-box .remove-item {
+				display: inline-block;
+				padding: 5px 8px;
+				margin-bottom: 10px;
+				font-size: 13px;
+				color: #999999;
+				transition: all .5s ease-in-out;
+			}
+			
+			.remove-box .remove-item.active {
+				color: #ffffff;
+				background-color: #0062CC;
+				border-radius: 50px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn).mui-active {
+				background-color: transparent;
+			}
+			
+			.img-li img {
+				height: 180px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content mui-scroll-wrapper" id="articleList">
+			<div class="mui-scroll">
+				<ul class="mui-table-view" id="articleUl">
+				</ul>
+			</div>
+		</div>
+		<div id="popover" class="mui-popover">
+			<div class="remove-box">
+				<h3 class="remove-title">可选理由，精准屏蔽：</h3>
+				<a class="remove-item" href="javascript:;">看过了</a>
+				<a class="remove-item" href="javascript:;">内容太水</a>
+				<a class="remove-item" href="javascript:;">不感兴趣</a>
+				<a class="remove-item" href="javascript:;">拉黑作者：乌托邦</a>
+				<a class="remove-item" href="javascript:;">不想看：科技</a>
+			</div>
+		</div>
+		<script src="../../vendor/jQuery/jquery.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/vue.min.js"></script>
+		<script charset="UTF-8">
+			var pageNum = 0,
+				pageSize = 10;
+			mui.init({
+				pullRefresh: {
+					container: '#articleList',
+					down: {
+						style: 'circle',
+						color: '#333', //可选，默认“#2BD009” 下拉刷新控件颜色
+						height: '50px', //可选,默认50px.下拉刷新控件的高度,
+						range: '100px', //可选 默认100px,控件可下拉拖拽的范围
+						offset: '0px', //可选 默认0px,下拉刷新控件的起始位置
+						callback: pulldownRefresh
+					},
+					up: {
+						height: 50,
+						auto: true,
+						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			function pullupRefresh() {
+				pageNum = pageNum + 　1;
+				getArticleList('after');
+			}
+
+			function addData(position, articleList) {
+				var table = $('#articleUl');
+				for(var i = 0; i < articleList.length; i++) {
+					console.log(articleList[i].title)
+					var img = articleList[i].images;
+					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
+
+					//根据图片个数 显示不同的样式列表
+					if(!img) {
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title">' + articleList[i].title + '</div>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
+							'</div>' +
+							'</a>');
+					} else if(img.length < 3) {
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title">' + articleList[i].title + '</div>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
+							'</div>' +
+							'</a>');
+					} else {
+						var imgUl = '<ul class="mui-table-view mui-grid-view">';
+						for(var j = 0; j < 3; j++) {
+							imgUl = imgUl + '<li class="mui-table-view mui-media mui-col-xs-4"><img class="mui-media-object" src="' + img[j] + '"></li>';
+						}
+						imgUl += '</ul>';
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title special">' + articleList[i].title + '</div>' +
+							imgUl +
+							'</div>' +
+							'</a>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span>' +
+							'</p>'
+						);
+					}
+
+					//此处根据具体的文章性质  判断是否添加 new hot标志。
+					if(i == 1) {
+						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-new red"></span>&nbsp;&nbsp;');
+					}
+					if(i == 2) {
+						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-hot2 red"></span>&nbsp;&nbsp;');
+					}
+
+					//有的页面需要 ×按钮  有的不需要 根据参数判断是否显示
+					//					var self = plus.webview.currentWebview();
+					if(1 == 1) {
+						$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty"><span class="mui-icon mui-icon-closeempty"></span></p>');
+					}
+
+					if(position == 'before') {
+						table.prepend($li);
+					} else {
+						table.append($li);
+					}
+					//					var wn = plus.webview.currentWebview();
+					//					if(pageNum == 1 && !wn.navName){
+					//						table.prepend('<li class="img-li"><img src="../../images/muwu.jpg"></li>');
+					//					}
+				}
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				pageNum = 1;
+				getArticleList('before');
+			}
+
+			/**
+			 * 打开新闻详情
+			 * 
+			 * @param {String} guid 新闻ID
+			 * @param {String} title  新闻标题
+			 */
+
+			function open_detail(guid, title, source, time) {
+				mui.openWindow({
+					url: 'articleDetail.html',
+					id: 'articleDetail',
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						title: title, //扩展参数
+						guid: guid,
+						source: 　source,
+						time: time
+					}
+				});
+			}
+
+			$(document).on('tap', '.mui-table-view li>a', function(e) {
+				e.stopPropagation();
+				e.preventDefault();
+				var _this = $(this);
+				var guid = _this.attr('data-guid'),
+					title = _this.find('.article-title').text().trim(),
+					source = _this.find('.source').text().trim(),
+					time = _this.find('.time').text().trim();
+				open_detail(guid, title, source, time);
+			});
+
+			$(document).on("tap", ".remove-box>a.remove-item", function() {
+				$(this).addClass("active").siblings(".remove-item").removeClass("active");
+			});
+
+			$(document).on('tap', '.closeempty', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				mui('.mui-popover').popover('toggle', this);
+			});
+
+			function plusReady() {
+				var wn = plus.webview.currentWebview();
+				if(wn.closeFlag === false) {
+					$('.mui-icon-closeempty').hide();
+				}
+			}
+
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+
+			function getArticleList(position) {
+				$('.img-li').remove();
+				var session = JSON.parse(localStorage.getItem('$state'));
+				if(!session.userId) {
+					mui.toast('请先登录');
+					return;
+				}
+				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/containall', {
+					data: {
+						"jdbcTemplateName": "mysqlTemplate",
+						"pFile": "Personal",
+						"pKey": "personalcollect",
+						"user_id": session.userId
+					},
+					type: 'post', //HTTP请求类型
+					success: function(result) {
+						var status = result.status;
+						if(status == 0) {
+							mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+							return;
+						}
+
+						if(position == "after") {
+							mui('#articleList').pullRefresh().endPullup(false);
+						} else {
+							mui('#articleList').pullRefresh().endPulldown();
+						}
+						
+						var list = JSON.parse(result.data);
+						
+						if(list.length > 0) {
+							addData(position, list);
+						} else {
+							if(position == 'after') {
+								mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.error(xhr);
+						console.error(type);
+						console.error(JSON.stringify(errorThrown));
+						mui('#articleList').pullRefresh().endPullup(true);
+					}
+				});
+			}
+
+			function formatDate(date) {
+				var date1 = new Date(date),
+					now = new Date();
+				var milliseconds = now.getTime() - date1.getTime(),
+					timeSpanStr = '';
+				if(milliseconds <= 1000 * 60 * 1) {
+					timeSpanStr = '刚刚';
+				} else if(1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
+					timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前';
+				} else if(1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
+					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
+				} else if(1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
+					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
+				} else {
+					timeSpanStr = date.substring(5, 10) + ' ' + date.substring(11, 16);
+				}
+				return timeSpanStr;
+			}
+		</script>
+	</body>
+
+</html>

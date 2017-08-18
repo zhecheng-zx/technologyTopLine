@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<title></title>		
+		<title></title>
 		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
@@ -21,7 +21,7 @@
 				background-color: rgba(0, 0, 0, .3);
 			}
 			
-			.mui-content .kr-article-article img{
+			.mui-content .kr-article-article img {
 				width: 100%;
 			}
 		</style>
@@ -138,11 +138,11 @@
 			<li class="mui-tab-item">
 				<input type="text" placeholder="我来评论一句" class="mui-input-clear write-comment" />
 			</li>
-			<li class="mui-tab-item">
-				<span class="mui-icon iconfont icon-shoucang orange"></span> 收藏
+			<li class="mui-tab-item collect-li">
+				<a class="mui-icon mui-icon-star orange collect"></a> 收藏
 			</li>
 			<li class="mui-tab-item" id="share">
-				<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
+				<a class="mui-icon iconfont icon-fenxiang green"></a> 分享
 			</li>
 		</nav>
 
@@ -150,7 +150,8 @@
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script type="text/javascript">
-			mui.init({		
+			var collectFlag = 0;
+			mui.init({
 				pullRefresh: {
 					container: '.mui-content',
 					up: {
@@ -211,6 +212,8 @@
 				if(!guid) {
 					return;
 				}
+				
+				var session = JSON.parse(localStorage.getItem('$state'));
 
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
 				vm.title = extras.title;
@@ -218,18 +221,28 @@
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
 				vm.content = '';
-				
-				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
+
+				mui.ajax('http://172.168.17.60:8080/mis-app/Detail/articleInfo', {
 					data: {
-						id: guid
+						"id": guid,
+						"jdbcTemplateName": "mysqlTemplate",
+						"pFile": "Personal",
+						"pKey": "isnot",
+						"user_id": session.userId
 					},
-					success: function(data) {
-						if(data){
+					success: function(result) {						
+						if(result.data) {							
+							var data = JSON.parse(result.data);
 							vm.content = data.content;
 							msg.href = data.url;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
 						}
+						
+						if(result.status === 1){
+							$('.collect').removeClass('mui-icon-star').addClass('iconfont').addClass('icon-shoucang');
+						}
+						collectFlag = result.status;
 					},
 					error: function(xhr, type, errorThrown) {
 						//异常处理；
@@ -301,7 +314,7 @@
 					}
 				});
 			});
-			
+
 			function shareMessage(share, ex) {
 				msg.extra = {
 					scene: ex
@@ -317,17 +330,21 @@
 			}
 
 			var wn = null;
-			function plusReady(){
+
+			function plusReady() {
 				// 预创建新窗口（显示在可视区域外）, 高度有提问
-				wn=plus.webview.create('keyboard.html', 'keyboard', {top: '250px', bottom: '0px'});
+				wn = plus.webview.create('keyboard.html', 'keyboard', {
+					top: '250px',
+					bottom: '0px'
+				});
 			}
-			if(window.plus){
+			if(window.plus) {
 				plusReady();
-			}else{
+			} else {
 				document.addEventListener('plusready', plusReady, false);
 			}
-			
-			var callback = function(){				
+
+			var callback = function() {
 				wn.hide();
 			}
 			var mask = mui.createMask(callback);
@@ -338,7 +355,54 @@
 				mask.show();
 				wn.show();
 			});
-					
+
+			//收藏id
+			mui('.comment-box').on('tap', '.collect-li', function() {
+				var session = JSON.parse(localStorage.getItem('$state'));
+				if(!session.userId) {
+					mui.toast('请先登录');
+					return;
+				}
+				var extras = plus.webview.currentWebview();
+				var guid = extras.guid; //文章id  文章列表也传参过来的
+				if(!guid) {
+					mui.toast('文章ID为空');
+					return;
+				}
+				
+				var param = {
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "Personal",
+					"user_id": session.userId,
+					"article_id": guid
+				};
+				
+				if(collectFlag === 0){
+					param.pKey = "addcollect";
+				}else{
+					param.pKey = "deletecollect";
+				}
+				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+					type: 'post',
+					data: param,
+					success: function(result) {
+						var data = JSON.parse(result);
+						if(data.status == 'success') {
+							if(collectFlag === 0){
+								//变成收藏
+								$('.collect').remove('mui-icon-star').addClass('iconfont').addClass('icon-shoucang');
+								collectFlag = 1;
+								mui.toast('收藏成功');
+							}else{
+								$('.collect').removeClass('iconfont').removeClass('icon-shoucang').addClass('mui-icon-star');
+								collectFlag = 0;
+								mui.toast('取消收藏');
+							}
+						}
+					}
+				});
+			});
 		</script>
 	</body>
+
 </html>
