@@ -92,8 +92,7 @@
 						mui.toast('两次输入密码不一致');
 						return;
 					}
-
-					console.log(md5(pwd) + '-----' + userName + '-----' + md5Code + '-----' + phoneNum + '-------------' + userImg)
+					
 					mui.ajax('http://172.168.17.60:8080/mis-app/public/register', {
 						type: 'POST',
 						data: {
@@ -104,7 +103,6 @@
 							personImages: userImg
 						},
 						success: function(result) {
-							console.log(JSON.stringify(result))
 							var status = result.status;
 							if(status == 0) {
 								mui.toast('注册成功');

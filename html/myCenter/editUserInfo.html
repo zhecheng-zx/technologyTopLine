@@ -1,47 +1,64 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
 		<style type="text/css">
+			.mui-bar.mui-bar-nav {
+				background-color: #3385ff;
+			}
+			
+			.mui-title {
+				color: #ffffff;
+			}
+			
+			.mui-text-white {
+				color: #ffffff;
+				border: none !important;
+			}
+			
 			.mui-content {
 				padding: 10px;
 			}
-			.mui-row>div{
-				height: 40px;
-				line-height: 40px;
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			a.submit {
+				height: 100%;
+				line-height: 44px;
+			}
+			
+			.mui-input-clear {
+				margin-top: 10px;
+				color: #999;
 			}
 		</style>
 	</head>
+
 	<body>
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>			
-			<h1 class="mui-title">编辑用户名</h1>
+		<header class="mui-bar mui-bar-nav mui-clearfix">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
+			<h1 class="mui-title" id="editTitle">编辑用户名</h1>
+			<a href="javascript:;" class="mui-pull-right mui-text-white submit" id="submit">完成</a>
 		</header>
 		<div class="mui-content">
-			<div class="mui-input-group">
-				<div class="mui-row">
-					<div class="mui-col-sm-10 mui-col-xs-10">
-						 <div class="mui-input-row">
-					  		<textarea id='textarea' class="mui-input-clear" placeholder=""></textarea>
-					    </div>
-						
-					</div>
-					<div class="mui-col-sm-2 mui-col-xs-2">
-						<a href="javascritp:;" class="submit">提交</a>
-					</div>
-				</div>
-			</div>
+			<input type="text" id="editName" class="mui-input-clear" />
+			<textarea id='editInfo' class="mui-input-clear" style="display: none;" rows="2"></textarea>
 		</div>
-		
+
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/app.js"></script>
 		<script>
-			mui.init();		
-			
+			var originalVal = '';
+			mui.init();
+
 			var nativeWebview, imm, InputMethodManager;
 			var initNativeObjects = function() {
 				if(mui.os.android) {
@@ -65,26 +82,76 @@
 						"setKeyboardDisplayRequiresUserAction": false
 					});
 				}
-				setTimeout(function() {
-					//此处可写具体逻辑设置获取焦点的input
-					var inputElem = document.querySelector('textarea');
-					inputElem.focus();
-				}, 200);
 			};
+
+			var extras = {};
 			mui.plusReady(function() {
 				initNativeObjects();
 				showSoftInput();
-			});
-			
-			//发布功能
-			mui('.mui-content').on('tap', '.submit', function(){
-				var comments = $('input').val();
-				if(!comments){
-					plus.toast('请输入评论');
-				}else{
-					//ajax请求后台 保存评论后   在文章详情的评论列表前插入该评论
+				extras = plus.webview.currentWebview();
+				originalVal = extras.text;
+				var inputElem = '';
+				if(extras.param == 'name') {
+					document.getElementById('editInfo').style.display = 'none';
+					document.getElementById('editName').style.display = 'inline-block';
+					document.getElementById('editName').value = extras.text;
+					inputElem = document.querySelector('input');
+				} else {
+					document.getElementById('editInfo').style.display = 'inline-block';
+					document.getElementById('editName').style.display = 'none';
+					document.getElementById('editInfo').value = extras.text;
+					inputElem = document.querySelector('textarea');
 				}
+				inputElem.focus();
+			});
+
+			mui('.mui-bar-nav').on('tap', '.submit', function() {
+				var newVal = '', 
+					pkey = '',
+					state = JSON.parse(localStorage.getItem('$state'));
+				var param = {
+					"id": state.userId,
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "Personal"
+				}
+				if(extras.param == 'name') {
+					newVal = document.getElementById('editName').value;
+					pkey = 'name';
+					param.username = newVal;
+					state.account = newVal;
+				} else {
+					newVal = document.getElementById('editInfo').value;
+					pkey = 'introduce';
+					param.userIntroduced = newVal;
+					state.userIntroduced = newVal;
+				}
+				param.pKey = pkey;
+
+				if(newVal == originalVal) {
+					mui.back();
+					return;
+				}
+				
+				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+					data: param,
+					type: 'post',
+					success: function(result){
+						result = JSON.parse(result);
+						if(result.status == 'success'){
+							app.setState(state);
+							var prevW = plus.webview.getWebviewById('userSet');
+							prevW.reload(true);
+							mui.back();
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.error(xhr);
+						console.error(type);
+					}
+				})
 			});
 		</script>
 	</body>
+
 </html>

@@ -172,7 +172,6 @@
 			function addData(position, articleList) {
 				var table = $('#articleUl');
 				for(var i = 0; i < articleList.length; i++) {
-					console.log(articleList[i].title)
 					var img = articleList[i].images;
 					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
 
@@ -234,10 +233,6 @@
 					} else {
 						table.append($li);
 					}
-					//					var wn = plus.webview.currentWebview();
-					//					if(pageNum == 1 && !wn.navName){
-					//						table.prepend('<li class="img-li"><img src="../../images/muwu.jpg"></li>');
-					//					}
 				}
 			}
 			/**
@@ -322,22 +317,9 @@
 					},
 					type: 'post', //HTTP请求类型
 					success: function(result) {
-						var status = result.status;
-						if(status == 0) {
-							mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
-							return;
-						}
-
-						if(position == "after") {
-							mui('#articleList').pullRefresh().endPullup(false);
-						} else {
-							mui('#articleList').pullRefresh().endPulldown();
-						}
-						
-						var list = JSON.parse(result.data);
-						
-						if(list.length > 0) {
-							addData(position, list);
+						mui('#articleList').pullRefresh().endPullup(false);												
+						if(result.length > 0) {
+							addData(position, result);
 						} else {
 							if(position == 'after') {
 								mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
@@ -348,7 +330,6 @@
 						//异常处理；
 						console.error(xhr);
 						console.error(type);
-						console.error(JSON.stringify(errorThrown));
 						mui('#articleList').pullRefresh().endPullup(true);
 					}
 				});

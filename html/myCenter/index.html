@@ -83,12 +83,12 @@
 						<div class="img-box mui-pull-left">
 							<img id="head-img" class="userImg">
 						</div>
-						<div class="mui-media-body noLoginBox">
+						<div class="mui-media-body noLoginBox" style="display: none;">
 							登录科技头条 体验更多功能
 						</div>
-						<div class="mui-media-body userNameBox" style="display: none;">
-							<h4 class="userName">卖火柴的小女孩</h4>
-							<h6 class="info mui-ellipsis">这家伙很懒，什么都么留下这家伙很懒，什么都么留下</h6>
+						<div class="mui-media-body userNameBox">
+							<h4 class="userName" id="userName"></h4>
+							<h6 class="info mui-ellipsis" id="userInfo"></h6>
 						</div>
 					</a>
 				</li>
@@ -124,7 +124,7 @@
 		    <div class="mui-card">
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
-		                <a class="mui-navigate-right" data-guid="feedback">		
+		                <a class="mui-navigate-right" data-guid="chat">		
 		                	<span class="mui-icon mui-icon-compose icon-green"></span>
 		                    	用户反馈
 		                </a>
@@ -171,19 +171,7 @@
 				});
 				simulateLoading(100);
 			});
-			function defaultImg() {
-				if(mui.os.plus){
-					plus.io.resolveLocalFileSystemURL("_doc/head.jpg", function(entry) {
-						var s = entry.fullPath + "?version=" + new Date().getTime();;
-						document.getElementById("head-img").src = s;
-					}, function(e) {
-						document.getElementById("head-img").src = '../../images/head-temp.png';
-					})
-				}else{
-					document.getElementById("head-img").src = '../../images/head-temp.png';
-				}
-			}
-			defaultImg();
+
 			/**
 			 * 通过随机数模拟业务进度，真实业务中需根据实际进度修改
 			 * @param {Object} container
@@ -210,12 +198,26 @@
 				w.show(); // 显示窗口
 			});					
 			
-			window.addEventListener('getUserInfo', function(e){
-				console.log(1)
-				var w = localStorage.getItem('state');
-				console.log(w)
+			window.addEventListener('show', function(e){
 				var q = localStorage.getItem('$state');
 				console.log(q)
+			});
+			
+			
+			mui.plusReady(function(){
+				var state = localStorage.getItem('$state');
+				if(state){
+					$('.noLoginBox').hide();
+					$('.userNameBox').show();
+					state = JSON.parse(state);
+					document.getElementById('userName').innerText = state.account;
+					document.getElementById('userInfo').innerText = state.userIntroduced ? state.userIntroduced : '暂无简介';
+					document.getElementById("head-img").src = state.personImages;
+				}else{
+					$('.noLoginBox').show();
+					$('.userNameBox').hide();
+					document.getElementById("head-img").src = '../../images/head-temp.png';
+				}
 			});
 		</script>
 	</body>

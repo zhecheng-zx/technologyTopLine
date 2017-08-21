@@ -139,10 +139,10 @@
 				<input type="text" placeholder="我来评论一句" class="mui-input-clear write-comment" />
 			</li>
 			<li class="mui-tab-item collect-li">
-				<a class="mui-icon mui-icon-star orange collect"></a> 收藏
+				<span class="mui-icon mui-icon-star orange collect"></span> 收藏
 			</li>
 			<li class="mui-tab-item" id="share">
-				<a class="mui-icon iconfont icon-fenxiang green"></a> 分享
+				<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
 			</li>
 		</nav>
 
@@ -230,7 +230,7 @@
 						"pKey": "isnot",
 						"user_id": session.userId
 					},
-					success: function(result) {						
+					success: function(result) {
 						if(result.data) {							
 							var data = JSON.parse(result.data);
 							vm.content = data.content;

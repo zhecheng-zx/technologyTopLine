@@ -99,9 +99,8 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{
 	text-align: center;
 }
 .feedback .image-item .image-up:after{
-	font-family: "微软雅黑";
 	content: '+';
-	font-size: 60px;
+	font-size: 30px;
 }
 .feedback .image-item.space .image-close {
 	display: none;

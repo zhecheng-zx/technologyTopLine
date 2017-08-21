@@ -165,9 +165,9 @@
 }
 
 .comment-box .mui-icon-star{
-	font-size: 20px;
-	color: #ff8920;
-	vertical-align: middle;
+    font-size: 23px;
+    color: #ff8920;
+    vertical-align: text-bottom;
 }
 
 .comment-list::before {

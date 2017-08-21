@@ -366,6 +366,7 @@
 					}
 				}
 			});
+			
 			$(document).ready(function() {
 				//猜你想搜的   查看更多是否显示
 				var $box = $('.more-box');
@@ -427,6 +428,7 @@
 					inputElem.focus();
 				}, 250);
 			};
+			
 			mui.plusReady(function() {
 				initNativeObjects();
 				showSoftInput();
@@ -446,14 +448,17 @@
 				$('.mui-card-content').show();
 			});
 
+			/**
+			 * 改变输入框的值
+			 */
 			mui('.mui-content').on('change', '#searchInput', function(e) {
 				var val = $(this).val();
-				console.log(val)
 				if(!val) {
 					$('#articleUl').empty();
 					$('.hide-wanna-search').hide();
 					$('.show-wanna-search').show();
 					$('.mui-card-content').show();
+					pageNum = 1;
 				}
 			});
 
@@ -493,6 +498,7 @@
 				$('.wanna-search-box').show();
 				$('.search-history').show();
 				$('.search-content').empty().hide();
+				pageNum = 1;
 			});
 
 			mui('.history-ul').on('tap', '.mui-icon-closeempty', function() {
