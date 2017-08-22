@@ -205,8 +205,8 @@
 			
 			
 			mui.plusReady(function(){
-				var state = localStorage.getItem('$state');
-				if(state){
+				var state = localStorage.getItem('$state');				
+				if(state != '{}'){
 					$('.noLoginBox').hide();
 					$('.userNameBox').show();
 					state = JSON.parse(state);

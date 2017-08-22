@@ -9,70 +9,81 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<style type="text/css">
-			.mui-content.mui-scroll-wrapper{
-				background-color:#ffffff;
-			}
-			.mui-table-view-cell>a:not(.mui-btn).mui-active{
+			.mui-content.mui-scroll-wrapper {
 				background-color: #ffffff;
 			}
-			.mui-media .mui-media-body{
+			
+			.mui-table-view-cell>a:not(.mui-btn).mui-active {
+				background-color: #ffffff;
+			}
+			
+			.mui-media .mui-media-body {
 				font-size: 13px;
-				color:#333333;
+				color: #333333;
 			}
-			.mui-media .mui-media-body .mui-ellipsis{
-				font-size:11px;
-				color:#999999;
+			
+			.mui-media .mui-media-body .mui-ellipsis {
+				font-size: 11px;
+				color: #999999;
 			}
-			.mui-media .mui-media-footer{
+			
+			.mui-media .mui-media-footer {
 				overflow: hidden;
 				padding-top: 10px;
 			}
-			.text-gray{
-				color:#666666;
+			
+			.text-gray {
+				color: #666666;
 			}
-			.mui-media-footer .text-gray{
+			
+			.mui-media-footer .text-gray {
 				font-size: 13px;
 			}
+			
 			.mui-media-footer>img,
-			.mui-media-footer>video{
+			.mui-media-footer>video {
 				width: 100%;
 			}
+			
 			video {
-            object-position: 0px 0px;
-            width: 100%;
-        }
-
-        .videoBox {
-            position: relative;
-            width: 100%;
-            height:180px;
-        }
-
-        .playBtn {
-        		width: 36px;
-        		height:36px;
-            position: absolute !important;
-            left: 50%;
-            top: 50%;
-            margin-left: -18px;
-            margin-top: -18px;
-            display: block;
-            border: none;
-            z-index: 1000;
-        }
-        .poster {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height:100%;
-            z-index: 1;
-        }
-        .mui-preview-image.mui-fullscreen {
+				object-position: 0px 0px;
+				width: 100%;
+			}
+			
+			.videoBox {
+				position: relative;
+				width: 100%;
+				height: 180px;
+			}
+			
+			.playBtn {
+				width: 36px;
+				height: 36px;
+				position: absolute !important;
+				left: 50%;
+				top: 50%;
+				margin-left: -18px;
+				margin-top: -18px;
+				display: block;
+				border: none;
+				z-index: 1000;
+			}
+			
+			.poster {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
 				position: fixed;
 				z-index: 20;
 				background-color: #000;
 			}
+			
 			.mui-preview-header,
 			.mui-preview-footer {
 				position: absolute;
@@ -80,14 +91,17 @@
 				left: 0;
 				z-index: 10;
 			}
+			
 			.mui-preview-header {
 				height: 44px;
 				top: 0;
 			}
+			
 			.mui-preview-footer {
 				height: 50px;
 				bottom: 0px;
 			}
+			
 			.mui-preview-header .mui-preview-indicator {
 				display: block;
 				line-height: 25px;
@@ -99,6 +113,7 @@
 				border-radius: 12px;
 				font-size: 16px;
 			}
+			
 			.mui-preview-image {
 				display: none;
 				-webkit-animation-duration: 0.5s;
@@ -106,19 +121,23 @@
 				-webkit-animation-fill-mode: both;
 				animation-fill-mode: both;
 			}
+			
 			.mui-preview-image.mui-preview-in {
 				-webkit-animation-name: fadeIn;
 				animation-name: fadeIn;
 			}
+			
 			.mui-preview-image.mui-preview-out {
 				background: none;
 				-webkit-animation-name: fadeOut;
 				animation-name: fadeOut;
 			}
+			
 			.mui-preview-image.mui-preview-out .mui-preview-header,
 			.mui-preview-image.mui-preview-out .mui-preview-footer {
 				display: none;
 			}
+			
 			.mui-zoom-scroller {
 				position: absolute;
 				display: -webkit-box;
@@ -139,26 +158,32 @@
 				margin: 0;
 				-webkit-backface-visibility: hidden;
 			}
+			
 			.mui-zoom {
 				-webkit-transform-style: preserve-3d;
 				transform-style: preserve-3d;
 			}
+			
 			.mui-slider .mui-slider-group .mui-slider-item img {
 				width: auto;
 				height: auto;
 				max-width: 100%;
 				max-height: 100%;
 			}
+			
 			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
 				width: 100%;
 			}
+			
 			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
 				display: inline-table;
 			}
+			
 			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
 				display: table-cell;
 				vertical-align: middle;
 			}
+			
 			.mui-preview-loading {
 				position: absolute;
 				width: 100%;
@@ -167,9 +192,11 @@
 				left: 0;
 				display: none;
 			}
+			
 			.mui-preview-loading.mui-active {
 				display: block;
 			}
+			
 			.mui-preview-loading .mui-spinner-white {
 				position: absolute;
 				top: 50%;
@@ -179,10 +206,12 @@
 				height: 50px;
 				width: 50px;
 			}
+			
 			.mui-preview-image img.mui-transitioning {
 				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
 				transition: transform 0.5s ease, opacity 0.5s ease;
 			}
+			
 			@-webkit-keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -191,6 +220,7 @@
 					opacity: 1;
 				}
 			}
+			
 			@keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -199,6 +229,7 @@
 					opacity: 1;
 				}
 			}
+			
 			@-webkit-keyframes fadeOut {
 				0% {
 					opacity: 1;
@@ -207,6 +238,7 @@
 					opacity: 0;
 				}
 			}
+			
 			@keyframes fadeOut {
 				0% {
 					opacity: 1;
@@ -215,56 +247,68 @@
 					opacity: 0;
 				}
 			}
+			
 			img {
 				max-width: 100%;
 				height: auto;
 			}
-			.mui-status-bottom{
+			
+			.mui-status-bottom {
 				padding: 2px 0;
 			}
+			
 			.mui-status-bottom:before,
-			.mui-status-bottom:after{
+			.mui-status-bottom:after {
 				display: table;
 				content: " ";
 			}
-			.mui-status-bottom:after{
+			
+			.mui-status-bottom:after {
 				clear: both;
 			}
-			.mui-status-bottom .mui-status-item{
+			
+			.mui-status-bottom .mui-status-item {
 				display: inline-block;
 				margin-right: 10px;
 				font-size: 11px;
-				color:#999999;
+				color: #999999;
 			}
-			.mui-status-bottom .closeempty{
+			
+			.mui-status-bottom .closeempty {
 				float: right;
 				font-size: 24px;
-				color:#dedede;
+				color: #dedede;
 			}
-			.mui-popover .remove-box{
+			
+			.mui-popover .remove-box {
 				padding: 10px 10px;
 			}
-			.remove-box .remove-title{
+			
+			.remove-box .remove-title {
 				font-size: 13px;
-				color:#333333;
+				color: #333333;
 			}
-			.remove-box .remove-item{
+			
+			.remove-box .remove-item {
 				display: inline-block;
 				padding: 5px 8px;
 				margin-bottom: 10px;
 				font-size: 13px;
-				color:#999999;
+				color: #999999;
 				transition: all .5s ease-in-out;
 			}
-			.remove-box .remove-item.active{
-				color:#ffffff;
-				background-color:#0062CC;
+			
+			.remove-box .remove-item.active {
+				color: #ffffff;
+				background-color: #0062CC;
 				border-radius: 50px;
 			}
-			.imgBox>div:nth-child(odd){
+			
+			.imgBox>div:nth-child(odd) {
 				padding-right: 5px;
 			}
-			.imgBox>div:nth-child(even){
+			
+			.imgBox>div:nth-child(even) {
 				padding-left: 5px;
 			}
 		</style>
@@ -276,10 +320,10 @@
 			<div class="mui-scroll">
 				<!--数据列表-->
 				<ul class="mui-table-view">
-					
+
 				</ul>
 			</div>
-		</div> 
+		</div>
 		<div id="popover" class="mui-popover">
 			<div class="remove-box">
 				<h3 class="remove-title">可选理由，精准屏蔽：</h3>
@@ -295,6 +339,9 @@
 		<script src="../../js/mui.zoom.js"></script>
 		<script src="../../js/mui.previewimage.js"></script>
 		<script>
+			var pageNum = 0,
+				pageSize = 10;
+
 			mui.init({
 				pullRefresh: {
 					container: '#pullrefresh',
@@ -303,6 +350,8 @@
 					},
 					up: {
 						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',
+						auto: true,
 						callback: pullupRefresh
 					}
 				}
@@ -314,27 +363,27 @@
 				setTimeout(function() {
 					var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
+					for(var i = cells.length, len = i + 3; i < len; i++) {
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell mui-media';
-						var _card='';
-						_card+='<a href="javascript:;">';
-						_card+='<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">';
-						_card+='<div class="mui-media-body">';
-						_card+='卖女孩的小火柴';
-						_card+='<p class="mui-ellipsis">20分钟前</p>';
-						_card+='</div>';
-						_card+='<div class="mui-media-footer">';
-						_card+='<p class="text-gray mui-ellipsis-2">国务院总理李克强在人民大会堂三楼金色大厅会见采访十二届全国人大四次会议的中外记者，并回答记者提出的问题</p>';
-						_card+='</div>';
-						_card+='<div class="mui-media-footer">';
-						_card+='<img src="../../images/ad.png" data-preview-src="" data-preview-group="1" />';
-						_card+='</div>';
-						_card+='<div class="mui-status-bottom">';
-						_card+='<span class="mui-status-item">阅读量：<span class="number">100</span></span>';
-						_card+='<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
-						_card+='</div>';
-						_card+='</a>';
+						var _card = '';
+						_card += '<a href="javascript:;">';
+						_card += '<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">';
+						_card += '<div class="mui-media-body">';
+						_card += '卖女孩的小火柴';
+						_card += '<p class="mui-ellipsis">20分钟前</p>';
+						_card += '</div>';
+						_card += '<div class="mui-media-footer">';
+						_card += '<p class="text-gray mui-ellipsis-2">国务院总理李克强在人民大会堂三楼金色大厅会见采访十二届全国人大四次会议的中外记者，并回答记者提出的问题</p>';
+						_card += '</div>';
+						_card += '<div class="mui-media-footer">';
+						_card += '<img src="../../images/ad.png" data-preview-src="" data-preview-group="1" />';
+						_card += '</div>';
+						_card += '<div class="mui-status-bottom">';
+						_card += '<span class="mui-status-item">阅读量：<span class="number">100</span></span>';
+						_card += '<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
+						_card += '</div>';
+						_card += '</a>';
 						li.innerHTML = _card;
 						//下拉刷新，新纪录插到最前面；
 						table.insertBefore(li, table.firstChild);
@@ -347,66 +396,10 @@
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell mui-media';
-						var _card='';
-						_card+='<a href="javascript:;">';
-						_card+='<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">';
-						_card+='<div class="mui-media-body">';
-						_card+='卖女孩的小火柴';
-						_card+='<p class="mui-ellipsis">20分钟前</p>';
-						_card+='</div>';
-						_card+='<div class="mui-media-footer">';
-						_card+='<p class="text-gray mui-ellipsis-2">国务院总理李克强在人民大会堂三楼金色大厅会见采访十二届全国人大四次会议的中外记者，并回答记者提出的问题</p>';
-						_card+='</div>';
-						_card+='<div class="mui-media-footer">';
-						if(i!=0){
-							//TODO 图片显示逻辑： 后台传的数据 小于四张图 显示第一张  大于等于四张图  显示前四张 
-							//暂时这样判断
-							if(i%2 == 0){
-								_card+='<img src="../../images/ad.png" data-preview-src="" data-preview-group="1"/>';	
-							}else{
-								_card+='<div class="mui-row imgBox">' 
-										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
-											+ '<img src="../../images/muwu.jpg" data-preview-src="" data-preview-group="2"/>' 
-										+ '</div>'
-										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
-											+ '<img src="../../images/cbd.jpg" data-preview-src="" data-preview-group="2"/>' 
-										+ '</div>'
-										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
-											+ '<img src="../../images/shuijiao.jpg" data-preview-src="" data-preview-group="2"/>' 
-										+ '</div>'
-										+ '<div class="mui-col-sm-6 mui-col-xs-6">' 
-											+ '<img src="../../images/yuantiao.jpg" data-preview-src="" data-preview-group="2"/>'
-										+ '</div>'
-									+ '</div>'
-							}
-						}else{
-							_card+='<div class="videoBox">';
-						    _card+='<img class="playBtn" src="../../images/playBtn.png" />';
-						    _card+='<img class="poster" src="../../images/ad.png" alt="" />';
-						    _card+='<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" poster="../../images/ad.png" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
-					        _card+='<source type="video/mp4" src="../../images/mda-hg1dpy13qt8cdqhn.mp4" />';
-						    _card+='</video>';
-							_card+='</div>';
-						}
-						_card+='</div>';
-						_card+='<div class="mui-status-bottom">';
-						_card+='<span class="mui-status-item">阅读量：<span class="number">100</span></span>';
-						_card+='<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
-						_card+='</div>';
-						_card+='</a>';
-						li.innerHTML = _card;
-						table.appendChild(li);
-					}
-				}, 1500);
+				pageNum = pageNum + 1;
+				getStoryList();
 			}
-			if (mui.os.plus) {
+			if(mui.os.plus) {
 				mui.plusReady(function() {
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				});
@@ -415,17 +408,99 @@
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				});
 			}
-			$(document).on("tap",".playBtn",function(e){
+			$(document).on("tap", ".playBtn", function(e) {
 				e.preventDefault();
 				$(this).addClass("mui-hidden").next(".poster").addClass("mui-hidden");
 				$(this).parent().find("video").height($(this).parent().height());
 				$(this).parent().find("video")[0].play();
 				console.log($(this).parent().find("video")[0].src);
 			});
-			$(document).on("tap",".remove-box>a.remove-item",function(){
+			$(document).on("tap", ".remove-box>a.remove-item", function() {
 				$(this).addClass("active").siblings(".remove-item").removeClass("active");
 			});
 			mui.previewImage();
+
+			function getStoryList() {
+				var param = {
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "ScienceStory",
+					"pKey": "containall",
+					"pageNo": pageNum,
+					"pageSize": pageSize,
+					"order": "",
+					"queryTermStr": "",
+					"type":"mysql"
+				}
+				mui.ajax('http://172.168.17.60:8080/mis-app/ScienceStory/pageSearch', {
+					data: param,
+					success: function(result) {
+						var data = JSON.parse(result);
+						var list = data.listInfo.list;
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); 
+						if(list.length > 0){
+							addData(list);
+						}else{
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.error(JSON.stringify(xhr))
+						console.error(type)
+					}
+				});
+			}
+			
+			function addData(list){
+				var table = document.body.querySelector('.mui-table-view');
+				for(var i = 0; i < list.length; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						var _card = '';
+						_card += '<a href="javascript:;">';
+						_card += '<img class="mui-media-object mui-pull-left" src="' + list[i].personimages + '">';
+						_card += '<div class="mui-media-body">';
+						_card += $.trim(list[i].username);
+						_card += '<p class="mui-ellipsis">' + $.trim(list[i].create_time) + '</p>';
+						_card += '</div>';
+						_card += '<div class="mui-media-footer">';
+						_card += '<p class="text-gray mui-ellipsis-2">' + list[i].content + '</p>';
+						_card += '</div>';
+						_card += '<div class="mui-media-footer">';
+						var imgList = list[i].content_images;
+						if(imgList && imgList.length > 0) {
+							var imgLength = imgList.length;
+							//TODO 图片显示逻辑： 后台传的数据 小于四张图 显示第一张  大于等于四张图  显示前四张 
+							//暂时这样判断
+							if(imgLength % 2 == 0) {
+								_card += '<img src="' + imgList[0] + '" data-preview-src="" data-preview-group="' + list[i].id + '"/>';
+							} else {
+								_card += '<div class="mui-row imgBox">';
+								for(var j = 0; j < imgLength; j++){
+									_card += '<div class="mui-col-sm-6 mui-col-xs-6">' +
+												'<img src="' + imgList[j] + '" data-preview-src="" data-preview-group="' + list[i].id + '"/>' +
+											 '</div>';
+								}
+								_card += '</div>';								
+							}
+						} else if(list[i].video_content){
+							_card += '<div class="videoBox">';
+							_card += '<img class="playBtn" src="../../images/playBtn.png" />';
+							_card += '<img class="poster" src="../../images/ad.png" alt="" />';
+							_card += '<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" poster="../../images/ad.png" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
+							_card += '<source type="video/mp4" src="../../images/mda-hg1dpy13qt8cdqhn.mp4" />';
+							_card += '</video>';
+							_card += '</div>';
+						}
+						_card += '</div>';
+						_card += '<div class="mui-status-bottom">';
+						_card += '<span class="mui-status-item">阅读量：<span class="number">' + list[i].page_view + '</span></span>';
+						_card += '<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
+						_card += '</div>';
+						_card += '</a>';
+						li.innerHTML = _card;
+						table.appendChild(li);
+					}
+			}
 		</script>
 	</body>
 

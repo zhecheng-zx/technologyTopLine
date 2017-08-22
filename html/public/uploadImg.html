@@ -103,8 +103,12 @@
 				}
 				result = $image.cropper('getCroppedCanvas', opt);
 				var dataUrl = result.toDataURL('image/jpeg', 0.8);
-				var parentW = plus.webview.getWebviewById('registInfo.html');
-				mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
+				var extras = plus.webview.currentWebview();
+				var callback = extras.callback;
+				console.log(callback)
+			 	if(callback){
+			 		callback(dataUrl);
+			 	}
 				plus.webview.close('uploadImg.html');
 			});		
 		</script>

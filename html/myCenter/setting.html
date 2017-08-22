@@ -212,7 +212,7 @@
 						</ul>
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell" style="text-align: center;">
-								<a>退出登录</a>
+								<a id="logout">退出登录</a>
 							</li>
 						</ul>
 					</div>
@@ -469,6 +469,7 @@
 	</body>
 	<script src="../../js/mui.min.js"></script>
 	<script src="../../js/mui.view.js"></script>
+	<script src="../../js/app.js"></script>
 	<script>
 		mui.init();
 		//初始化单页view
@@ -492,13 +493,6 @@
 				console.log("获取分享服务列表失败");
 			});
 		});
-		
-//		setTimeout(function () {
-//			defaultImg();
-//			setTimeout(function() {
-//				initImgPreview();
-//			}, 300);
-//		},500);
 		
 		//分享链接点击事件
 		document.getElementById("share").addEventListener('tap', function() {
@@ -816,6 +810,14 @@
 		if(mui.os.stream){
 			document.getElementById("check_update").display = "none";
 		}
+		
+		
+		mui('#setting').on('tap', '#logout', function(){
+			app.setState();
+			var opener = plus.webview.currentWebview().opener();
+			opener.reload(true);
+			mui.back();
+		});
 		
 	</script>
 

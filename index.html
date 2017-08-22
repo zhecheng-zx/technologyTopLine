@@ -8,89 +8,103 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>科技头条</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
 		<style>
-			body{
+			body {
 				background-color: #ffffff;
 			}
-			.mui-bar.mui-bar-nav{
+			
+			.mui-bar.mui-bar-nav {
 				background-color: #3385ff;
 			}
-			.mui-title{color:#ffffff;}
-			.logoBox{
+			
+			.mui-title {
+				color: #ffffff;
+			}
+			
+			.logoBox {
 				line-height: 44px;
 			}
-			.logo{
+			
+			.logo {
 				display: inline-block;
-				border:none;
+				border: none;
 				width: 25px;
 				height: 18px;
 			}
-			.search-input{
+			
+			.search-input {
 				display: inline-block;
-				position:absolute;
+				position: absolute;
 				left: 40px;
 				right: 10px;
 			}
-			.search-input .mui-input-clear{
+			
+			.search-input .mui-input-clear {
 				background-color: #ffffff;
 			}
-			.search-input .mui-search .mui-placeholder{
-				font-size:12px;
-				color:#999999;
+			
+			.search-input .mui-search .mui-placeholder {
+				font-size: 12px;
+				color: #999999;
 			}
-			.search-input .mui-search .mui-placeholder .mui-icon{
-				color:#999999;
+			
+			.search-input .mui-search .mui-placeholder .mui-icon {
+				color: #999999;
 			}
-			.icon{
+			
+			.icon {
 				display: block;
 				width: 21px;
 				height: 19px;
 				margin: 5px auto 0px;
 				background-image: url("./images/tab_bar.png");
-				background-repeat: no-repeat;		
-				background-size: 239px 77px;					
+				background-repeat: no-repeat;
+				background-size: 239px 77px;
 			}
 			
-			.icon-tab-bar1{
+			.icon-tab-bar1 {
 				background-position: -37px -13px;
 			}
 			
-			.mui-active .icon-tab-bar1{
-				background-position: -37px -43px;				
+			.mui-active .icon-tab-bar1 {
+				background-position: -37px -43px;
 			}
 			
-			.icon-tab-bar2{
-				background-position:  -84px -13px;
+			.icon-tab-bar2 {
+				background-position: -84px -13px;
 			}
 			
-			.mui-active .icon-tab-bar2{
-				background-position: -84px -43px;				
+			.mui-active .icon-tab-bar2 {
+				background-position: -84px -43px;
 			}
 			
-			.icon-tab-bar3{
-				background-position:  -130px -13px;
+			.icon-tab-bar3 {
+				background-position: -130px -13px;
 			}
 			
-			.mui-active .icon-tab-bar3{
-				background-position: -130px -43px;				
+			.mui-active .icon-tab-bar3 {
+				background-position: -130px -43px;
 			}
 			
-			.icon-tab-bar4{
-				background-position:  -178px -13px;
+			.icon-tab-bar4 {
+				background-position: -178px -13px;
 			}
 			
-			.mui-active .icon-tab-bar4{
-				background-position: -178px -43px;				
+			.mui-active .icon-tab-bar4 {
+				background-position: -178px -43px;
 			}
 			
-			.mui-bar-tab .mui-tab-label{
+			.mui-bar-tab .mui-tab-label {
 				font-size: 11px;
 			}
-			.search-input .mui-input-clear[disabled=disabled]{
+			
+			.search-input .mui-input-clear[disabled=disabled] {
 				background-color: #ffffff !important;
 				opacity: 1;
 			}
-			.search-box{
+			
+			.search-box {
 				display: inline-block;
 				width: 100%;
 				height: 30px;
@@ -103,17 +117,32 @@
 				line-height: 30px;
 				padding: 0px 20px;
 			}
+			
 			.search-box:active,
-			.search-box:hover{
+			.search-box:hover {
 				color: #999;
 			}
-			.search-box .mui-icon.mui-icon-search{
+			
+			.search-box .mui-icon.mui-icon-search {
 				font-size: 16px;
 				margin: 0px;
 				padding: 0px;
 			}
+			
+			.publish-story {
+				width: 30px;
+				line-height: 44px;
+				height: 100%;
+				display: none;
+				color: #fff;
+			}
+			
+			.publish-story:active{
+				color: #fff;
+			}
 		</style>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<h1 id="title" class="mui-title mui-text-center"></h1>
@@ -126,6 +155,9 @@
 					<span class="placeholder">请输入关键字</span>
 				</a>
 			</div>
+			<a href="javascript:;" class="publish-story mui-pull-right">
+				<span class="mui-icon iconfont icon-feiji"></span>
+			</a>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" data-wid="viewgroup" href="./html/index/index.html">
@@ -154,8 +186,10 @@
 		<script src="js/mui.min.js"></script>
 		<script src="vendor/jQuery/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
-			mui.init({statusBarBackground: '#3385ff'});
-			var subpages = ['./html/index/index.html','./html/card/index.html', './html/techDictionary/index.html', './html/scientistStory/index.html', './html/myCenter/index.html'];
+			mui.init({
+				statusBarBackground: '#3385ff'
+			});
+			var subpages = ['./html/index/index.html', './html/card/index.html', './html/techDictionary/index.html', './html/scientistStory/index.html', './html/myCenter/index.html'];
 			var subpage_style = {
 				top: '45px',
 				bottom: '51px'
@@ -164,7 +198,7 @@
 			var aniShow = {};
 			//创建子页面，首个选项卡页面显示，其它均隐藏；
 			document.addEventListener('plusready', onPlusReady, false);
-			
+
 			//自定义事件，模拟点击“首页选项卡”
 			document.addEventListener('gohome', function() {
 				var defaultTab = document.getElementById("defaultTab");
@@ -177,8 +211,9 @@
 					defaultTab.classList.add('mui-active');
 				}
 			});
-			function onPlusReady(){
-				var self = plus.webview.currentWebview();			
+
+			function onPlusReady() {
+				var self = plus.webview.currentWebview();
 				for(var i = 0; i < 5; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
@@ -201,14 +236,20 @@
 					}
 					//更换标题
 					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
-					if(title.innerHTML!="九大名片" && title.innerHTML!="首页"){
-						document.querySelector("#title").style.display="block";
-						document.querySelector("#search_title").style.display="none";
-						document.querySelector(".logoBox").style.display="none";
-					}else{
-						document.querySelector("#search_title").style.display="block";
-						document.querySelector(".logoBox").style.display="block";
-						document.querySelector("#title").style.display="none";
+					if(title.innerHTML != "九大名片" && title.innerHTML != "首页") {
+						document.querySelector("#title").style.display = "block";
+						document.querySelector("#search_title").style.display = "none";
+						document.querySelector(".logoBox").style.display = "none";
+					} else {
+						document.querySelector("#search_title").style.display = "block";
+						document.querySelector(".logoBox").style.display = "block";
+						document.querySelector("#title").style.display = "none";
+					}
+					
+					if(title.innerHTML == '科研故事') {
+						document.querySelector('.publish-story').style.display = "inline-block";
+					} else {
+						document.querySelector('.publish-story').style.display = "none";
 					}
 					//显示目标选项卡
 					//若为iOS平台或非首次显示，则直接显示
@@ -222,21 +263,26 @@
 						plus.webview.show(targetTab, "fade-in", 300);
 					}
 					//隐藏当前;
-					plus.webview.hide(activeTab,'fade-out',300);
-					if(activeTab=="./html/scientistStory/index.html"){
-						var stopVideo='$(document).find("video").each(function(){var $this=$(this)[0];$this.pause();});';
-						var _videoView=plus.webview.getWebviewById(activeTab);
+					plus.webview.hide(activeTab, 'fade-out', 300);
+					if(activeTab == "./html/scientistStory/index.html") {
+						var stopVideo = '$(document).find("video").each(function(){var $this=$(this)[0];$this.pause();});';
+						var _videoView = plus.webview.getWebviewById(activeTab);
 						_videoView.evalJS(stopVideo);
 					}
 					//更改当前活跃的选项卡
 					activeTab = targetTab;
-				});						
+				});
 			}
-			
-			$(document).on('tap', '#search_input', function(e){
+
+			$(document).on('tap', '#search_input', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 				var w = plus.webview.create('./html/public/plus_search.html');
+				w.show();
+			});
+			
+			mui('.mui-bar-nav').on('tap', '.publish-story', function(){
+				var w = plus.webview.create('./html/scientistStory/publish.html', 'publish.html');
 				w.show();
 			});
 		</script>

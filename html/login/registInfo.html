@@ -215,16 +215,25 @@
 
 			//上传图片
 			function uploadHeadImg(imgPath) {
+				var callback = function(dataUrl){
+					var parentW = plus.webview.getWebviewById('registInfo.html');
+					mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
+				}
 				//打开新的webview， 进行图片裁剪
 				mui.openWindow({
-					url: 'uploadImg.html',
+					url: '../public/uploadImg.html',
 					id: 'uploadImg.html',
 					waiting: {
 						autoShow: true,
 						title: '正在加载...'
 					},
 					extras: {
-						imgPath: imgPath, //扩展参数
+						imgPath: imgPath //扩展参数
+					},
+					onclose: function(dataUrl){
+						console.log('close')
+						var parentW = plus.webview.getWebviewById('registInfo.html');
+						mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
 					}
 				});
 			}		

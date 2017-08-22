@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en" class="feedback">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>问题反馈</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.css" />
+		<link rel="stylesheet" href="../../css/feedback.css" />
+		<style type="text/css">
+			html,
+			body,
+			.mui-content {
+				height: 100%;
+				background: #F4F4F4;
+			}
+			
+			.mui-bar.mui-bar-nav {
+				background-color: #3385ff;
+			}
+			
+			.mui-title,
+			.mui-bar .mui-btn-link,
+			.mui-text-white {
+				color: #ffffff;
+				border: none !important;
+			}
+			
+			.mui-input-row {
+				margin: 15px 10px;
+			}
+			
+			.mui-content input,
+			.mui-content textarea {
+				font-size: 13px;
+				color: #669999;
+				margin: 0px;
+			}
+			
+			.media-type {
+				margin: 15px 10px;
+			}
+			
+			.media-type a {
+				margin: 0px 5px 0px 10px;
+			}
+			
+			.mui-icon {
+				color: #cacaca;
+			}
+			
+			.mui-active .mui-icon {
+				color: #007aff !important;
+			}
+			
+			.small {
+				font-size: 20px;
+			}
+			
+			.media-container {
+				position: relative;
+				height: 100%;
+				background: #fff;
+				margin: 15px 10px;
+			}
+			
+			.triangle {
+				position: absolute;
+				width: 0;
+				height: 0;
+				border-right: 8px solid transparent;
+				border-bottom: 8px solid #FFFFFF;
+				border-left: 8px solid transparent;
+				top: -8px;
+			}
+			
+			.triangle.img {
+				left: 12px;
+			}
+			
+			.triangle.video {
+				left: 51px;
+			}
+			
+			.img-container,
+			.video-container {
+				width: 100%;
+				padding: 10px 0px;
+			}
+			
+			.feedback .image-list {
+				height: 100%;
+			}
+			
+			.mui-bar .mui-icon.mui-icon-checkmarkempty {
+				font-size: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
+			<h1 class="mui-title">编辑帖子</h1>
+			<a class="mui-pull-right uploadStory"><span class="mui-icon mui-icon-checkmarkempty"></span></a>
+		</header>
+		<div class="mui-content">
+			<div class="row mui-input-row">
+				<input type="text" id="story_title" class="mui-input-clear" placeholder="请输入标题" />
+			</div>
+			<div class="row mui-input-row">
+				<textarea id='story_describe' class="mui-input-clear question" placeholder="说点什么"></textarea>
+			</div>
+			<div class="media-type">
+				<a class="mui-control-item mui-active image">
+					<span class="mui-icon mui-icon-image small"></span>
+				</a>
+				<a class="mui-control-item video">
+					<span class="mui-icon mui-icon-videocam"></span>
+				</a>
+			</div>
+			<div class="media-container">
+				<div class="triangle img"></div>
+				<div class="img-container">
+					<div id='image-list' class="row image-list"></div>
+				</div>
+				<div class="video-container"></div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../vendor/jQuery/jquery.min.js"></script>
+		<script type="text/javascript">
+			var imageIndexIdNum = 0,
+				files = [],
+				index = 1,
+				size = null,
+				uploader = null,
+				imgList = document.getElementById('image-list');
+
+			mui.init();
+
+			mui('.media-type').on('tap', 'a', function(e) {
+				$(this).addClass('mui-active').siblings().removeClass('mui-active');
+				if($(this).hasClass('image')) {
+					$('.triangle').removeClass('video').addClass('img');
+				} else {
+					$('.triangle').addClass('video').removeClass('img');
+				}
+			});
+
+			function newPlaceholder() {
+				var fileInputArray = getFileInputArray();
+				if(fileInputArray && fileInputArray.length >= 9) {
+					return;
+				};
+				imageIndexIdNum++;
+				var placeholder = document.createElement('div');
+				placeholder.setAttribute('class', 'image-item space');
+				var up = document.createElement("div");
+				up.setAttribute('class', 'image-up')
+				//删除图片
+				var closeButton = document.createElement('div');
+				closeButton.setAttribute('class', 'image-close');
+				closeButton.innerHTML = 'X';
+				closeButton.id = "img-" + index;
+				//小X的点击事件
+				closeButton.addEventListener('tap', function(event) {
+					setTimeout(function() {
+						for(var temp = 0; temp < files.length; temp++) {
+							if(files[temp].id == closeButton.id) {
+								files.splice(temp, 1);
+							}
+						}
+						imgList.removeChild(placeholder);
+					}, 0);
+					return false;
+				}, false);
+
+				//
+				var fileInput = document.createElement('div');
+				fileInput.setAttribute('class', 'file');
+				fileInput.setAttribute('id', 'image-' + imageIndexIdNum);
+				fileInput.addEventListener('tap', function(event) {
+					var self = this;
+					var index = (this.id).substr(-1);
+
+					plus.gallery.pick(function(e) {
+						var name = e.substr(e.lastIndexOf('/') + 1);
+						console.log("name:" + name);
+
+						plus.zip.compressImage({
+							src: e,
+							dst: '_doc/' + name,
+							overwrite: true,
+							quality: 50
+						}, function(zip) {
+							size += zip.size
+							console.log("filesize:" + zip.size + ",totalsize:" + size);
+							if(size > (10 * 1024 * 1024)) {
+								return mui.toast('文件超大,请重新选择~');
+							}
+							if(!self.parentNode.classList.contains('space')) { //已有图片
+								files.splice(index - 1, 1, {
+									name: "images" + index,
+									path: e
+								});
+							} else { //加号
+								placeholder.classList.remove('space');
+								addFile(zip.target);
+								newPlaceholder();
+							}
+							up.classList.remove('image-up');
+							placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+						}, function(zipe) {
+							mui.toast('压缩失败！')
+						});
+
+					}, function(e) {
+						mui.toast(e.message);
+					}, {});
+				}, false);
+				placeholder.appendChild(closeButton);
+				placeholder.appendChild(up);
+				placeholder.appendChild(fileInput);
+				imgList.appendChild(placeholder);
+			};
+			newPlaceholder()
+
+			function getFileInputArray() {
+				var imgList = document.getElementById('image-list');
+				return [].slice.call(imgList.querySelectorAll('.file'));
+			}
+
+			function addFile(path) {
+				files.push({
+					name: "images" + index,
+					path: path,
+					id: "img-" + index
+				});
+				index++;
+			};
+
+			mui('.mui-bar-nav').on('tap', '.uploadStory', function(e) {
+				//判断网络连接
+				if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+					return mui.toast("连接网络失败，请稍后再试");
+				}
+				var state = JSON.parse(localStorage.getItem('$state'));
+				if(!state.userId) {
+					mui.toast('请先登录');
+					return;
+				}
+				var param = {
+					"title": $('#story_title').val(),
+					"content": $('#story_describe').val(),
+					"content_images": files,
+					"content_video": "",
+					"user_id": state.userId,
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "ScienceStory",
+					"pKey": "addScienceStory",
+					"file_directory": "images"
+				}
+				plus.nativeUI.showWaiting('上传中');
+				send(param);
+			});
+
+			function send(content) {
+				uploader = plus.uploader.createUpload('http://172.168.17.60:8080/mis-app/ScienceStory/issueStory', {
+					method: 'POST'
+				}, function(upload, status) { 
+					plus.nativeUI.closeWaiting();
+					console.log("upload cb:" + upload.responseText);
+					console.log(status)
+				});
+				//添加上传数据
+				mui.each(content, function(index, element) {
+					if(index !== 'images') {
+						console.log("addData:" + index + "," + element);
+						//				console.log(index);
+						uploader.addData(index, element)
+					}
+				});
+				//添加上传文件
+				mui.each(files, function(index, element) {
+					var f = files[index];
+					console.log("addFile:" + JSON.stringify(f));
+					uploader.addFile(f.path, {
+						key: f.name
+					});
+				});
+				//开始上传任务
+				uploader.start();				
+				//		plus.nativeUI.showWaiting();
+			};
+
+			function clearForm() {
+				document.getElementById('story_title').value = '';
+				document.getElementById('story_describe').value = '';
+				imgList.innerHTML = '';
+				files = [];
+				index = 0;
+				size = 0;
+				imageIndexIdNum = 0;
+				starIndex = 0;
+			}
+		</script>
+	</body>
+
+</html>

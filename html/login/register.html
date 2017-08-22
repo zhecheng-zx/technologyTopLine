@@ -56,7 +56,6 @@
 				e.preventDefault();
 				e.stopPropagation();
 				phoneNum = document.getElementById('phoneNum').value;
-				console.log(phoneNum)
 				if(!phoneNum) {
 					mui.toast('请输入手机号');
 					return;
@@ -66,7 +65,7 @@
 				if(!reg.test(phoneNum.trim())) {
 					mui.toast('请输入正确的手机号码');
 				}
-				console.log(1212)
+				
 				mui.ajax('http://172.168.17.60:8080/mis-app/public/getVerificationCode', {
 					data: {
 						phone: phoneNum
@@ -79,7 +78,8 @@
 						}
 					},
 					error: function(xhr, type, errorThrown) {
-						console.error(type)
+						console.error(type);
+						console.error(JSON.stringify(errorThrown))
 					}
 				});
 			});

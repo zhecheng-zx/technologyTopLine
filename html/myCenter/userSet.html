@@ -112,11 +112,7 @@
 					url: 'index.html'
 				}]
 			});
-			setTimeout(function() {
-				setTimeout(function() {
-					initImgPreview();
-				}, 300);
-			})
+
 			//更换头像
 			mui(".mui-table-view-cell").on("tap", "#head", function(e) {
 				if(mui.os.plus) {
@@ -152,7 +148,7 @@
 				c.captureImage(function(e) {
 					plus.io.resolveLocalFileSystemURL(e, function(entry) {
 						var s = entry.toLocalURL() + "?version=" + new Date().getTime();
-						document.getElementById("head_img1").src = s;
+						uploadHeadImg(s);
 						//变更大图预览的src
 						//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
 						document.querySelector("#__mui-imageview__group .mui-slider-item img").src = s + "?version=" + new Date().getTime();;;
@@ -176,7 +172,7 @@
 									console.log("file remove success");
 									entry.copyTo(root, 'head.jpg', function(e) {
 											var e = e.fullPath + "?version=" + new Date().getTime();
-											document.getElementById("head_img1").src = e;
+											uploadHeadImg(e);
 											//变更大图预览的src
 											//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
 											document.querySelector("#__mui-imageview__group .mui-slider-item img").src = e + "?version=" + new Date().getTime();;
@@ -210,49 +206,54 @@
 					filter: "image"
 				})
 			};
-		
+
 			document.getElementById("head_img1").addEventListener('tap', function(e) {
 				e.stopPropagation();
 			});
 
-			function initImgPreview() {
-				var imgs = document.querySelectorAll("img.mui-action-preview");
-				imgs = mui.slice.call(imgs);
-				if(imgs && imgs.length > 0) {
-					var slider = document.createElement("div");
-					slider.setAttribute("id", "__mui-imageview__");
-					slider.classList.add("mui-slider");
-					slider.classList.add("mui-fullscreen");
-					slider.style.display = "none";
-					slider.addEventListener("tap", function() {
-						slider.style.display = "none";
-					});
-					slider.addEventListener("touchmove", function(event) {
-						event.preventDefault();
+			//上传图片
+			function uploadHeadImg(imgPath) {
+				var callback = function(url) {
+					var state = JSON.parse(localStorage.getState('$state'));
+					state.personImages = url;
+					mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+						data: {
+							"id": state.userId,
+							"jdbcTemplateName": "mysqlTemplate",
+							"pFile": "Personal",
+							"pKey": "personImages",
+							"personImages": url
+						},
+						type: 'post',
+						success: function(result) {
+							result = JSON.parse(result);
+							if(result.status == 'success') {
+								app.setState(state);
+								var prevW = plus.webview.getWebviewById('userSet');
+								prevW.reload(true);
+								mui.back();
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							console.error(xhr);
+							console.error(type);
+						}
 					})
-					var slider_group = document.createElement("div");
-					slider_group.setAttribute("id", "__mui-imageview__group");
-					slider_group.classList.add("mui-slider-group");
-					imgs.forEach(function(value, index, array) {
-						//给图片添加点击事件，触发预览显示；
-						value.addEventListener('tap', function() {
-							slider.style.display = "block";
-							_slider.refresh();
-							_slider.gotoItem(index, 0);
-						})
-						var item = document.createElement("div");
-						item.classList.add("mui-slider-item");
-						var a = document.createElement("a");
-						var img = document.createElement("img");
-						img.setAttribute("src", value.src);
-						a.appendChild(img)
-						item.appendChild(a);
-						slider_group.appendChild(item);
-					});
-					slider.appendChild(slider_group);
-					document.body.appendChild(slider);
-					var _slider = mui(slider).slider();
 				}
+				//打开新的webview， 进行图片裁剪
+				mui.openWindow({
+					url: '../public/uploadImg.html',
+					id: 'uploadImg.html',
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						imgPath: imgPath, //扩展参数
+						callback: callback
+					}
+				});
 			}
 
 			//重写back方法 返回上一页时 调用上一页的刷新方法
@@ -267,10 +268,11 @@
 			};
 
 			var state = JSON.parse(localStorage.getItem('$state'));
+
 			function plusReady() {
 				document.getElementById("head_img1").src = state.personImages;
 				document.getElementById('userName').innerText = state.account;
-				document.getElementById('userInfo').innerText = state.userIntroduced ? state.userIntroduced : '暂无简介';	
+				document.getElementById('userInfo').innerText = state.userIntroduced ? state.userIntroduced : '暂无简介';
 			}
 			if(window.plus) {
 				plusReady();
@@ -281,32 +283,30 @@
 			var callback = function() {
 
 			}
-			
+
 			mui('.mui-content').on('tap', 'span.userName', function(e) {
 				e.preventDefault();
 				mui.openWindow({
 					url: 'editUserInfo.html',
-					id: 'editUserInfo.html',					
+					id: 'editUserInfo.html',
 					extras: {
 						param: 'name',
 						text: state.account
 					}
 				});
 			});
-			
+
 			mui('.mui-content').on('tap', 'span.userInfo', function(e) {
 				e.preventDefault();
 				mui.openWindow({
 					url: 'editUserInfo.html',
-					id: 'editUserInfo.html',					
+					id: 'editUserInfo.html',
 					extras: {
 						param: 'info',
 						text: state.userIntroduced ? state.userIntroduced : ''
 					}
 				});
 			});
-			
-			
 		</script>
 	</body>
 
