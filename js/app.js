@@ -15,7 +15,8 @@
 			return callback('密码不能为空');
 		}
 
-		mui.ajax('http://172.168.17.60:8080/mis-app/public/toLogin', {
+		plus.nativeUI.showWaiting();
+		mui.ajax('http://172.168.12.96:8080/mis-app/public/toLogin', {
 			data: loginInfo,
 			success: function(result) {
 				if(result.status != 0) {

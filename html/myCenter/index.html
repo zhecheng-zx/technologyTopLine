@@ -196,17 +196,11 @@
 				e.stopPropagation();
 				var w = plus.webview.create('../login/login.html', 'login.html');
 				w.show(); // 显示窗口
-			});					
-			
-			window.addEventListener('show', function(e){
-				var q = localStorage.getItem('$state');
-				console.log(q)
-			});
-			
+			});													
 			
 			mui.plusReady(function(){
-				var state = localStorage.getItem('$state');				
-				if(state != '{}'){
+				var state = localStorage.getItem('$state');
+				if(state != '{}' && state != null){
 					$('.noLoginBox').hide();
 					$('.userNameBox').show();
 					state = JSON.parse(state);

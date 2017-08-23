@@ -339,7 +339,7 @@
 
 			function getChannels() {
 				var session = JSON.parse(localStorage.getItem('$state'));
-				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/mychannel', {
+				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/mychannel', {
 					data: {
 						"user_id": session.userId,
 						"jdbcTemplateName": "mysqlTemplate",
@@ -407,7 +407,7 @@
 					mui.toast('请先登录');
 					return;
 				}
-				mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
 					data: {
 						"jdbcTemplateName": "mysqlTemplate,mysqlTemplate",
 						"pFile": "Personal,Personal",
@@ -463,7 +463,7 @@
 					if(!session.userId) {
 						mui.toast('请先登录');
 					}
-					mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
+					mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
 						data: {
 							"user_id": session.userId,
 							"channel_id": channelId,

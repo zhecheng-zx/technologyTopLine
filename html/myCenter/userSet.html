@@ -213,34 +213,6 @@
 
 			//上传图片
 			function uploadHeadImg(imgPath) {
-				var callback = function(url) {
-					var state = JSON.parse(localStorage.getState('$state'));
-					state.personImages = url;
-					mui.ajax('http://172.168.17.60:8080/mis-app/Personal/formProcessing', {
-						data: {
-							"id": state.userId,
-							"jdbcTemplateName": "mysqlTemplate",
-							"pFile": "Personal",
-							"pKey": "personImages",
-							"personImages": url
-						},
-						type: 'post',
-						success: function(result) {
-							result = JSON.parse(result);
-							if(result.status == 'success') {
-								app.setState(state);
-								var prevW = plus.webview.getWebviewById('userSet');
-								prevW.reload(true);
-								mui.back();
-							}
-						},
-						error: function(xhr, type, errorThrown) {
-							//异常处理；
-							console.error(xhr);
-							console.error(type);
-						}
-					})
-				}
 				//打开新的webview， 进行图片裁剪
 				mui.openWindow({
 					url: '../public/uploadImg.html',
@@ -250,8 +222,7 @@
 						title: '正在加载...'
 					},
 					extras: {
-						imgPath: imgPath, //扩展参数
-						callback: callback
+						imgPath: imgPath //扩展参数
 					}
 				});
 			}
@@ -280,10 +251,6 @@
 				document.addEventListener('plusready', plusReady, false);
 			}
 
-			var callback = function() {
-
-			}
-
 			mui('.mui-content').on('tap', 'span.userName', function(e) {
 				e.preventDefault();
 				mui.openWindow({
@@ -304,6 +271,40 @@
 					extras: {
 						param: 'info',
 						text: state.userIntroduced ? state.userIntroduced : ''
+					}
+				});
+			});
+
+			/**
+			 * 图片裁剪完后触发的事件
+			 */
+			window.addEventListener('getHeadUrl', function(e) {
+				var url = e.detail.dataUrl;
+				var state = JSON.parse(localStorage.getItem('$state'));
+				state.personImages = url;
+				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
+					data: {
+						"id": state.userId,
+						"jdbcTemplateName": "mysqlTemplate",
+						"pFile": "Personal",
+						"pKey": "personimage",
+						"personimages": url
+					},
+					type: 'post',
+					success: function(result) {
+						console.log( result)
+						result = JSON.parse(result);
+						if(result.status == 'success') {
+							app.setState(state);
+							var prevW = plus.webview.getWebviewById('userSet');
+							prevW.reload(true);
+							mui.back();
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.error(xhr);
+						console.error(type);
 					}
 				});
 			});

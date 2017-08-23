@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="feedback">
+<html lang="en">
 
 	<head>
 		<meta charset="UTF-8" />
@@ -8,7 +8,6 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>问题反馈</title>
 		<link rel="stylesheet" type="text/css" href="../../css/mui.css" />
-		<link rel="stylesheet" href="../../css/feedback.css" />
 		<style type="text/css">
 			html,
 			body,
@@ -28,15 +27,20 @@
 				border: none !important;
 			}
 			
-			.mui-input-row {
+			.mui-content .mui-input-row {
+				width: auto;
 				margin: 15px 10px;
 			}
 			
 			.mui-content input,
 			.mui-content textarea {
 				font-size: 13px;
-				color: #669999;
 				margin: 0px;
+				border: none;
+			}
+			
+			.mui-content textarea{
+				height: 100px;	
 			}
 			
 			.media-type {
@@ -61,7 +65,7 @@
 			
 			.media-container {
 				position: relative;
-				height: 100%;
+				height: calc(100% - 258px);
 				background: #fff;
 				margin: 15px 10px;
 			}
@@ -84,18 +88,87 @@
 				left: 51px;
 			}
 			
-			.img-container,
-			.video-container {
-				width: 100%;
-				padding: 10px 0px;
-			}
-			
-			.feedback .image-list {
+			.mui-content .image-list {
 				height: 100%;
 			}
 			
 			.mui-bar .mui-icon.mui-icon-checkmarkempty {
 				font-size: 30px;
+			}
+			
+			.mui-content .image-list {
+				width: 100%;
+				height: 85px;
+				background-size: cover;
+				padding: 10px 10px;
+				overflow: hidden;
+			}
+			
+			.mui-content .image-item {
+				width: 65px;
+				height: 65px;
+				/*background-image: url(../images/iconfont-tianjia.png);*/
+				background-size: 100% 100%;
+				display: inline-block;
+				position: relative;
+				border-radius: 5px;
+				margin-right: 10px;
+				margin-bottom: 10px;
+				border: solid 1px #e8e8e8;
+				vertical-align: top;
+			}
+			
+			.mui-content .image-item .file {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				cursor: pointer;
+				z-index: 0;
+			}
+			
+			.mui-content .image-item.space {
+				border: none;
+			}
+			
+			.mui-content .image-item .image-close {
+				position: absolute;
+				display: inline-block;
+				right: -6px;
+				top: -6px;
+				width: 20px;
+				height: 20px;
+				text-align: center;
+				line-height: 20px;
+				border-radius: 12px;
+				background-color: #FF5053;
+				color: #f3f3f3;
+				border: solid 1px #FF5053;
+				font-size: 9px;
+				font-weight: 200;
+				z-index: 1;
+			}
+			
+			.mui-content .image-item .image-up {
+				height: 65px;
+				width: 65px;
+				border-radius: 10px;
+				line-height: 65px;
+				border: 1px solid #ccc;
+				color: #ccc;
+				display: inline-block;
+				text-align: center;
+			}
+			
+			.mui-content .image-item .image-up:after {
+				content: '+';
+				font-size: 30px;
+			}
+			
+			.mui-content .image-item.space .image-close {
+				display: none;
 			}
 		</style>
 	</head>
@@ -196,6 +269,7 @@
 							overwrite: true,
 							quality: 50
 						}, function(zip) {
+							console.log(JSON.stringify(zip))
 							size += zip.size
 							console.log("filesize:" + zip.size + ",totalsize:" + size);
 							if(size > (10 * 1024 * 1024)) {
@@ -248,7 +322,7 @@
 					return mui.toast("连接网络失败，请稍后再试");
 				}
 				var state = JSON.parse(localStorage.getItem('$state'));
-				if(!state.userId) {
+				if(state == null || !state.userId) {
 					mui.toast('请先登录');
 					return;
 				}
@@ -268,16 +342,24 @@
 			});
 
 			function send(content) {
-				uploader = plus.uploader.createUpload('http://172.168.17.60:8080/mis-app/ScienceStory/issueStory', {
+				uploader = plus.uploader.createUpload('http://172.168.12.96:8080/mis-app/ScienceStory/issueStory', {
 					method: 'POST'
-				}, function(upload, status) { 
+				}, function(upload, status) {
 					plus.nativeUI.closeWaiting();
-					console.log("upload cb:" + upload.responseText);
+					console.log(JSON.stringify(upload))
+					console.log(typeof upload.responseText);
 					console.log(status)
+					if(status == 200) {
+						clearUploadInfo('all');
+						var opener = plus.webview.currentWebview().opener();
+						opener.reload();
+						plus.webview.currentWebview().close();
+
+					}
 				});
 				//添加上传数据
 				mui.each(content, function(index, element) {
-					if(index !== 'images') {
+					if(index !== 'content_images') {
 						console.log("addData:" + index + "," + element);
 						//				console.log(index);
 						uploader.addData(index, element)
@@ -291,20 +373,35 @@
 						key: f.name
 					});
 				});
+				console.log(JSON.stringify(uploader))
 				//开始上传任务
-				uploader.start();				
+				uploader.start();
 				//		plus.nativeUI.showWaiting();
 			};
 
-			function clearForm() {
-				document.getElementById('story_title').value = '';
-				document.getElementById('story_describe').value = '';
-				imgList.innerHTML = '';
-				files = [];
-				index = 0;
-				size = 0;
-				imageIndexIdNum = 0;
-				starIndex = 0;
+			/**
+			 * 清除上传信息
+			 * @param {Object} flag
+			 * flag: all:全部清除; img:清除图片相关信息; video:清除视频相关信息
+			 */
+			function clearUploadInfo(flag) {
+				if(flag == 'all') {
+					document.getElementById('story_title').value = '';
+					document.getElementById('story_describe').value = '';
+				}
+
+				if(flag == 'img' || flag == 'all') {
+					imgList.innerHTML = '';
+					files = [];
+					index = 0;
+					size = 0;
+					imageIndexIdNum = 0;
+					starIndex = 0;
+				}
+
+				if(flag == 'video' || flag == 'all') {
+
+				}
 			}
 		</script>
 	</body>

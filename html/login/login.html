@@ -82,21 +82,20 @@
 				});
 				plus.navigator.setFullscreen(true);
 				$.plusReady(function() {
+					//锁定屏幕为竖屏模式
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
 					var state = app.getState();
-					var mainPage = $.preload({
-						"id": 'main',
-						"url": '../myCenter/index.html'
-					});
+					//登录成功后的callback事件
 					var toMain = function() {
 						var cur = plus.webview.currentWebview();;
 						plus.webview.close(cur);
 						var w = plus.webview.getWebviewById('./html/myCenter/index.html');
-						$.fire(w, 'show', null);
+						w.reload();
+						plus.nativeUI.closeWaiting();
 						w.show();
 					};
-					//检查 "登录状态/锁屏状态" 开始
+					//检查 "登录状态/锁屏状态" 开始;
 					if (settings.autoLogin && state.token && settings.gestures) {
 						$.openWindow({
 							url: 'unlock.html',
@@ -109,6 +108,7 @@
 							}
 						});
 					} else if (settings.autoLogin && state.token) {
+						//自动登录 也没有
 						toMain();
 					} else {
 						app.setState(null);

@@ -93,7 +93,7 @@
 						return;
 					}
 					
-					mui.ajax('http://172.168.17.60:8080/mis-app/public/register', {
+					mui.ajax('http://172.168.12.96:8080/mis-app/public/register', {
 						type: 'POST',
 						data: {
 							password: md5(pwd),
@@ -106,7 +106,7 @@
 							var status = result.status;
 							if(status == 0) {
 								mui.toast('注册成功');
-								//信息保存在session里
+								//注册成功 跳转到登录页面;有时跳转失败，暂未检查原因
 								var wn = plus.webview.getElementById('login.html');
 								var curWn = plus.webview.currentWebview();
 								curWn.close();
@@ -215,10 +215,6 @@
 
 			//上传图片
 			function uploadHeadImg(imgPath) {
-				var callback = function(dataUrl){
-					var parentW = plus.webview.getWebviewById('registInfo.html');
-					mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
-				}
 				//打开新的webview， 进行图片裁剪
 				mui.openWindow({
 					url: '../public/uploadImg.html',
@@ -236,7 +232,16 @@
 						mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
 					}
 				});
-			}		
+			}
+			
+			/**
+			 * 图片裁剪完后触发的事件
+			 */
+			window.addEventListener('getHeadUrl', function(e){
+				var dataUrl = e.detail.dataUrl;
+				var parentW = plus.webview.getWebviewById('registInfo.html');
+				mui.fire(parentW, 'getImgUrl', {imgUrl: dataUrl});
+			});
 		</script>
 	</body>
 

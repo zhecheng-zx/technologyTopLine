@@ -311,6 +311,11 @@
 			.imgBox>div:nth-child(even) {
 				padding-left: 5px;
 			}
+			
+			.imgBox img{
+				width: 100%;
+				height: 100px;
+			}
 		</style>
 	</head>
 
@@ -360,36 +365,8 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for(var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell mui-media';
-						var _card = '';
-						_card += '<a href="javascript:;">';
-						_card += '<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">';
-						_card += '<div class="mui-media-body">';
-						_card += '卖女孩的小火柴';
-						_card += '<p class="mui-ellipsis">20分钟前</p>';
-						_card += '</div>';
-						_card += '<div class="mui-media-footer">';
-						_card += '<p class="text-gray mui-ellipsis-2">国务院总理李克强在人民大会堂三楼金色大厅会见采访十二届全国人大四次会议的中外记者，并回答记者提出的问题</p>';
-						_card += '</div>';
-						_card += '<div class="mui-media-footer">';
-						_card += '<img src="../../images/ad.png" data-preview-src="" data-preview-group="1" />';
-						_card += '</div>';
-						_card += '<div class="mui-status-bottom">';
-						_card += '<span class="mui-status-item">阅读量：<span class="number">100</span></span>';
-						_card += '<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
-						_card += '</div>';
-						_card += '</a>';
-						li.innerHTML = _card;
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
+				pageNum = 0;
+				getStoryList('before');								
 			}
 			var count = 0;
 			/**
@@ -397,7 +374,7 @@
 			 */
 			function pullupRefresh() {
 				pageNum = pageNum + 1;
-				getStoryList();
+				getStoryList('after');
 			}
 			if(mui.os.plus) {
 				mui.plusReady(function() {
@@ -420,7 +397,7 @@
 			});
 			mui.previewImage();
 
-			function getStoryList() {
+			function getStoryList(position) {
 				var param = {
 					"jdbcTemplateName": "mysqlTemplate",
 					"pFile": "ScienceStory",
@@ -431,14 +408,14 @@
 					"queryTermStr": "",
 					"type":"mysql"
 				}
-				mui.ajax('http://172.168.17.60:8080/mis-app/ScienceStory/pageSearch', {
+				mui.ajax('http://172.168.12.96:8080/mis-app/ScienceStory/pageSearch', {
 					data: param,
 					success: function(result) {
 						var data = JSON.parse(result);
 						var list = data.listInfo.list;
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); 
 						if(list.length > 0){
-							addData(list);
+							addData(list, position);
 						}else{
 							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
 						}
@@ -450,7 +427,7 @@
 				});
 			}
 			
-			function addData(list){
+			function addData(list, position){
 				var table = document.body.querySelector('.mui-table-view');
 				for(var i = 0; i < list.length; i++) {
 						var li = document.createElement('li');
@@ -467,16 +444,21 @@
 						_card += '</div>';
 						_card += '<div class="mui-media-footer">';
 						var imgList = list[i].content_images;
-						if(imgList && imgList.length > 0) {
-							var imgLength = imgList.length;
-							//TODO 图片显示逻辑： 后台传的数据 小于四张图 显示第一张  大于等于四张图  显示前四张 
-							//暂时这样判断
-							if(imgLength % 2 == 0) {
+						if(imgList != null){
+							imgList = imgList.split(',');
+							var imgLength = imgList.length, className = "";
+							//
+							if(imgLength % 2 == 0 && imgLength <= 4){
+								className = "mui-col-sm-6 mui-col-xs-6";
+							}else if(imgLength >　1){
+								className = "mui-col-sm-4 mui-col-xs-4";
+							}
+							if(imgLength == 1) {
 								_card += '<img src="' + imgList[0] + '" data-preview-src="" data-preview-group="' + list[i].id + '"/>';
 							} else {
 								_card += '<div class="mui-row imgBox">';
 								for(var j = 0; j < imgLength; j++){
-									_card += '<div class="mui-col-sm-6 mui-col-xs-6">' +
+									_card += '<div class="' + className + '">' +
 												'<img src="' + imgList[j] + '" data-preview-src="" data-preview-group="' + list[i].id + '"/>' +
 											 '</div>';
 								}
@@ -493,12 +475,16 @@
 						}
 						_card += '</div>';
 						_card += '<div class="mui-status-bottom">';
-						_card += '<span class="mui-status-item">阅读量：<span class="number">' + list[i].page_view + '</span></span>';
+						_card += '<span class="mui-status-item">浏览量：<span class="number">' + list[i].page_view + '</span></span>';
 						_card += '<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
 						_card += '</div>';
 						_card += '</a>';
 						li.innerHTML = _card;
-						table.appendChild(li);
+						if(position == 'before'){
+							table.insertBefore(li, table.firstChild);
+						}else{
+							table.appendChild(li);
+						}						
 					}
 			}
 		</script>

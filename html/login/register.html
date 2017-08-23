@@ -65,8 +65,8 @@
 				if(!reg.test(phoneNum.trim())) {
 					mui.toast('请输入正确的手机号码');
 				}
-				
-				mui.ajax('http://172.168.17.60:8080/mis-app/public/getVerificationCode', {
+				mui.toast('验证码已发送，请注意查收');
+				mui.ajax('http://172.168.12.96:8080/mis-app/public/getVerificationCode', {
 					data: {
 						phone: phoneNum
 					},
@@ -91,7 +91,7 @@
 					return;
 				}
 
-				mui.ajax('http://172.168.17.60:8080/mis-app/public/md5code', {
+				mui.ajax('http://172.168.12.96:8080/mis-app/public/md5code', {
 					data: {
 						userCode: userCode,
 						md5Code: md5Code
