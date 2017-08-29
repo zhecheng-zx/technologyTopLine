@@ -282,7 +282,7 @@
 				var url = e.detail.dataUrl;
 				var state = JSON.parse(localStorage.getItem('$state'));
 				state.personImages = url;
-				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
+				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 					data: {
 						"id": state.userId,
 						"jdbcTemplateName": "mysqlTemplate",

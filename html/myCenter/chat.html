@@ -108,6 +108,97 @@
 				padding: 0px;
 			}
 			
+			.footer-right .mui-icon.mui-icon-compose {
+				font-size: 30px;
+			}
+			
+			.footer-right .mui-icon.mui-icon-compose:before {
+				color: #5A5A5A;
+			}
+			
+			#msg-list {
+				height: 100%;
+				overflow: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+			.msg-item {
+				padding: 8px;
+				clear: both;
+			}
+			.msg-item .mui-item-clear {
+				clear: both;
+			}
+			.msg-item .msg-user {
+				width: 38px;
+				height: 38px;
+				border: solid 1px #d3d3d3;
+				display: inline-block;
+				background: #fff;
+				border-radius: 3px;
+				vertical-align: top;
+				text-align: center;
+				float: left;
+				padding: 3px;
+				color: #ddd;
+			}
+			
+			.msg-item .msg-user-img{
+				width: 38px;
+				height: 38px;
+				display: inline-block;
+				border-radius: 3px;
+				vertical-align: top;
+				text-align: center;
+				float: left;
+				color: #ddd;
+			}
+			
+			.msg-item .msg-content {
+				display: inline-block;
+				border-radius: 5px;
+				border: solid 1px #d3d3d3;
+				background-color: #FFFFFF;
+				color: #333;
+				padding: 8px;
+				vertical-align: top;
+				font-size: 15px;
+				position: relative;
+				margin: 0px 8px;
+				max-width: 75%;
+				min-width: 35px;
+				float: left;
+			}
+			.msg-item .msg-content .msg-content-inner {
+				overflow-x: hidden;
+			}
+			.msg-item .msg-content .msg-content-arrow {
+				position: absolute;
+				border: solid 1px #d3d3d3;
+				border-right: none;
+				border-top: none;
+				background-color: #FFFFFF;
+				width: 10px;
+				height: 10px;
+				left: -5px;
+				top: 12px;
+				-webkit-transform: rotateZ(45deg);
+				transform: rotateZ(45deg);
+			}
+			.msg-item-self .msg-user,
+			.msg-item-self .msg-content {
+				float: right;
+			}
+			.msg-item-self .msg-content .msg-content-arrow {
+				left: auto;
+				right: -5px;
+				-webkit-transform: rotateZ(225deg);
+				transform: rotateZ(225deg);
+			}
+			.msg-item-self .msg-content,
+			.msg-item-self .msg-content .msg-content-arrow {
+				background-color: #3385ff;
+				color: #fff;
+			}
 		</style>
 	</head>
 
@@ -136,13 +227,54 @@
 		<script src="../../js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
-			mui('footer').on('tap', '#search_input', function(e){
+
+			mui.plusReady(function(){
 				var state = JSON.parse(localStorage.getItem('$state'));
-				if(state == null || state.userId == null){
+				if(state == null || state.userId == null) {
+					return;
+				}
+				plus.nativeUI.showWaiting();
+				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/baseQuery', {
+					data: {
+						"jdbcTemplateName": "mysqlTemplate",
+						"pFile": "Personal",
+						"pKey": "obtain",
+						"user_id": state.userId
+					},
+					success: function(result){
+						plus.nativeUI.closeWaiting();
+						if(result){
+							var container = document.body.querySelector('#msg-list');
+							result = JSON.parse(result);
+							var listInfo = result.listInfo;
+							for(var i = 0; i < listInfo.length; i++){
+								var div = document.createElement('div');
+								div.className = "msg-item msg-item-self"; //暂时写成self  实际判断是回复的样式还是自己发送的样式
+								div.innerHTML = '<img class="msg-user" src="' + state.personImages + '">' 
+												+ '<div class="msg-content">'
+													+ '<div class="msg-content-inner">' + listInfo[i].propose + '</div>' 
+												+ '</div>';
+								div.setAttribute('dataId', listInfo[i].id);
+								container.appendChild(div);
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.error(xhr);
+						console.error(type);
+						plus.nativeUI.closeWaiting();						
+					}
+				})
+			});
+
+			mui('footer').on('tap', '#search_input', function(e) {
+				var state = JSON.parse(localStorage.getItem('$state'));
+				if(state == null || state.userId == null) {
 					mui.toast('请先登录');
 					return;
 				}
-				
+
 				mui.openWindow({
 					url: 'feedback.html',
 					id: 'feedback.html',

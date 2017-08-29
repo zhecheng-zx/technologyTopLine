@@ -339,7 +339,7 @@
 
 			function getChannels() {
 				var session = JSON.parse(localStorage.getItem('$state'));
-				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/mychannel', {
+				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/mychannel', {
 					data: {
 						"user_id": session.userId,
 						"jdbcTemplateName": "mysqlTemplate",
@@ -363,7 +363,7 @@
 				var ul = document.getElementById('recommend_channel');
 				for(var i = 0; i < list.length; i++) {
 					var li = document.createElement('li');
-					li.setAttribute('dataId', list[i].id);
+//					li.setAttribute('dataId', list[i].id);
 					li.setAttribute("channelId", list[i].channel_id);
 					li.innerHTML = '<div class="channel_item">' +
 						'<div class="channel drag-channel">' +
@@ -393,21 +393,20 @@
 
 				[].forEach.call(document.querySelectorAll(".icon-remove"), function(item, index) {
 					item.addEventListener('tap', function() {
-						var dataId = this.parentNode.parentNode.getAttribute('dataId'),
-							channelId = this.parentNode.parentNode.getAttribute('channelId'),
-							channelName = $(this).siblings('.drag-channel').text(); //不会用原生js获取啊啊啊
-						deleteMyChannel(dataId, channelId, channelName, this);
+						var channelId = this.parentNode.parentNode.getAttribute('channelId'),
+							channelName = $(this).siblings('.drag-channel').text(); 
+						deleteMyChannel(channelId, channelName, this);
 					});
 				});
 			}
 
-			function deleteMyChannel(dataId, channelId, channelName, source) {
+			function deleteMyChannel(channelId, channelName, source) {
 				var session = JSON.parse(localStorage.getItem('$state'));
 				if(!session.userId) {
 					mui.toast('请先登录');
 					return;
 				}
-				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
+				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 					data: {
 						"jdbcTemplateName": "mysqlTemplate,mysqlTemplate",
 						"pFile": "Personal,Personal",
@@ -423,7 +422,6 @@
 							//推荐频道增加该标签
 							var arr = [];
 							arr.push({
-								id: dataId,
 								channel_theme: channelName,
 								channel_id: channelId
 							});
@@ -456,14 +454,14 @@
 
 				mui('.mui-content').on('tap', '#recommend_channel li', function() {
 					var session = JSON.parse(localStorage.getItem('$state')),
-						dataId = this.getAttribute('dataId'),
+//						dataId = this.getAttribute('dataId'),
 						channelId = this.getAttribute('channelId'),
 						channelName = $(this).find('.channel_name').text(),
 						_this = this;
 					if(!session.userId) {
 						mui.toast('请先登录');
 					}
-					mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
+					mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 						data: {
 							"user_id": session.userId,
 							"channel_id": channelId,
@@ -477,20 +475,26 @@
 								//我的频道插入值
 								var index = document.getElementsByClassName('my-channel-li').length;
 								var li = document.createElement('li');
+								var itemClassName = '';
+								if(document.getElementById("edit").innerText == '完成'){
+									itemClassName = "shakecontainer shake";
+								}
+								
 								li.className = 'my-channel-li';
 								li.setAttribute('data-li', index + 1);
 								li.setAttribute('channelId', channelId);
-								li.innerHTML = '<div class="channel_item">' +
+								li.innerHTML = '<div class="channel_item ' + itemClassName + '">' +
 									'<div class="channel drag-channel">' + channelName + '</div>' +
 									'<span class="channel-index">' + (index + 1) + '</span>' +
 									'<span class="mui-icon mui-icon-close icon-remove"></span>' +
 									'</div>';
 								document.getElementById('my_channel').appendChild(li);
+								
 								$(li).find('.icon-remove').on('tap', function() {
 									var dataId = this.parentNode.parentNode.getAttribute('dataId'),
 										channelId = this.parentNode.parentNode.getAttribute('channelId'),
 										channelName = $(this).siblings('.drag-channel').text(); //不会用原生js获取啊啊啊
-									deleteMyChannel(dataId, channelId, channelName, this);
+									deleteMyChannel(channelId, channelName, this);
 								});
 								//推荐频道删除该标签
 								$(_this).remove();

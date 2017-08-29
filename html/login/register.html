@@ -66,11 +66,13 @@
 					mui.toast('请输入正确的手机号码');
 				}
 				mui.toast('验证码已发送，请注意查收');
-				mui.ajax('http://172.168.12.96:8080/mis-app/public/getVerificationCode', {
+				console.log(phoneNum)
+				mui.ajax('http://58.16.181.24:9203/mis-app/public/getVerificationCode', {
 					data: {
 						phone: phoneNum
 					},
 					success: function(result) {
+						
 						if(result.status == 0) {
 							md5Code = result.data;
 						} else {
@@ -78,6 +80,7 @@
 						}
 					},
 					error: function(xhr, type, errorThrown) {
+						console.error(JSON.stringify(xhr))
 						console.error(type);
 						console.error(JSON.stringify(errorThrown))
 					}
@@ -91,13 +94,12 @@
 					return;
 				}
 
-				mui.ajax('http://172.168.12.96:8080/mis-app/public/md5code', {
+				mui.ajax('http://58.16.181.24:9203/mis-app/public/md5code', {
 					data: {
 						userCode: userCode,
 						md5Code: md5Code
 					},
 					success: function(result) {
-						console.log(JSON.stringify(result))
 						if(result.status == 0) {
 							mui.openWindow({
 								url: 'registInfo.html',
@@ -111,10 +113,14 @@
 									phoneNum: document.getElementById('phoneNum').value
 								}
 							});
+						}else{
+							mui.toast('验证失败');
 						}
 					},
 					error: function(xhr, type, errorThrown) {
-						console.error(type)
+						console.error(type);
+						console.error(JSON.stringify(xhr));
+						console.error(JSON.stringify(errorThrown))
 					}
 				});
 

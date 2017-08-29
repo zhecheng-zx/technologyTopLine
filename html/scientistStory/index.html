@@ -43,11 +43,13 @@
 			.mui-media-footer>img,
 			.mui-media-footer>video {
 				width: 100%;
+				height: 100%;
 			}
 			
 			video {
 				object-position: 0px 0px;
 				width: 100%;
+				max-height: 100%;
 			}
 			
 			.videoBox {
@@ -304,15 +306,24 @@
 				border-radius: 50px;
 			}
 			
-			.imgBox>div:nth-child(odd) {
-				padding-right: 5px;
+			.imgBox>div{
+				padding: 0px 5px;
 			}
 			
-			.imgBox>div:nth-child(even) {
-				padding-left: 5px;
+			.imgBox>div:first-child {
+				padding-left: 0px;
 			}
 			
-			.imgBox img{
+			.imgBox>div:last-child {
+				padding-right: 0px;
+			}
+			
+			.mui-media-footer img{
+				height: 150px;
+				width: auto;
+			}
+			
+			.mui-media-footer .imgBox img{
 				width: 100%;
 				height: 100px;
 			}
@@ -325,7 +336,6 @@
 			<div class="mui-scroll">
 				<!--数据列表-->
 				<ul class="mui-table-view">
-
 				</ul>
 			</div>
 		</div>
@@ -365,7 +375,7 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				pageNum = 0;
+				pageNum = 1;
 				getStoryList('before');								
 			}
 			var count = 0;
@@ -390,7 +400,6 @@
 				$(this).addClass("mui-hidden").next(".poster").addClass("mui-hidden");
 				$(this).parent().find("video").height($(this).parent().height());
 				$(this).parent().find("video")[0].play();
-				console.log($(this).parent().find("video")[0].src);
 			});
 			$(document).on("tap", ".remove-box>a.remove-item", function() {
 				$(this).addClass("active").siblings(".remove-item").removeClass("active");
@@ -408,19 +417,35 @@
 					"queryTermStr": "",
 					"type":"mysql"
 				}
-				mui.ajax('http://172.168.12.96:8080/mis-app/ScienceStory/pageSearch', {
+				
+				if(position == "before"){
+					param.pKey = "downpull";
+					var newDate = $('.mui-table-view li:first p.publishDate').text();
+					param.current_time = newDate.trim();
+				}
+				
+				mui.ajax('http://58.16.181.24:9203/mis-app/ScienceStory/pageSearch', {
 					data: param,
 					success: function(result) {
+						plus.nativeUI.closeWaiting();
+						if(position == 'after'){
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); 
+						}else{
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+						}
+						
 						var data = JSON.parse(result);
 						var list = data.listInfo.list;
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); 
 						if(list.length > 0){
 							addData(list, position);
-						}else{
+						}else if(position == 'after' && list.length == 0){
 							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
+						}else if(position == 'before' && list.length == 0){
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh(true);
 						}
 					},
 					error: function(xhr, type, errorThrown) {
+						plus.nativeUI.closeWaiting();
 						console.error(JSON.stringify(xhr))
 						console.error(type)
 					}
@@ -437,15 +462,20 @@
 						_card += '<img class="mui-media-object mui-pull-left" src="' + list[i].personimages + '">';
 						_card += '<div class="mui-media-body">';
 						_card += $.trim(list[i].username);
-						_card += '<p class="mui-ellipsis">' + $.trim(list[i].create_time) + '</p>';
+						_card += '<p class="mui-ellipsis publishDate">' + $.trim(list[i].create_time) + '</p>';
 						_card += '</div>';
 						_card += '<div class="mui-media-footer">';
 						_card += '<p class="text-gray mui-ellipsis-2">' + list[i].content + '</p>';
 						_card += '</div>';
 						_card += '<div class="mui-media-footer">';
 						var imgList = list[i].content_images;
-						if(imgList != null){
+						if(imgList && imgList.length > 0){
 							imgList = imgList.split(',');
+							var reduceList = list[i].reduce_image;
+							
+							if(reduceList){
+								reduceList = reduceList.split(',');
+							}
 							var imgLength = imgList.length, className = "";
 							//
 							if(imgLength % 2 == 0 && imgLength <= 4){
@@ -454,24 +484,27 @@
 								className = "mui-col-sm-4 mui-col-xs-4";
 							}
 							if(imgLength == 1) {
-								_card += '<img src="' + imgList[0] + '" data-preview-src="" data-preview-group="' + list[i].id + '"/>';
+								var imgSrc = (reduceList && reduceList.length > 0) ? reduceList[0] : imgLength[0]
+								_card += '<img src="' + imgSrc + '" data-preview-src="' + imgList[0] + '" data-preview-group="' + list[i].id + '"/>';
 							} else {
 								_card += '<div class="mui-row imgBox">';
 								for(var j = 0; j < imgLength; j++){
+									var imgSrc = (reduceList && reduceList.length > j) ? reduceList[j] : imgList[j];
 									_card += '<div class="' + className + '">' +
-												'<img src="' + imgList[j] + '" data-preview-src="" data-preview-group="' + list[i].id + '"/>' +
+												'<img src="' + imgSrc + '" data-preview-src="' + imgList[j] + '" data-preview-group="' + list[i].id + '"/>' +
 											 '</div>';
 								}
 								_card += '</div>';								
 							}
 						} else if(list[i].video_content){
 							_card += '<div class="videoBox">';
-							_card += '<img class="playBtn" src="../../images/playBtn.png" />';
-							_card += '<img class="poster" src="../../images/ad.png" alt="" />';
-							_card += '<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" poster="../../images/ad.png" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
-							_card += '<source type="video/mp4" src="../../images/mda-hg1dpy13qt8cdqhn.mp4" />';
+//							_card += '<img class="playBtn" src="../../images/playBtn.png" />';
+//							_card += '<img class="poster" src="../../images/ad.png" alt="" />';
+							_card += '<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
+							_card += '<source type="video/mp4" src="' + list[i].video_content + '" />';
 							_card += '</video>';
 							_card += '</div>';
+							// x5-video-player-fullscreen 全屏方式
 						}
 						_card += '</div>';
 						_card += '<div class="mui-status-bottom">';
@@ -480,6 +513,7 @@
 						_card += '</div>';
 						_card += '</a>';
 						li.innerHTML = _card;
+						
 						if(position == 'before'){
 							table.insertBefore(li, table.firstChild);
 						}else{
@@ -487,6 +521,16 @@
 						}						
 					}
 			}
+			
+			
+			document.addEventListener('reloadData', function(e){		
+				plus.nativeUI.showWaiting();
+				pageNum = 0;
+				document.body.querySelector('.mui-table-view').innerHTML = '';
+//				var data = e.detail.data;
+				pullupRefresh();
+//				addData(data, 'before');
+			});
 		</script>
 	</body>
 

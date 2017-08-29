@@ -93,7 +93,7 @@
 						return;
 					}
 					
-					mui.ajax('http://172.168.12.96:8080/mis-app/public/register', {
+					mui.ajax('http://58.16.181.24:9203/mis-app/public/register', {
 						type: 'POST',
 						data: {
 							password: md5(pwd),
@@ -107,10 +107,9 @@
 							if(status == 0) {
 								mui.toast('注册成功');
 								//注册成功 跳转到登录页面;有时跳转失败，暂未检查原因
-								var wn = plus.webview.getElementById('login.html');
 								var curWn = plus.webview.currentWebview();
 								curWn.close();
-								wn.open();
+								plus.webview.show('../login/login.html');
 							}else{
 								mui.toast(status.msg);
 							}

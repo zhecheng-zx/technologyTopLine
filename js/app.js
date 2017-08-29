@@ -15,8 +15,8 @@
 			return callback('密码不能为空');
 		}
 
-		plus.nativeUI.showWaiting();
-		mui.ajax('http://172.168.12.96:8080/mis-app/public/toLogin', {
+		plus.nativeUI.showWaiting('努力登录中');
+		mui.ajax('http://58.16.181.24:9203/mis-app/public/toLogin', {
 			data: loginInfo,
 			success: function(result) {
 				if(result.status != 0) {
@@ -78,7 +78,7 @@
 	};
 
 	/**
-	 * 设置应用本地配置
+	 * 设置应用本地配置  暂未用到
 	 **/
 	owner.setSettings = function(settings) {
 		settings = settings || {};
@@ -86,7 +86,7 @@
 	}
 
 	/**
-	 * 获取应用本地配置
+	 * 获取应用本地配置 暂未用到
 	 **/
 	owner.getSettings = function() {
 		var settingsText = localStorage.getItem('$settings') || "{}";

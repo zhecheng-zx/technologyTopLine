@@ -222,7 +222,7 @@
 				//下面这句代码是放在ajax回调函数里的
 				vm.content = '';
 
-				mui.ajax('http://172.168.12.96:8080/mis-app/Detail/articleInfo', {
+				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
 					data: {
 						"id": guid,
 						"jdbcTemplateName": "mysqlTemplate",
@@ -382,7 +382,7 @@
 				}else{
 					param.pKey = "deletecollect";
 				}
-				mui.ajax('http://172.168.12.96:8080/mis-app/Personal/formProcessing', {
+				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 					type: 'post',
 					data: param,
 					success: function(result) {

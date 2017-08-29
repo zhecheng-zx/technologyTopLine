@@ -176,19 +176,21 @@
 			"qqemail": feedback.contact.value,
 			"file_directory": "filepath"
 		};
+		
 		feedback.send(param);
 	}, false);
 	feedback.send = function(content) {
 		plus.nativeUI.showWaiting();
-		feedback.uploader = plus.uploader.createUpload('http://172.168.12.96:8080/mis-app/Personal/feedback', {
+		feedback.uploader = plus.uploader.createUpload('http://58.16.181.24:9203/mis-app/Personal/feedback', {
 			method: 'POST'
 		}, function(upload, status) {
-			plus.nativeUI.closeWaiting()
-			console.log("upload cb:" + upload.responseText);
-			console.log(typeof upload.responseText)
+			plus.nativeUI.closeWaiting();
+			var res = JSON.parse(upload.responseText);
 			//请求完暂未写
-			if(status == 200) {
-
+			if(res.status == "success") {
+				var opener = plus.webview.currentWebview().opener();
+				opener.reload();
+				plus.webview.currentWebview().close();
 			} else {
 				console.error("upload fail");
 			}
@@ -208,7 +210,6 @@
 			});
 		});
 		//开始上传任务
-		console.log(JSON.stringify(feedback.uploader))
 		feedback.uploader.start();
 	};
 	

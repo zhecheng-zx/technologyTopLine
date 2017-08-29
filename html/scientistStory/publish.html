@@ -39,8 +39,8 @@
 				border: none;
 			}
 			
-			.mui-content textarea{
-				height: 100px;	
+			.mui-content textarea {
+				height: 100px;
 			}
 			
 			.media-type {
@@ -88,7 +88,8 @@
 				left: 51px;
 			}
 			
-			.mui-content .image-list {
+			.mui-content .image-list,
+			.mui-content .video-list {
 				height: 100%;
 			}
 			
@@ -96,9 +97,10 @@
 				font-size: 30px;
 			}
 			
-			.mui-content .image-list {
+			.mui-content .image-list,
+			.mui-content .video-list {
 				width: 100%;
-				height: 85px;
+				/*height: 85px;*/
 				background-size: cover;
 				padding: 10px 10px;
 				overflow: hidden;
@@ -170,6 +172,10 @@
 			.mui-content .image-item.space .image-close {
 				display: none;
 			}
+			
+			.mui-content .video-container {
+				display: none;
+			}
 		</style>
 	</head>
 
@@ -199,7 +205,9 @@
 				<div class="img-container">
 					<div id='image-list' class="row image-list"></div>
 				</div>
-				<div class="video-container"></div>
+				<div class="video-container">
+					<div id="video-list" class="row video-list"></div>
+				</div>
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
@@ -207,43 +215,65 @@
 		<script type="text/javascript">
 			var imageIndexIdNum = 0,
 				files = [],
+				compressFiles = [],
 				index = 1,
 				size = null,
 				uploader = null,
-				imgList = document.getElementById('image-list');
-
+				imgList = document.getElementById('image-list'),
+				videoIndexIdNum = 0,
+				videoFile = [],
+				videoIndex = 1,
+				videoSize = null,
+				videoUploader = null,
+				videoList = document.getElementById('video-list'),
+				curFileType = 'img';
+			var state = JSON.parse(localStorage.getItem('$state'));
+			
 			mui.init();
 
 			mui('.media-type').on('tap', 'a', function(e) {
 				$(this).addClass('mui-active').siblings().removeClass('mui-active');
+				clearUploadInfo('all');
 				if($(this).hasClass('image')) {
 					$('.triangle').removeClass('video').addClass('img');
+					curFileType = 'img';
+					$('.video-container').hide();
+					$('.img-container').show();
 				} else {
 					$('.triangle').addClass('video').removeClass('img');
+					curFileType = 'video';
+					$('.video-container').show();
+					$('.img-container').hide();
 				}
 			});
 
 			function newPlaceholder() {
 				var fileInputArray = getFileInputArray();
-				if(fileInputArray && fileInputArray.length >= 9) {
+				if(!fileInputArray) {
 					return;
 				};
 				imageIndexIdNum++;
 				var placeholder = document.createElement('div');
 				placeholder.setAttribute('class', 'image-item space');
 				var up = document.createElement("div");
-				up.setAttribute('class', 'image-up')
+				up.setAttribute('class', 'image-up');
 				//删除图片
 				var closeButton = document.createElement('div');
 				closeButton.setAttribute('class', 'image-close');
 				closeButton.innerHTML = 'X';
 				closeButton.id = "img-" + index;
+				closeButton.setAttribute('compressId', 'compress' + index);
 				//小X的点击事件
 				closeButton.addEventListener('tap', function(event) {
 					setTimeout(function() {
 						for(var temp = 0; temp < files.length; temp++) {
 							if(files[temp].id == closeButton.id) {
 								files.splice(temp, 1);
+							}
+						}
+						for(var temp = 0; temp < compressFiles.length; temp++) {
+							if(compressFiles[temp].id == closeButton.getAttribute('compressId')) {
+								compressFiles.splice(temp, 1);
 							}
 						}
 						imgList.removeChild(placeholder);
@@ -261,57 +291,148 @@
 
 					plus.gallery.pick(function(e) {
 						var name = e.substr(e.lastIndexOf('/') + 1);
-						console.log("name:" + name);
 
 						plus.zip.compressImage({
-							src: e,
-							dst: '_doc/' + name,
+							src: e,//压缩转换原始图片的路径
+							dst: '_doc/compress' + name,//压缩转换目标图片的路径
 							overwrite: true,
-							quality: 50
+							quality: 20,
+							width: '150px',
+							height: 'auto'
 						}, function(zip) {
-							console.log(JSON.stringify(zip))
-							size += zip.size
-							console.log("filesize:" + zip.size + ",totalsize:" + size);
+							size += zip.size;
 							if(size > (10 * 1024 * 1024)) {
-								return mui.toast('文件超大,请重新选择~');
+								return mui.toast('图片大小不能超过10M');
 							}
 							if(!self.parentNode.classList.contains('space')) { //已有图片
 								files.splice(index - 1, 1, {
 									name: "images" + index,
 									path: e
 								});
+								compressFiles.splice(index - 1, 1, {
+									name: "compress" + index,
+									path: e
+								});
 							} else { //加号
 								placeholder.classList.remove('space');
-								addFile(zip.target);
+								addFile(e, 'orinigal');
+								addFile(zip.target, 'compress');
 								newPlaceholder();
 							}
 							up.classList.remove('image-up');
 							placeholder.style.backgroundImage = 'url(' + zip.target + ')';
-						}, function(zipe) {
-							mui.toast('压缩失败！')
-						});
 
+						}, function(zipe) {
+							console.error(JSON.stringify(zipe))
+							mui.toast('压缩失败')
+						});
 					}, function(e) {
-						mui.toast(e.message);
-					}, {});
+						if(e.code == -2) {
+							mui.toast('取消当前操作');
+						} else {
+							mui.toast(e.message);
+						}
+					}, {
+						filter: "image"
+					});
 				}, false);
 				placeholder.appendChild(closeButton);
 				placeholder.appendChild(up);
 				placeholder.appendChild(fileInput);
 				imgList.appendChild(placeholder);
 			};
-			newPlaceholder()
+			newPlaceholder();
+
+			function newVideoPlaceholder() {
+				var fileInputArray = getFileInputArray();
+				if(!fileInputArray) {
+					return;
+				};
+				videoIndexIdNum++;
+				var placeholder = document.createElement('div');
+				placeholder.setAttribute('class', 'image-item space');
+				var up = document.createElement("div");
+				up.setAttribute('class', 'image-up');
+				//删除图片
+				var closeButton = document.createElement('div');
+				closeButton.setAttribute('class', 'image-close');
+				closeButton.innerHTML = 'X';
+				closeButton.id = "video-" + index;
+				//小X的点击事件
+				closeButton.addEventListener('tap', function(event) {
+					setTimeout(function() {
+						for(var temp = 0; temp < videoFile.length; temp++) {
+							if(videoFile[temp].id == closeButton.id) {
+								videoFile.splice(temp, 1);
+							}
+						}
+						videoList.removeChild(placeholder);
+					}, 0);
+					return false;
+				}, false);
+
+				//
+				var fileInput = document.createElement('div');
+				fileInput.setAttribute('class', 'file');
+				fileInput.setAttribute('id', 'video-' + videoIndexIdNum);
+				fileInput.addEventListener('tap', function(event) {
+					var self = this;
+					var index = (this.id).substr(-1);
+
+					plus.gallery.pick(function(e) {
+						var name = e.substr(e.lastIndexOf('/') + 1);
+						placeholder.classList.remove('space');
+						addVideoFile(e);
+						newPlaceholder();
+						up.classList.remove('image-up');
+						placeholder.style.backgroundImage = 'url(' + e.target + ')';
+					}, function(e) {
+						if(e.code == -2) {
+							mui.toast('取消当前操作');
+						} else {
+							mui.toast(e.message);
+						}
+					}, {
+						filter: 'video'
+					});
+				}, false);
+				placeholder.appendChild(closeButton);
+				placeholder.appendChild(up);
+				placeholder.appendChild(fileInput);
+				videoList.appendChild(placeholder);
+			};
 
 			function getFileInputArray() {
-				var imgList = document.getElementById('image-list');
-				return [].slice.call(imgList.querySelectorAll('.file'));
+				if(curFileType == 'img' && files && files.length >= 9) {
+					return false;
+				} else if(curFileType == 'video' && videoFile && videoFile.length >= 1) {
+					return false;
+				}
+				return true;
 			}
 
-			function addFile(path) {
-				files.push({
-					name: "images" + index,
+			function addFile(path, flag) {
+				if(flag == "compress") {
+					compressFiles.push({
+						name: "compress" + index,
+						path: path,
+						id: "compress-" + index
+					});
+				} else {
+					files.push({
+						name: "images" + index,
+						path: path,
+						id: "img-" + index
+					});
+				}
+				index++;
+			};
+
+			function addVideoFile(path) {
+				videoFile.push({
+					name: "video" + index,
 					path: path,
-					id: "img-" + index
+					id: "video-" + index
 				});
 				index++;
 			};
@@ -330,53 +451,70 @@
 					"title": $('#story_title').val(),
 					"content": $('#story_describe').val(),
 					"content_images": files,
-					"content_video": "",
+					"content_video": videoFile,
 					"user_id": state.userId,
 					"jdbcTemplateName": "mysqlTemplate",
 					"pFile": "ScienceStory",
 					"pKey": "addScienceStory",
-					"file_directory": "images"
+					"file_directory": "images",
+					"compress_images": compressFiles
 				}
-				plus.nativeUI.showWaiting('上传中');
+
+				plus.nativeUI.showWaiting('上传中');				
 				send(param);
 			});
 
 			function send(content) {
-				uploader = plus.uploader.createUpload('http://172.168.12.96:8080/mis-app/ScienceStory/issueStory', {
+				uploader = plus.uploader.createUpload('http://58.16.181.24:9203/mis-app/ScienceStory/issueStory', {
 					method: 'POST'
 				}, function(upload, status) {
 					plus.nativeUI.closeWaiting();
-					console.log(JSON.stringify(upload))
-					console.log(typeof upload.responseText);
-					console.log(status)
 					if(status == 200) {
 						clearUploadInfo('all');
-						var opener = plus.webview.currentWebview().opener();
-						opener.reload();
+//						var opener = plus.webview.currentWebview().opener();
+//						opener.reload();
+						var w = plus.webview.getWebviewById('./html/scientistStory/index.html');						
+//						var data = [{
+//							content: content.content,
+//							content_images: content.content_images.toString(),
+//							compress_images: content.compress_images.toString(),
+//							video_content: content.content_video.toString(),
+//							page_view: 0
+//						}]
+						mui.fire(w, 'reloadData', {});
 						plus.webview.currentWebview().close();
 
 					}
 				});
 				//添加上传数据
 				mui.each(content, function(index, element) {
-					if(index !== 'content_images') {
-						console.log("addData:" + index + "," + element);
-						//				console.log(index);
+					if(index !== 'content_images' && index !== 'compress_images') {
 						uploader.addData(index, element)
 					}
 				});
 				//添加上传文件
 				mui.each(files, function(index, element) {
 					var f = files[index];
-					console.log("addFile:" + JSON.stringify(f));
 					uploader.addFile(f.path, {
 						key: f.name
 					});
 				});
-				console.log(JSON.stringify(uploader))
+				//添加压缩文件
+				mui.each(compressFiles, function(index, element) {
+					var f = compressFiles[index];					
+					uploader.addFile(f.path, {
+						key: f.name
+					});
+				});
+
+				mui.each(videoFile, function(index, element) {
+					var f = videoFile[index];
+					uploader.addFile(f.path, {
+						key: f.name
+					});
+				});
 				//开始上传任务
 				uploader.start();
-				//		plus.nativeUI.showWaiting();
 			};
 
 			/**
@@ -393,14 +531,22 @@
 				if(flag == 'img' || flag == 'all') {
 					imgList.innerHTML = '';
 					files = [];
-					index = 0;
-					size = 0;
+					compressFiles = [];
+					index = 1;
 					imageIndexIdNum = 0;
-					starIndex = 0;
+					size = null;
+					uploader = null;
+					newPlaceholder();
 				}
 
 				if(flag == 'video' || flag == 'all') {
-
+					videoList.innerHTML = '';
+					videoFile = [];
+					videoIndex = 1;
+					videoIndexIdNum = 0;
+					videoSize = null;
+					uploader = null;
+					newVideoPlaceholder();
 				}
 			}
 		</script>

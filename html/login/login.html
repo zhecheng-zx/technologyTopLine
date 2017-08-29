@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="ui-page-login">
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -7,8 +8,8 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title>登录</title>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
-		<style>		
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+		<style>
 			.ui-page-login,
 			body {
 				width: 100%;
@@ -18,28 +19,28 @@
 				background-image: url(../../images/login.png);
 				background-repeat: no-repeat;
 				background-size: 100%;
-			}				
+			}
 			
-			.mui-content{
+			.mui-content {
 				background-color: rgba(0, 0, 0, 0);
-			}	
-				
-			.logo-wrap{
+			}
+			
+			.logo-wrap {
 				padding: 50px 0px;
 			}
 			
-			.logo-box{
-			    width: 68px;
-			    height: 68px;
-			    background: #3385ff;
-			    border-radius: 18px;   
-			    padding: 16px 9px;
-			    margin: 0px auto;
+			.logo-box {
+				width: 68px;
+				height: 68px;
+				background: #3385ff;
+				border-radius: 18px;
+				padding: 16px 9px;
+				margin: 0px auto;
 			}
 			
 			.area {
 				margin: 20px auto 0px auto;
-			}						
+			}
 		</style>
 
 	</head>
@@ -53,12 +54,12 @@
 			</div>
 			<form id='login-form' class="mui-input-group">
 				<div class="mui-input-row">
-					<input id='phoneNum' type="number" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<input id='phoneNum' type="number" class="mui-input-clear mui-input" placeholder="请输入手机号">
 				</div>
 				<div class="mui-input-row">
 					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
 				</div>
-			</form>			
+			</form>
 			<div class="mui-content-padded">
 				<div class="link-area">
 					<a id='forgetPassword'>忘记密码</a>
@@ -84,110 +85,52 @@
 				$.plusReady(function() {
 					//锁定屏幕为竖屏模式
 					plus.screen.lockOrientation("portrait-primary");
-					var settings = app.getSettings();
 					var state = app.getState();
 					//登录成功后的callback事件
 					var toMain = function() {
-						var cur = plus.webview.currentWebview();;
-						plus.webview.close(cur);
-						var w = plus.webview.getWebviewById('./html/myCenter/index.html');
-						w.reload();
 						plus.nativeUI.closeWaiting();
+						var h = plus.webview.getWebviewById('./html/index/index.html');
+						mui.fire(h, 'hidePlusBox', {});
+						var w = plus.webview.getWebviewById('./html/myCenter/index.html');
+						w.reload(true);
+//						plus.webview.getWebviewById('reg').close();
+						plus.webview.currentWebview().close();
+						
 						w.show();
 					};
-					//检查 "登录状态/锁屏状态" 开始;
-					if (settings.autoLogin && state.token && settings.gestures) {
-						$.openWindow({
-							url: 'unlock.html',
-							id: 'unlock',
-							show: {
-								aniShow: 'pop-in'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
-					} else if (settings.autoLogin && state.token) {
-						//自动登录 也没有
-						toMain();
-					} else {
-						app.setState(null);
-						//第三方登录
-						var authBtns = ['qihoo', 'weixin', 'sinaweibo', 'qq']; //配置业务支持的第三方登录
-						var auths = {};
-						var oauthArea = doc.querySelector('.oauth-area');
-						plus.oauth.getServices(function(services) {
-							for (var i in services) {
-								var service = services[i];
-								auths[service.id] = service;
-								if (~authBtns.indexOf(service.id)) {
-									var isInstalled = app.isInstalled(service.id);
-									var btn = document.createElement('div');
-									//如果微信未安装，则为不启用状态
-									btn.setAttribute('class', 'oauth-btn' + (!isInstalled && service.id === 'weixin' ? (' disabled') : ''));
-									btn.authId = service.id;
-									btn.style.backgroundImage = 'url("images/' + service.id + '.png")'
-									oauthArea.appendChild(btn);
-								}
-							}
-							$(oauthArea).on('tap', '.oauth-btn', function() {
-								if (this.classList.contains('disabled')) {
-									plus.nativeUI.toast('您尚未安装微信客户端');
-									return;
-								}
-								var auth = auths[this.authId];
-								var waiting = plus.nativeUI.showWaiting();
-								auth.login(function() {
-									waiting.close();
-									plus.nativeUI.toast("登录认证成功");
-									auth.getUserInfo(function() {
-										plus.nativeUI.toast("获取用户信息成功");
-										var name = auth.userInfo.nickname || auth.userInfo.name;
-										app.createState(name, function() {
-											toMain();
-										});
-									}, function(e) {
-										plus.nativeUI.toast("获取用户信息失败：" + e.message);
-									});
-								}, function(e) {
-									waiting.close();
-									plus.nativeUI.toast("登录认证失败：" + e.message);
-								});
-							});
-						}, function(e) {
-							oauthArea.style.display = 'none';
-							plus.nativeUI.toast("获取登录认证失败：" + e.message);
-						});
-					}
+
 					// close splash
-					setTimeout(function() {
-						//关闭 splash
-						plus.navigator.closeSplashscreen();
-					}, 600);
+					//					setTimeout(function() {
+					//						//关闭程序启动界面
+					//						plus.navigator.closeSplashscreen();
+					//					}, 600);
 					//检查 "登录状态/锁屏状态" 结束
 					var loginButton = doc.getElementById('login');
 					var phoneNumBox = doc.getElementById('phoneNum');
 					var passwordBox = doc.getElementById('password');
 					var regButton = doc.getElementById('reg');
 					var forgetButton = doc.getElementById('forgetPassword');
+					//登录按钮点击事件
 					loginButton.addEventListener('tap', function(event) {
 						var loginInfo = {
 							phone: phoneNumBox.value,
-							password: md5(passwordBox.value) 
+							password: md5(passwordBox.value)
 						};
-						
-						app.login(loginInfo, function(err){
-							if(err){
+
+						app.login(loginInfo, function(err) {
+							if(err) {
 								plus.nativeUI.toast(err);
 								return;
 							}
 							toMain();
 						});
 					});
+
+					//
 					$.enterfocus('#login-form input', function() {
 						$.trigger(loginButton, 'tap');
 					});
-				
+
 					regButton.addEventListener('tap', function(event) {
 						$.openWindow({
 							url: './register.html',
@@ -204,6 +147,7 @@
 							}
 						});
 					}, false);
+
 					forgetButton.addEventListener('tap', function(event) {
 						$.openWindow({
 							url: 'modifyPwd.html',
@@ -224,13 +168,13 @@
 					window.addEventListener('resize', function() {
 						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
 					}, false);
-					
+
 					$.back = function(event) {
 						var w = plus.webview.currentWebview();
 						w.close();
 					};
 				});
-			}(mui, document));					
+			}(mui, document));
 		</script>
 	</body>
 
