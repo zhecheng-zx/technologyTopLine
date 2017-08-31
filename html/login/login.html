@@ -64,7 +64,7 @@
 				<div class="link-area">
 					<a id='forgetPassword'>忘记密码</a>
 				</div>
-				<button id='login' class="mui-btn mui-btn-block mui-btn-primary" data-loading-icon="mui-spinner mui-spinner-custom">登录</button>
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary" data-loading-icon="mui-spinner mui-spinner-custom" type="button">登录</button>
 			</div>
 			<div class="mui-content-padded oauth-area">
 				<div class="link-area mui-text-center">
@@ -81,7 +81,6 @@
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
-				plus.navigator.setFullscreen(true);
 				$.plusReady(function() {
 					//锁定屏幕为竖屏模式
 					plus.screen.lockOrientation("portrait-primary");
@@ -89,37 +88,33 @@
 					//登录成功后的callback事件
 					var toMain = function() {
 						plus.nativeUI.closeWaiting();
-						var h = plus.webview.getWebviewById('./html/index/index.html');
-						mui.fire(h, 'hidePlusBox', {});
 						var w = plus.webview.getWebviewById('./html/myCenter/index.html');
 						w.reload(true);
-//						plus.webview.getWebviewById('reg').close();
+						//						plus.webview.getWebviewById('reg').close();
 						plus.webview.currentWebview().close();
-						
+
 						w.show();
 					};
 
-					// close splash
-					//					setTimeout(function() {
-					//						//关闭程序启动界面
-					//						plus.navigator.closeSplashscreen();
-					//					}, 600);
-					//检查 "登录状态/锁屏状态" 结束
 					var loginButton = doc.getElementById('login');
 					var phoneNumBox = doc.getElementById('phoneNum');
 					var passwordBox = doc.getElementById('password');
 					var regButton = doc.getElementById('reg');
 					var forgetButton = doc.getElementById('forgetPassword');
+					var oauthArea = doc.querySelector('.oauth-area');
 					//登录按钮点击事件
 					loginButton.addEventListener('tap', function(event) {
+						event.preventDefault();
+						document.activeElement.blur();
 						var loginInfo = {
 							phone: phoneNumBox.value,
 							password: md5(passwordBox.value)
 						};
 
 						app.login(loginInfo, function(err) {
+							plus.nativeUI.closeWaiting();
 							if(err) {
-								plus.nativeUI.toast(err);
+								mui.toast(err);
 								return;
 							}
 							toMain();
@@ -165,14 +160,23 @@
 						});
 					}, false);
 					//
+					var oglHeight = document.querySelector("body").offsetHeight;
 					window.addEventListener('resize', function() {
-						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
+						var tempHeight = document.querySelector("body").offsetHeight;
+						if(tempHeight == oglHeight) {
+							oauthArea.style.position = 'fixed';
+							document.querySelector('input').blur();
+						} else {
+							oauthArea.style.position = 'static';
+						}						
 					}, false);
 
 					$.back = function(event) {
 						var w = plus.webview.currentWebview();
 						w.close();
 					};
+
+					plus.navigator.setFullscreen(true);
 				});
 			}(mui, document));
 		</script>

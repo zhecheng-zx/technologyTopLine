@@ -153,6 +153,9 @@
 			mui.toast('请先登录');
 			return;
 		}
+		if(feedback.question.value == '' ){
+			return mui.toast('请填写问题描述');
+		}
 		if(feedback.question.value == '' ||
 			(feedback.contact.value != '' &&
 				feedback.contact.value.search(/^(\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+)|([1-9]\d{4,9})$/) != 0)) {
@@ -160,6 +163,9 @@
 		}
 		if(feedback.question.value.length > 200 || feedback.contact.value.length > 200) {
 			return mui.toast('信息超长,请重新填写~')
+		}
+		if(feedback.contact.value == ''){
+			return mui.toast('请填写邮箱');
 		}
 		//判断网络连接
 		if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
@@ -192,6 +198,7 @@
 				opener.reload();
 				plus.webview.currentWebview().close();
 			} else {
+				console.log(JSON.stringify(res))
 				console.error("upload fail");
 			}
 

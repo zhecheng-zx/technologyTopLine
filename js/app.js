@@ -7,7 +7,7 @@
 		loginInfo = loginInfo || {};
 		loginInfo.phone = loginInfo.phone || '';
 		loginInfo.password = loginInfo.password || '';
-
+		
 		if(loginInfo.phone.length <= 0) {
 			return callback('手机号不能为空');
 		}

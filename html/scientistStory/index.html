@@ -355,7 +355,8 @@
 		<script src="../../js/mui.previewimage.js"></script>
 		<script>
 			var pageNum = 0,
-				pageSize = 10;
+				pageSize = 10, 
+				downPageNum = 0;
 
 			mui.init({
 				pullRefresh: {
@@ -375,7 +376,7 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				pageNum = 1;
+				downPageNum = 1;
 				getStoryList('before');								
 			}
 			var count = 0;
@@ -383,6 +384,7 @@
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
+				downPageNum = 0;
 				pageNum = pageNum + 1;
 				getStoryList('after');
 			}
@@ -407,11 +409,12 @@
 			mui.previewImage();
 
 			function getStoryList(position) {
+				var requesNum = (downPageNum == 0) ? pageNum : downPageNum;
 				var param = {
 					"jdbcTemplateName": "mysqlTemplate",
 					"pFile": "ScienceStory",
 					"pKey": "containall",
-					"pageNo": pageNum,
+					"pageNo": requesNum,
 					"pageSize": pageSize,
 					"order": "",
 					"queryTermStr": "",
@@ -527,9 +530,7 @@
 				plus.nativeUI.showWaiting();
 				pageNum = 0;
 				document.body.querySelector('.mui-table-view').innerHTML = '';
-//				var data = e.detail.data;
 				pullupRefresh();
-//				addData(data, 'before');
 			});
 		</script>
 	</body>

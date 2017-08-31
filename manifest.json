@@ -1,12 +1,12 @@
 {
 	"@platforms": ["android", "iPhone", "iPad"],
 	"id": "H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "科技头条",/*应用名称，程序桌面图标名称*/
+	"name": "聚科技",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
 	},
-	"description": "广西科技头条APP",/*应用描述信息*/
+	"description": "广西聚科技APP",/*应用描述信息*/
 	"icons": {
 		"72": "icon.png"
 	},
@@ -167,8 +167,8 @@
 				"ios": {
 					"iphone": {
 						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
-						"retina35": "C:/Users/user/Desktop/归档/WechatIMG3.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						"retina40": "C:/Users/user/Desktop/归档/WechatIMG3.png","retina55":"C:/Users/user/Desktop/归档/WechatIMG3.png","retina47":"C:/Users/user/Desktop/归档/WechatIMG3.png"
+						"retina35": "C:/Users/user/Desktop/归档/qidong.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "C:/Users/user/Desktop/归档/qidong.png","retina55":"C:/Users/user/Desktop/归档/qidong.png","retina47":"C:/Users/user/Desktop/归档/qidong.png","retina55l":"C:/Users/user/Desktop/归档/qidong.png"
 					},
 					"ipad": {
 						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -184,11 +184,150 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "C:/Users/user/Desktop/归档/WechatIMG3.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "C:/Users/user/Desktop/归档/WechatIMG3.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": "C:/Users/user/Desktop/归档/WechatIMG3.png"
+					"hdpi": "C:/Users/user/Desktop/归档/qidong.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/user/Desktop/归档/qidong.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/user/Desktop/归档/qidong.png"
 				}
 			}
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"images/logo.png",
+					"vendor/jQuery/jquery.min.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/iconfont.css",
+					"css/mui.min.css",
+					"images/tab_bar.png",
+					"html/index/index.html"
+				],
+				"refer": [
+					"html/card/index.html",
+					"html/myCenter/index.html",
+					"html/techDictionary/index.html",
+					"html/scientistStory/index.html"
+				],
+				"priority": 0
+			},
+			"html/card/index.html": {
+				"resources": [
+					"vendor/jQuery/jquery.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/myCenter/index.html": {
+				"resources": [
+					"css/main.css",
+					"js/autoSize.js",
+					"images/head-temp.png",
+					"js/mui.min.js",
+					"vendor/jQuery/jquery.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"html/login/login.html",
+					"html/myCenter/userSet.html"
+				],
+				"priority": 0
+			},
+			"html/techDictionary/index.html": {
+				"resources": [
+					"html/public/articleList.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/index/index.html": {
+				"resources": [
+					"js/webviewGroup.js",
+					"html/public/articleList.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/scientistStory/index.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/public/articleList.html": {
+				"resources": [
+					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/login/login.html": {
+				"resources": [
+					"js/app.js",
+					"js/md5.min.js",
+					"images/login.png",
+					"js/mui.enterfocus.js",
+					"js/mui.min.js",
+					"images/logo.png",
+					"css/main.css",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/sortable.js",
+				"images/cbd.jpg",
+				"css/feedback.css",
+				"images/mda-hg1dpy13qt8cdqhn.mp4",
+				"images/ad.png",
+				"html/myCenter/history.html",
+				"images/shuijiao.jpg",
+				"html/myCenter/setting.html",
+				"html/public/articleDetail.html",
+				"html/public/uploadImg.html",
+				"html/myCenter/feedback.html",
+				"html/public/collectList.html",
+				"html/login/setPwd.html",
+				"html/card/pullrefresh_sub.html",
+				"images/temp.jpg",
+				"fonts/iconfont.ttf",
+				"js/mui.js",
+				"html/scientistStory/publish.html",
+				"README.md",
+				"js/mui.view.js",
+				"html/public/keyboard.html",
+				"vendor/cropper/cropper.min.js",
+				"css/mui.css",
+				"html/index/plus_channel.html",
+				"images/article.png",
+				"vendor/cropper/cropper.min.css",
+				"images/logo1.jpg",
+				"html/myCenter/chat.html",
+				"js/feedback.js",
+				"vendor/swiper/swiper.min.css",
+				"images/muwu.jpg",
+				"vendor/cropper/cropper.js",
+				"html/login/register.html",
+				"html/login/modifyPwd.html",
+				"images/playBtn.png",
+				"html/public/plus_search.html",
+				"html/public/native-silder.html",
+				"js/publishStory.js",
+				"html/myCenter/message.html",
+				"html/login/registInfo.html",
+				"images/yuantiao.jpg",
+				"vendor/jQuery/jquery.min.map",
+				"vendor/swiper/swiper.min.js",
+				"html/myCenter/editUserInfo.html",
+				"images/HD.mp4"
+			]
 		}
 	}
 }

@@ -846,9 +846,7 @@
 		}
 
 		mui('#setting').on('tap', '#logout', function() {
-			app.setState();
-			var h = plus.webview.getWebviewById('./html/index/index.html');
-			mui.fire(h, 'hidePlusBox', {});
+			app.setState();		
 			var opener = plus.webview.currentWebview().opener();
 			opener.reload(true);
 			mui.back();
