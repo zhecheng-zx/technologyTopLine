@@ -187,9 +187,6 @@
 		</header>
 		<div class="mui-content">
 			<div class="row mui-input-row">
-				<input type="text" id="story_title" class="mui-input-clear" placeholder="请输入标题" />
-			</div>
-			<div class="row mui-input-row">
 				<textarea id='story_describe' class="mui-input-clear question" placeholder="说点什么"></textarea>
 			</div>
 			<div class="media-type">
@@ -448,7 +445,6 @@
 					return;
 				}
 				var param = {
-					"title": $('#story_title').val(),
 					"content": $('#story_describe').val(),
 					"content_images": files,
 					"content_video": videoFile,
@@ -458,6 +454,14 @@
 					"pKey": "addScienceStory",
 					"file_directory": "images",
 					"compress_images": compressFiles
+				}
+
+				//校验
+				if(!$('#story_describe').val()){
+					return mui.toast('请填写故事描述');
+				}
+				if(files.length == 0 && videoFile.length == 0){
+					return mui.toast('请上传图片或者视频');
 				}
 
 				plus.nativeUI.showWaiting('上传中');				
@@ -471,16 +475,7 @@
 					plus.nativeUI.closeWaiting();
 					if(status == 200) {
 						clearUploadInfo('all');
-//						var opener = plus.webview.currentWebview().opener();
-//						opener.reload();
-						var w = plus.webview.getWebviewById('./html/scientistStory/index.html');						
-//						var data = [{
-//							content: content.content,
-//							content_images: content.content_images.toString(),
-//							compress_images: content.compress_images.toString(),
-//							video_content: content.content_video.toString(),
-//							page_view: 0
-//						}]
+						var w = plus.webview.getWebviewById('./html/scientistStory/index.html');
 						mui.fire(w, 'reloadData', {});
 						plus.webview.currentWebview().close(300);
 
@@ -524,7 +519,6 @@
 			 */
 			function clearUploadInfo(flag) {
 				if(flag == 'all') {
-					document.getElementById('story_title').value = '';
 					document.getElementById('story_describe').value = '';
 				}
 

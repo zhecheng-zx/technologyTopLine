@@ -359,7 +359,7 @@
 			//收藏id
 			mui('.comment-box').on('tap', '.collect-li', function() {
 				var session = JSON.parse(localStorage.getItem('$state'));
-				if(!session.userId) {
+				if(!session || !session.userId) {
 					mui.toast('请先登录');
 					return;
 				}

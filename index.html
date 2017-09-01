@@ -23,7 +23,8 @@
 			}
 			
 			.logoBox {
-				line-height: 44px;
+				height: 100%;
+				padding: 13px 0px;
 			}
 			
 			.logo {
@@ -138,7 +139,7 @@
 		<header class="mui-bar mui-bar-nav">
 			<h1 id="title" class="mui-title mui-text-center"></h1>
 			<a class="mui-pull-left logoBox">
-				<img src="./images/logo.png" class="logo" width="25px" height="18px" />
+				<img src="./images/logo2.png" class="logo" width="25px" height="18px" />
 			</a>
 			<div id="search_title" class="search-input">
 				<a class="search-box mui-text-left" id="search_input" href="javascript:;">
@@ -227,7 +228,7 @@
 					}
 					//更换标题
 					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
-					if(title.innerHTML != "九大名片" && title.innerHTML != "首页") {
+					if(title.innerHTML != "首页") {
 						document.querySelector("#title").style.display = "block";
 						document.querySelector("#search_title").style.display = "none";
 						document.querySelector(".logoBox").style.display = "none";

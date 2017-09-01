@@ -91,3 +91,7 @@
 .icon-DLS_Hide_:before { content: "\e668"; }
 
 .icon-feiji:before { content: "\e619"; }
+
+.icon-lingdang:before { content: "\e74e"; }
+
+.icon-lingdang.orange:before{ color: #e58c10; }

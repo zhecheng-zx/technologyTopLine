@@ -280,11 +280,7 @@
 				float: right;
 				font-size: 24px;
 				color: #dedede;
-			}
-			
-			.mui-popover .remove-box {
-				padding: 10px 10px;
-			}
+			}					
 			
 			.remove-box .remove-title {
 				font-size: 13px;
@@ -324,7 +320,7 @@
 			}
 			
 			.mui-media-footer .imgBox img{
-				width: 100%;
+				max-width: 100%;
 				height: 100px;
 			}
 		</style>
@@ -338,17 +334,7 @@
 				<ul class="mui-table-view">
 				</ul>
 			</div>
-		</div>
-		<div id="popover" class="mui-popover">
-			<div class="remove-box">
-				<h3 class="remove-title">可选理由，精准屏蔽：</h3>
-				<a class="remove-item" href="javascript:;">不感兴趣</a>
-				<a class="remove-item" href="javascript:;">不感兴趣2</a>
-				<a class="remove-item" href="javascript:;">不感兴趣3</a>
-				<a class="remove-item" href="javascript:;">不感兴趣4</a>
-				<a class="remove-item" href="javascript:;">不感兴趣5</a>
-			</div>
-		</div>
+		</div>	
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/mui.zoom.js"></script>
@@ -507,13 +493,11 @@
 							_card += '<source type="video/mp4" src="' + list[i].video_content + '" />';
 							_card += '</video>';
 							_card += '</div>';
-							// x5-video-player-fullscreen 全屏方式
 						}
 						_card += '</div>';
-						_card += '<div class="mui-status-bottom">';
-						_card += '<span class="mui-status-item">浏览量：<span class="number">' + list[i].page_view + '</span></span>';
-						_card += '<a href="#popover" class="closeempty"><span class="mui-icon mui-icon-closeempty"></span></a>';
-						_card += '</div>';
+//						_card += '<div class="mui-status-bottom">';
+//						_card += '<span class="mui-status-item">浏览量：<span class="number">' + list[i].page_view + '</span></span>';						
+//						_card += '</div>';
 						_card += '</a>';
 						li.innerHTML = _card;
 						
