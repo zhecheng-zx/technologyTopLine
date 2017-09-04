@@ -323,6 +323,16 @@
 				max-width: 100%;
 				height: 100px;
 			}
+			
+			.imgBox .mui-col-sm-6, .imgBox .mui-col-xs-6{
+				width: auto;
+				max-width: 50%;
+			}
+			
+			.imgBox .mui-col-sm-4, .imgBox .mui-col-xs-4{
+				width: auto;
+				max-width: 33.33333333%;
+			}
 		</style>
 	</head>
 
@@ -498,7 +508,7 @@
 //						_card += '<div class="mui-status-bottom">';
 //						_card += '<span class="mui-status-item">浏览量：<span class="number">' + list[i].page_view + '</span></span>';						
 //						_card += '</div>';
-						_card += '</a>';
+						_card += '</a>';						
 						li.innerHTML = _card;
 						
 						if(position == 'before'){

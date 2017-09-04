@@ -90,29 +90,77 @@
 			.mui-pull-top-canvas canvas {
 				width: 40px;
 			}
+			
 			.mui-slider-indicator.mui-segmented-control {
 				background-color: #ffffff;
 			}
-			.plus-box {
-			    position: absolute;
-			    right: 0;
-			    top: 0;
-			    width: 36px;
-			    line-height: 38px;
-			    text-align: center;
-			    background-color: #ffffff;
-			    z-index: 2;
+						
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+				color: #666666;
 			}
-			.plus-box>a{
-				display: block;
-				height: 100%;
-			}
-			.plus-box>a,
-			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
-				color:#666666;
-			}
-			.mui-slider .mui-scroll a:last-child{
+			
+			.mui-slider .mui-scroll a:last-child {
 				padding-right: 60px;
+			}
+			
+			.slider-ul {
+				padding: 10px;
+				font-size: 0px;
+			}
+			
+			.slider-li {
+				display: inline-block;
+				width: 25%;
+				font-size: 12px;
+				color: #333;
+				text-align: center;
+			}
+			
+			.slider-li .slider-icon{
+				display: inline-block;
+				width: 28px;
+				height: 28px;
+				background-size: 132px 63px;
+				background-image: url(../../images/nav_card.png);
+				background-repeat: no-repeat;
+			}
+			
+			.slider-icon.icon1{
+			    background-position: 2px 1px;
+			}
+			
+			.slider-icon.icon2{
+		       background-position: -34px 1px;
+			}
+			
+			.slider-icon.icon3{
+			    background-position: -69px 1px;
+			}
+
+			.slider-icon.icon4{
+			    background-position: -104px 2px;
+			}
+
+			.slider-icon.icon5{
+				background-position: 2px -35px;
+			}
+
+			.slider-icon.icon6{
+				background-position: -34px -34px;
+			}
+
+			.slider-icon.icon7{
+				background-position: -66px -35px;
+			}
+
+			.slider-icon.icon8{
+				background-position: -104px -34px;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper,
+			.mui-segmented-control.mui-scroll-wrapper .mui-scroll{
+				height: 80px;
+				white-space: normal;
 			}
 		</style>
 	</head>
@@ -120,61 +168,127 @@
 	<body>
 		<div class="mui-content">
 			<div id="slider" class="mui-slider mui-fullscreen">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				<!--<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					<div class="mui-scroll" id="nav-list">
+					</div>
+				</div>-->
+				<div class="mui-slider-group">
+					<div class="mui-slider-item item-first">
+						<ul class="slider-ul">
+							<li class="slider-li">
+								<i class="slider-icon icon1"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon2"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon3"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon4"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon5"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon6"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon7"></i>
+								<p class="text">先进制造业</p>
+							</li>
+							<li class="slider-li">
+								<i class="slider-icon icon8"></i>
+								<p class="text">先进制造业</p>
+							</li>
+						</ul>
+					</div>
+					<div class="mui-slider-item item-second">
+						<ul class="slider-ul">
+							<li class="slider-li">先进制造业</li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<!--<div class="plus-box">
-				<a href="javascript:;" data-wid="plus_channel" class="plus_btn"><span class="mui-icon mui-icon-plusempty"></span></a>
-			</div>-->
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="../../vendor/jQuery/jquery.js" ></script>
+		<script type="text/javascript" src="../../vendor/jQuery/jquery.js"></script>
 		<script>
 			mui.init();
-			var  _items = [];
+			var _items = [];
 			$.ajax({
 				url: 'http://58.16.181.24:9203/mis-app/VisitingCard/baseQuery',
 				data: {
-             		"pFile":"VisitingCard",
-             		"pKey":"classification",
-             		"jdbcTemplateName":"mysqlTemplate"
-                },
-                async: false,
- 				success: function(data){
- 					var res = JSON.parse(data);
- 					var list = res.listInfo;
- 					//导航插入数据
- 					var _a = "";
- 					for(var i = 0; i < list.length; i++){
- 						var className = (i == 0)?'mui-active':'';
- 						_a +=  '<a class="mui-control-item ' + className + '" data-wid="subPage' + i + '.html" data-id="' + list[i].id + '">' + list[i].name + '</a>';
- 					
- 						var item = {
- 							'id': "subPage" + i + ".html",
- 							'url': '../public/articleList.html',
- 							'styles': {
- 								top: '38px',
- 								bottom: '0px'
- 							},
- 							'extras': {navName: list[i].name, navId: list[i].id, requestParam: 'card'}
- 						}
- 						_items.push(item);
- 					}
- 					$('#nav-list').append(_a);
- 				},
- 				error: function(xhr, type, error){
- 					console.error(xhr);
- 					console.error(type);
- 				}
+					"pFile": "VisitingCard",
+					"pKey": "classification",
+					"jdbcTemplateName": "mysqlTemplate"
+				},
+				async: false,
+				success: function(data) {
+					var res = JSON.parse(data);
+					var list = res.listInfo;
+					//导航插入数据
+					var sum = list.length, hasSecond = (list.length >= 9)?true:false; 
+					var _ul = "<ul class='slider-ul'>"
+					for(var i = 0; i < 8; i++){
+						_ul += '<li class="slider-li"><i class="slider-icon icon' +(i+1)+ '"></i>' 
+								+ '<p class="text">' + list[i].name + '</p></li>';
+						var item = {
+							'id': "subPage" + i + ".html",
+							'url': '../public/articleList.html',
+							'styles': {
+								top: '38px',
+								bottom: '0px'
+							},
+							'extras': {
+								navName: list[i].name,
+								navId: list[i].id,
+								requestParam: 'card'
+							}
+						}
+						_items.push(item);
+					}
+					
+					
+//					var _a = "";
+//					for(var i = 0; i < list.length; i++) {
+//						var className = (i == 0) ? 'mui-active' : '';
+//						_a += '<a class="mui-control-item ' + className + '" data-wid="subPage' + i + '.html" data-id="' + list[i].id + '">' + list[i].name + '</a>';
+//
+//						var item = {
+//							'id': "subPage" + i + ".html",
+//							'url': '../public/articleList.html',
+//							'styles': {
+//								top: '38px',
+//								bottom: '0px'
+//							},
+//							'extras': {
+//								navName: list[i].name,
+//								navId: list[i].id,
+//								requestParam: 'card'
+//							}
+//						}
+//						_items.push(item);
+//					}
+//					$('#nav-list').append(_a);
+				},
+				error: function(xhr, type, error) {
+					console.error(xhr);
+					console.error(type);
+				}
 			});
 			mui.plusReady(function() {
-				
+
 				var group = new webviewGroup('articleList.html', {
 					items: _items,
-					onChange: function(obj){						
+					onChange: function(obj) {
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
 							c.classList.remove("mui-active");
@@ -182,41 +296,25 @@
 						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
 					}
 				});
-				
+
 				mui('.mui-scroll').on("tap", ".mui-control-item", function(e) {
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
-					
-				mui(".plus-box").on("tap",".plus_btn",function(e){
-					var _this=this,
-					wid=_this.getAttribute("data-wid");
-					mui('body').progressbar({
-						progress: 0
-					}).show();
-					simulateLoading(0);				
-					plus.nativeUI.showWaiting();					
-					var url = './'+wid+'.html';
-					var feedbackWebview = plus.webview.create(url, wid);
-					feedbackWebview.addEventListener('titleUpdate', function() {
-						plus.nativeUI.closeWaiting();
-						feedbackWebview.show('slide-in-bottom', 300);
-					});
-					simulateLoading(100);
-				});
+			
 				/**
 				 * 通过随机数模拟业务进度，真实业务中需根据实际进度修改
 				 * @param {Object} container
 				 * @param {Object} progress
 				 */
 				function simulateLoading(container, progress) {
-					if (typeof container === 'number') {
+					if(typeof container === 'number') {
 						progress = container;
 						container = 'body';
 					}
 					progress += Math.random() * 20;
 					mui(container).progressbar().setProgress(progress);
-					if (progress < 100) {
+					if(progress < 100) {
 						simulateLoading(container, progress);
 					} else {
 						mui(container).progressbar().hide();

@@ -119,6 +119,7 @@
 .ad-wrapper img {
 	height: 127px;
 	width: 100%;
+	display: none;/* 暂不需要广告栏 */
 }
 
 .related-article-wrapper {
@@ -138,6 +139,10 @@
 .related-article-list a {
 	text-decoration: none;
 	color: inherit;
+}
+
+.copyright-explain{
+	padding-top: 10px;
 }
 
 .comment-box {

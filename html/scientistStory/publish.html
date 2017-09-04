@@ -187,6 +187,9 @@
 		</header>
 		<div class="mui-content">
 			<div class="row mui-input-row">
+				<input type="text" id="story_title" class="mui-input-clear" placeholder="请输入标题" />
+			</div>
+			<div class="row mui-input-row">
 				<textarea id='story_describe' class="mui-input-clear question" placeholder="说点什么"></textarea>
 			</div>
 			<div class="media-type">
@@ -219,13 +222,10 @@
 				imgList = document.getElementById('image-list'),
 				videoIndexIdNum = 0,
 				videoFile = [],
-				videoIndex = 1,
-				videoSize = null,
-				videoUploader = null,
 				videoList = document.getElementById('video-list'),
 				curFileType = 'img';
 			var state = JSON.parse(localStorage.getItem('$state'));
-			
+
 			mui.init();
 
 			mui('.media-type').on('tap', 'a', function(e) {
@@ -288,16 +288,14 @@
 
 					plus.gallery.pick(function(e) {
 						var name = e.substr(e.lastIndexOf('/') + 1);
-
+						//原图按照质量的35%压缩了，缩略图裁剪又压缩。
 						plus.zip.compressImage({
-							src: e,//压缩转换原始图片的路径
-							dst: '_doc/compress' + name,//压缩转换目标图片的路径
+							src: e, //压缩转换原始图片的路径
+							dst: '_doc/' + name, //压缩转换目标图片的路径
 							overwrite: true,
-							quality: 20,
-							width: '150px',
-							height: 'auto'
-						}, function(zip) {
-							size += zip.size;
+							quality: 35,
+						}, function(zip1) {
+							size += zip1.size;
 							if(size > (10 * 1024 * 1024)) {
 								return mui.toast('图片大小不能超过10M');
 							}
@@ -310,19 +308,37 @@
 									name: "compress" + index,
 									path: e
 								});
-							} else { //加号
-								placeholder.classList.remove('space');
-								addFile(e, 'orinigal');
-								addFile(zip.target, 'compress');
-								newPlaceholder();
-							}
-							up.classList.remove('image-up');
-							placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+							} else {
+								addFile(zip1.target, 'orinigal');
+								
+								plus.zip.compressImage({
+									src: e, //压缩转换原始图片的路径
+									dst: '_doc/compress' + name, //压缩转换目标图片的路径
+									overwrite: true,
+									quality: 80,
+									width: '150px',
+									height: '150px',
+									clip: {
+										top: '15%',
+										bottom: '15%'
+									}
+								}, function(zip) {
+									addFile(zip.target, 'compress');
+									placeholder.classList.remove('space');
+									newPlaceholder();
+									up.classList.remove('image-up');
+									placeholder.style.backgroundImage = 'url(' + zip.target + ')';
 
-						}, function(zipe) {
-							console.error(JSON.stringify(zipe))
-							mui.toast('压缩失败')
+								}, function(zipe) {
+									console.error(JSON.stringify(zipe))
+									mui.toast('生成缩略图失败');
+								});
+							}
+						}, function(zipe1) {
+							console.error(JSON.stringify(zipe1));
+							mui.toast('压缩图片失败');
 						});
+
 					}, function(e) {
 						if(e.code == -2) {
 							mui.toast('取消当前操作');
@@ -445,6 +461,7 @@
 					return;
 				}
 				var param = {
+					"title": $('#story_title').val(),
 					"content": $('#story_describe').val(),
 					"content_images": files,
 					"content_video": videoFile,
@@ -457,14 +474,14 @@
 				}
 
 				//校验
-				if(!$('#story_describe').val()){
+				if(!$('#story_describe').val()) {
 					return mui.toast('请填写故事描述');
 				}
-				if(files.length == 0 && videoFile.length == 0){
+				if(files.length == 0 && videoFile.length == 0) {
 					return mui.toast('请上传图片或者视频');
 				}
 
-				plus.nativeUI.showWaiting('上传中');				
+				plus.nativeUI.showWaiting('上传中');
 				send(param);
 			});
 
@@ -496,7 +513,7 @@
 				});
 				//添加压缩文件
 				mui.each(compressFiles, function(index, element) {
-					var f = compressFiles[index];					
+					var f = compressFiles[index];
 					uploader.addFile(f.path, {
 						key: f.name
 					});
@@ -536,9 +553,7 @@
 				if(flag == 'video' || flag == 'all') {
 					videoList.innerHTML = '';
 					videoFile = [];
-					videoIndex = 1;
 					videoIndexIdNum = 0;
-					videoSize = null;
 					uploader = null;
 					newVideoPlaceholder();
 				}

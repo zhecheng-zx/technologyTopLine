@@ -23,10 +23,18 @@
 			
 			.mui-content {
 				background-color: rgba(0, 0, 0, 0);
+				    height: 100%;
 			}
 			
 			.logo-wrap {
-				padding: 50px 0px;
+				padding: 80px 0px 50px 0px;
+				position: relative;
+			}
+			
+			@media screen and (max-height: 568px){
+				.logo-wrap{
+					padding: 50px 0px;
+				}
 			}
 			
 			.logo-box {
@@ -43,6 +51,17 @@
 			.area {
 				margin: 20px auto 0px auto;
 			}
+			
+			.close-box{
+				position: absolute;
+				top: 10px;
+				right: 10px;				
+			}
+			
+			.close-box .mui-icon{
+				font-size: 30px;
+				color: white;
+			}
 		</style>
 
 	</head>
@@ -50,6 +69,9 @@
 	<body>
 		<div class="mui-content login">
 			<div class="logo-wrap">
+				<div class="close-box">
+					<span class="mui-icon mui-icon-closeempty"></span>
+				</div>
 				<div class="logo-box">
 					<img src="../../images/logo.png" alt="" />
 				</div>
@@ -180,7 +202,25 @@
 
 					plus.navigator.setFullscreen(true);
 				});
+				
+				mui('.mui-content').on('tap', '.mui-icon-closeempty', function(e){
+					clearForm();
+					//是否打开过注册页 打开则close掉
+					var reg = plus.webview.getWebviewById('reg');
+					if(reg){
+						reg.close();
+					}
+					
+					//关闭和登录有关的webview页面】
+					var cur = plus.webview.currentWebview();
+					cur.close()
+				});
 			}(mui, document));
+			
+			function clearForm(){
+				 document.getElementById('phoneNum').value = '';
+				 document.getElementById('password').value = '';
+			}
 		</script>
 	</body>
 
