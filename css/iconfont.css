@@ -95,3 +95,7 @@
 .icon-lingdang:before { content: "\e74e"; }
 
 .icon-lingdang.orange:before{ color: #e58c10; }
+
+.icon-jiankang:before { content: "\e601"; }
+
+.icon-jiankang.orange{ color: #ffa500; }

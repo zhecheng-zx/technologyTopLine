@@ -108,7 +108,7 @@
 		                    	历史与收藏
 		                </a>
 		            </li>
-		             <li class="mui-table-view-cell">
+		             <li class="mui-table-view-cell myPublishLi">
 		                <a class="mui-navigate-right" data-guid="myPublish">	
 		                	<span class="mui-icon mui-icon-flag icon-orange"></span>
 		                    	我的动态
@@ -172,7 +172,7 @@
 				if(guid == 'history' || guid == 'chat'){
 					var state = JSON.parse(localStorage.getItem("$state"));
 					if(!state || !state.userId){
-						mui.toast('请先登录');
+						plus.nativeUI.toast('请先登录', {verticalAlign: "center"});
 						return ;
 					}
 				}

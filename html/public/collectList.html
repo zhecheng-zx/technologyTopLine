@@ -299,7 +299,7 @@
 				$('.img-li').remove();
 				var session = JSON.parse(localStorage.getItem('$state'));
 				if(!session.userId) {
-					mui.toast('请先登录');
+					plus.nativeUI.toast('请先登录', {verticalAlign: "center"});
 					return;
 				}
 				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/containall', {

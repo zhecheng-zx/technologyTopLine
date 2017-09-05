@@ -474,7 +474,7 @@
 				if(13 == e.keyCode) {
 					var text = this.value;
 					if(!text) {
-						mui.toast('请输入要搜索的内容');
+						plus.nativeUI.toast('请输入要搜索的内容', {verticalAlign: "center"});
 						return;
 					}
 					document.activeElement.blur(); //隐藏软键盘 

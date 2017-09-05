@@ -316,6 +316,7 @@
 					data: param,
 					type: 'post', //HTTP请求类型
 					success: function(data) {
+						plus.nativeUI.closeWaiting();
 						if(position == "after"){
 							mui('#articleList').pullRefresh().endPullup(false);
 						}else{

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title>九大名片</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -89,23 +89,13 @@
 			
 			.mui-pull-top-canvas canvas {
 				width: 40px;
-			}
-			
-			.mui-slider-indicator.mui-segmented-control {
-				background-color: #ffffff;
-			}
-						
-			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
-				color: #666666;
-			}
-			
-			.mui-slider .mui-scroll a:last-child {
-				padding-right: 60px;
-			}
+			}							
 			
 			.slider-ul {
+				height: 152px;
 				padding: 10px;
 				font-size: 0px;
+				background: #fff;
 			}
 			
 			.slider-li {
@@ -114,14 +104,14 @@
 				font-size: 12px;
 				color: #333;
 				text-align: center;
-			}
+			}						
 			
 			.slider-li .slider-icon{
 				display: inline-block;
 				width: 28px;
 				height: 28px;
-				background-size: 132px 63px;
-				background-image: url(../../images/nav_card.png);
+				background-size: 175px 62px;
+				background-image: url(../../images/card-nav.png);
 				background-repeat: no-repeat;
 			}
 			
@@ -138,11 +128,11 @@
 			}
 
 			.slider-icon.icon4{
-			    background-position: -104px 2px;
+			    background-position: -108px 1px;
 			}
 
 			.slider-icon.icon5{
-				background-position: 2px -35px;
+				background-position: 1px -34px;
 			}
 
 			.slider-icon.icon6{
@@ -150,69 +140,41 @@
 			}
 
 			.slider-icon.icon7{
-				background-position: -66px -35px;
+				background-position: -70px -35px;
 			}
 
 			.slider-icon.icon8{
-				background-position: -104px -34px;
+				background-position: -106px -34px;
+			}
+
+			.slider-icon.icon9{
+				background-position: -147px -33px;
 			}
 			
-			.mui-segmented-control.mui-scroll-wrapper,
-			.mui-segmented-control.mui-scroll-wrapper .mui-scroll{
-				height: 80px;
-				white-space: normal;
+			p.text{
+				font-size: 12px;
+				color: #333;
+			}	
+			
+			.slider-li.mui-active p.text{
+				color: #12B7F5;
 			}
+			
+			@media only screen and (min-width: 100px) and (max-width: 375px) {
+				p.text{
+					font-size: 10px;					
+				}
+			}			
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-			<div id="slider" class="mui-slider mui-fullscreen">
-				<!--<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll" id="nav-list">
-					</div>
-				</div>-->
-				<div class="mui-slider-group">
-					<div class="mui-slider-item item-first">
-						<ul class="slider-ul">
-							<li class="slider-li">
-								<i class="slider-icon icon1"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon2"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon3"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon4"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon5"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon6"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon7"></i>
-								<p class="text">先进制造业</p>
-							</li>
-							<li class="slider-li">
-								<i class="slider-icon icon8"></i>
-								<p class="text">先进制造业</p>
-							</li>
-						</ul>
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-scroll">
+					<div class="mui-slider-item item-first">						
 					</div>
 					<div class="mui-slider-item item-second">
-						<ul class="slider-ul">
-							<li class="slider-li">先进制造业</li>
-						</ul>
 					</div>
 				</div>
 			</div>
@@ -236,15 +198,18 @@
 					var list = res.listInfo;
 					//导航插入数据
 					var sum = list.length, hasSecond = (list.length >= 9)?true:false; 
-					var _ul = "<ul class='slider-ul'>"
+					var _ul = "<ul class='slider-ul'>";
 					for(var i = 0; i < 8; i++){
-						_ul += '<li class="slider-li"><i class="slider-icon icon' +(i+1)+ '"></i>' 
-								+ '<p class="text">' + list[i].name + '</p></li>';
+						var className = (i == 0) ? 'mui-active' : '';
+						_ul += '<li class="slider-li ' + className + '" data-wid="subPage'+ i +'.html" data-id="' + list[i].id + '">' 
+								+ '<i class="slider-icon icon' +(i+1)+ '"></i>'
+								+ '<p class="text">' + list[i].name + '</p>' 
+							+ '</li>';
 						var item = {
 							'id': "subPage" + i + ".html",
 							'url': '../public/articleList.html',
 							'styles': {
-								top: '38px',
+								top: '160px',
 								bottom: '0px'
 							},
 							'extras': {
@@ -254,52 +219,60 @@
 							}
 						}
 						_items.push(item);
+						if(i == (list.length - 1)) break;
 					}
+					_ul += "</ul>";
+					$('.item-first').append(_ul);
 					
 					
-//					var _a = "";
-//					for(var i = 0; i < list.length; i++) {
-//						var className = (i == 0) ? 'mui-active' : '';
-//						_a += '<a class="mui-control-item ' + className + '" data-wid="subPage' + i + '.html" data-id="' + list[i].id + '">' + list[i].name + '</a>';
-//
-//						var item = {
-//							'id': "subPage" + i + ".html",
-//							'url': '../public/articleList.html',
-//							'styles': {
-//								top: '38px',
-//								bottom: '0px'
-//							},
-//							'extras': {
-//								navName: list[i].name,
-//								navId: list[i].id,
-//								requestParam: 'card'
-//							}
-//						}
-//						_items.push(item);
-//					}
-//					$('#nav-list').append(_a);
+					if(hasSecond){
+						var _ul2 = "<ul class='slider-ul'>" 
+										+ "<li class='slider-li' data-wid='subPage8.html' data-id='" + list[8].id + "'>" 
+											+ "<i class='slider-icon icon9'></i><p class='text'>" + list[8].name + "</p>" 
+										+ "</li>"
+									+ "</ul>";
+						var item2 = {
+							'id': "subPage8.html",
+							'url': '../public/articleList.html',
+							'styles': {
+								top: '160px',
+								bottom: '0px'
+							},
+							'extras': {
+								navName: list[8].name,
+								navId: list[8].id,
+								requestParam: 'card'
+							}
+						}
+						_items.push(item2);
+						$('.item-second').append(_ul2);
+					}
 				},
 				error: function(xhr, type, error) {
 					console.error(xhr);
 					console.error(type);
 				}
 			});
-			mui.plusReady(function() {
+			
+			mui.plusReady(function() {		
 
-				var group = new webviewGroup('articleList.html', {
-					items: _items,
-					onChange: function(obj) {
-						var c = document.querySelector(".mui-control-item.mui-active");
-						if(c) {
-							c.classList.remove("mui-active");
-						}
-						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+				var self = plus.webview.currentWebview();
+				for(var i in _items){
+					var sub = plus.webview.create(_items[i].url, _items[i].id, _items[i].styles, _items[i].extras);
+					self.append(sub);
+					if(i != 0){
+						sub.hide();
+					}else{
+						sub.show();
 					}
-				});
+				}
 
-				mui('.mui-scroll').on("tap", ".mui-control-item", function(e) {
-					var wid = this.getAttribute("data-wid");
-					group.switchTab(wid);
+				mui('.mui-scroll').on("tap", ".slider-li", function(e) {
+					$(".slider-li.mui-active").removeClass('mui-active');
+					$(this).addClass('mui-active');
+					var wid = this.getAttribute("data-wid")
+					var w = plus.webview.getWebviewById(wid);
+					w.show();
 				});
 			
 				/**

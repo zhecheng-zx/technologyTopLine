@@ -1,6 +1,6 @@
 {
 	"@platforms": ["android", "iPhone", "iPad"],
-	"id": "H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"id": "zkdj.junquan.jkj.com.H5674",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "聚科技",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.0",/*应用版本名称*/
@@ -101,7 +101,7 @@
         },
         "NativeObj":{
         	"description": "原生对象"
-        },"OAuth":{}
+        },"OAuth":{},"Share":{}
 	},
 	"plus": {
 		"allowsInlineMediaPlayback":true,
@@ -111,7 +111,7 @@
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-		"distribute": {
+		"distribute": {"plugins":{"share":{"qq":{"appid":"zkdj.junquan.jkj.com.H5674","description":"QQ分享"},"weixin":{"appid":"zkdj.junquan.jkj.com.H5674","appsecret":"candy","description":"可选，微信分享"}}},
 			"apple": {
 				"appid": "juncuan.com.cn.H56742060",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
 				"mobileprovision": "",/*iOS应用打包配置文件*/
@@ -329,5 +329,12 @@
 				"images/HD.mp4"
 			]
 		}
-	}
+	},
+	"unpackage":[
+	  "images/HD.mp4",
+	  "images/mda-hg1dpy13qt8cdqhn.mp4",
+	  "images/temp.jpg",
+	  "vendor/swiper/swiper.min.css",
+	  "vendor/swiper/swiper.min.js"
+	]
 }

@@ -57,16 +57,16 @@
 				e.stopPropagation();
 				phoneNum = document.getElementById('phoneNum').value;
 				if(!phoneNum) {
-					mui.toast('请输入手机号');
+					plus.nativeUI.toast('请输入手机号', {verticalAlign: "center"});
 					return;
 				}
 
 				var reg = /^1(3|4|5|7|8)\d{9}$/;
 				if(!reg.test(phoneNum.trim())) {
-					mui.toast('请输入正确的手机号码');
+					plus.nativeUI.toast('请输入正确的手机号码', {verticalAlign: "center"});
 				}
-				mui.toast('验证码已发送，请注意查收');
-				console.log(phoneNum)
+				plus.nativeUI.toast('验证码已发送，请注意查收', {verticalAlign: "center"});
+//				console.log(phoneNum)
 				mui.ajax('http://58.16.181.24:9203/mis-app/public/getVerificationCode', {
 					data: {
 						phone: phoneNum
@@ -90,7 +90,7 @@
 			mui('.mui-content').on('tap', '#submit', function() {
 				var userCode = document.getElementById('userCode').value;
 				if(!userCode) {
-					mui.toast('请输入验证码');
+					plus.nativeUI.toast('请输入验证码', {verticalAlign: "center"});
 					return;
 				}
 

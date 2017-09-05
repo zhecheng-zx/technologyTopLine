@@ -240,6 +240,7 @@
 		<script src="../../js/sortable.js"></script>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script type="text/javascript">
+			var changed = false;
 			mui.init({
 				gestureConfig: {
 					longtap: true,
@@ -402,8 +403,8 @@
 
 			function deleteMyChannel(channelId, channelName, source) {
 				var session = JSON.parse(localStorage.getItem('$state'));
-				if(!session.userId) {
-					mui.toast('请先登录');
+				if(!session || !session.userId) {
+					plus.nativeUI.toast("请先登录", {verticalAlign: "center"});
 					return;
 				}
 				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
@@ -415,6 +416,7 @@
 						"channel_id": channelId,
 					},
 					success: function(result) {
+						changed = true;
 						var data = JSON.parse(result);
 						if(data.status == 'success') {
 							//我的频道删除该标签
@@ -458,8 +460,9 @@
 						channelId = this.getAttribute('channelId'),
 						channelName = $(this).find('.channel_name').text(),
 						_this = this;
-					if(!session.userId) {
-						mui.toast('请先登录');
+					if(!session || !session.userId) {
+						plus.nativeUI.toast("请先登录", {verticalAlign: "center"});
+						return ;
 					}
 					mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 						data: {
@@ -470,6 +473,7 @@
 							"pKey": "addchannel,deleterecommend"
 						},
 						success: function(result) {
+							changed = true;
 							var data = JSON.parse(result);
 							if(data.status == 'success') {
 								//我的频道插入值
@@ -504,6 +508,15 @@
 							console.error(type);
 						}
 					})
+				});
+				
+				mui('.mui-bar').on('tap', '.mui-action-back', function(e){
+					var w = plus.webview.getWebviewById('./html/index/index.html');
+					console.log(w.getURL())
+					if(changed){
+						w.reload(true);
+					}					
+					mui.back();
 				});
 			}
 		</script>

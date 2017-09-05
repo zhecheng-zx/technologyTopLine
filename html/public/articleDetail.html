@@ -48,7 +48,7 @@
 						<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
 					</div>
 					<h6 class="copyright-explain">
-						本文章为网络抓取数据而来，不代表本厅的看法
+						本文章是转载而来，不代表本厅的看法
 					</h6>
 					<div class="article-like-wrapper">
 						<div class="item like-wrapper">
@@ -335,18 +335,18 @@
 
 			var wn = null;
 
-			function plusReady() {
-				// 预创建新窗口（显示在可视区域外）, 高度有提问
-				wn = plus.webview.create('keyboard.html', 'keyboard', {
-					top: '250px',
-					bottom: '0px'
-				});
-			}
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener('plusready', plusReady, false);
-			}
+//			function plusReady() {
+//				// 预创建新窗口（显示在可视区域外）, 高度有提问
+//				wn = plus.webview.create('keyboard.html', 'keyboard', {
+//					top: '250px',
+//					bottom: '0px'
+//				});
+//			}
+//			if(window.plus) {
+//				plusReady();
+//			} else {
+//				document.addEventListener('plusready', plusReady, false);
+//			}
 
 			var callback = function() {
 				wn.hide();
@@ -364,13 +364,14 @@
 			mui('.comment-box').on('tap', '.collect-li', function() {
 				var session = JSON.parse(localStorage.getItem('$state'));
 				if(!session || !session.userId) {
-					mui.toast('请先登录');
+//					mui.toast('请先登录');
+					plus.nativeUI.toast("请先登录", {verticalAlign: "center"});
 					return;
 				}
 				var extras = plus.webview.currentWebview();
 				var guid = extras.guid; //文章id  文章列表也传参过来的
 				if(!guid) {
-					mui.toast('文章ID为空');
+					plus.nativeUI.toast('文章ID为空', {verticalAlign: "center"});
 					return;
 				}
 				
@@ -396,11 +397,11 @@
 								//变成收藏
 								$('.collect').remove('mui-icon-star').addClass('iconfont').addClass('icon-shoucang');
 								collectFlag = 1;
-								mui.toast('收藏成功');
+								plus.nativeUI.toast('收藏成功', {verticalAlign: "center"});
 							}else{
 								$('.collect').removeClass('iconfont').removeClass('icon-shoucang').addClass('mui-icon-star');
 								collectFlag = 0;
-								mui.toast('取消收藏');
+								plus.nativeUI.toast('取消收藏', {verticalAlign: "center"});
 							}
 						}
 					}

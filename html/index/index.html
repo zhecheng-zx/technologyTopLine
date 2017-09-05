@@ -90,31 +90,35 @@
 			.mui-pull-top-canvas canvas {
 				width: 40px;
 			}
+			
 			.mui-slider-indicator.mui-segmented-control {
 				background-color: #ffffff;
-			    border-bottom: 1px solid #EFEFEF;
+				border-bottom: 1px solid #EFEFEF;
 			}
+			
 			.plus-box {
-			    position: absolute;
-			    right: 0;
-			    top: 0;
-			    width: 36px;
-			    height: 35px;
-			    line-height: 38px;
-			    text-align: center;
-			    background-color: #ffffff;
-			    z-index: 2;
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 36px;
+				height: 35px;
+				line-height: 38px;
+				text-align: center;
+				background-color: #ffffff;
+				z-index: 2;
 			}
-			.plus-box>a{
+			
+			.plus-box>a {
 				display: block;
 				height: 100%;
 			}
+			
 			.plus-box>a,
-			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
-				color:#666666;
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+				color: #666666;
 			}
 			
-			.mui-slider .mui-scroll a:last-child{
+			.mui-slider .mui-scroll a:last-child {
 				padding-right: 60px;
 			}
 		</style>
@@ -124,37 +128,7 @@
 		<div class="mui-content">
 			<div id="slider" class="mui-slider mui-fullscreen">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a class="mui-control-item mui-active" href="#item1mobile" data-wid="pullrefresh_sub_1.html">
-							推荐
-						</a>
-						<a class="mui-control-item" href="#item2mobile" data-wid="pullrefresh_sub_2.html">
-							电子信息
-						</a>
-						<a class="mui-control-item" href="#item3mobile" data-wid="pullrefresh_sub_3.html">
-							互联网经济
-						</a>
-						<a class="mui-control-item" href="#item4mobile" data-wid="pullrefresh_sub_4.html">
-							生物制药
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub_5.html">
-							海洋资源开发利用
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub_6.html">
-							石墨烯
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub_7.html">
-							3D打印
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub_8.html">
-							 机器人
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub_9.html">
-							 跨境电商
-						</a>
-						<a class="mui-control-item" href="#item5mobile" data-wid="pullrefresh_sub_10.html">
-							 互联网+农业
-						</a>
+					<div class="mui-scroll nav-list">
 					</div>
 				</div>
 			</div>
@@ -164,99 +138,85 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script>
 			mui.init();
+			var _items = [{
+					id: "pullrefresh_sub_1.html",
+					url: "../public/articleList.html",
+					styles: {
+						top: "38px",
+						bottom: "0"
+					},
+					extras: {
+						hasBanner: true,
+						navName: '',
+						requestParam: 'industry'
+					}
+				}],
+				param = {
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "Science",
+					"pKey": "notlogin"
+				};
+
+			function getNavList() {
+				var session = JSON.parse(localStorage.getItem('$state'));
+				if(session.userId) {
+					param.pKey = "islogin",
+						param.user_id = session.userId
+				}
+
+				if(_items.length > 1){
+					_items.splice(0, 1);
+					console.log(_items.length + "===========================")
+				}
+			
+				mui.ajax('http://172.168.17.53:8080/mis-app/Science/baseQuery', {
+					async: false,
+					data: param,
+					success: function(result) {
+						if(!result) {
+							return;
+						}
+						result = JSON.parse(result);
+						var listInfo = result.listInfo;
+						//导航插入数据
+						var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
+						for(var i = 0; i < listInfo.length; i++) {
+							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + (i + 2) + '.html">' + listInfo[i].channel_theme + '</a>'
+							var item = {
+								id: "pullrefresh_sub_" + (i + 2) + ".html",
+								url: "../public/articleList.html",
+								styles: {
+									top: "38px",
+									bottom: "0px"
+								},
+								extras: {
+									navName: listInfo[i].channel_theme,
+									requestParam: 'industry'
+								}
+							};
+							_items.push(item);
+						}
+						//						document.querySelector('.nav-list').innerHTML = _a;
+						$('.nav-list').append(_a);
+					},
+					error: function(xhr, type, error) {
+						console.error(xhr);
+						console.error(type);
+					}
+				});
+			}
+
 			mui.plusReady(function() {
-//				var id="silderBanner",
-//					styles={top:'38px',left:'0px',height:'200px',width:'100%',fullscreen:'false',position:'static',images:[{src:'../../images/muwu.jpg',width:"100%",verticalAlign:"middle"},{src:'../../images/shuijiao.jpg',width:'100%',verticalAlign:'middle'},{src:'../../images/yuantiao.jpg',width:'100%',verticalAlign:'middle'}]},
-//					tags=null;
-//				var view = new plus.nativeObj.ImageSlider(id, styles, tags);
-//					view.show("zoom-fade-out");
-//					plus.webview.currentWebview().append(view);
+				getNavList();
+				console.log("itemsLength:" + _items.length);
+				for(var i in _items){console.log(_items[i].id)}
 				var group = new webviewGroup("articleList.html", {
-					items: [
-					{
-						id: "pullrefresh_sub_1.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0"
-						},
-						extras: {hasBanner: true, navName: '', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_2.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '电子信息', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_3.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '互联网经济', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_4.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '生物制药', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_5.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '海洋资源开发利用', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_6.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '石墨烯', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_7.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '3D打印', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_8.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '机器人', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_9.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '跨境电商', requestParam: 'industry'}
-					}, {
-						id: "pullrefresh_sub_10.html",
-						url: "../public/articleList.html",
-						styles:{
-							top:"38px",
-							bottom:"0px"
-						},
-						extras: {navName: '互联网+农业', requestParam: 'industry'}
-					}],
+					items: _items,
 					onChange: function(obj) {
+						console.log(_items.length)
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
 							c.classList.remove("mui-active");
@@ -264,24 +224,27 @@
 						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
 					}
 				});
+				
 				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
 					var wid = this.getAttribute("data-wid");
 					group.switchTab(wid);
 				});
-				mui(".plus-box").on("tap",".plus_btn",function(e){
+				mui(".plus-box").on("tap", ".plus_btn", function(e) {
 					var state = JSON.parse(localStorage.getItem("$state"));
-					if(!state || !state.userId){
-						mui.toast('请先登录');
-						return ;
+					if(!state || !state.userId) {
+						plus.nativeUI.toast("请先登录", {
+							verticalAlign: "center"
+						});
+						return;
 					}
-					var _this=this,
-					wid=_this.getAttribute("data-wid");
+					var _this = this,
+						wid = _this.getAttribute("data-wid");
 					mui('body').progressbar({
 						progress: 0
 					}).show();
-					simulateLoading(0);				
-					plus.nativeUI.showWaiting();					
-					var url = './'+wid+'.html';
+					simulateLoading(0);
+					plus.nativeUI.showWaiting();
+					var url = './' + wid + '.html';
 					var feedbackWebview = plus.webview.create(url, wid);
 					feedbackWebview.addEventListener('titleUpdate', function() {
 						plus.nativeUI.closeWaiting();
@@ -295,13 +258,13 @@
 				 * @param {Object} progress
 				 */
 				function simulateLoading(container, progress) {
-					if (typeof container === 'number') {
+					if(typeof container === 'number') {
 						progress = container;
 						container = 'body';
 					}
 					progress += Math.random() * 20;
 					mui(container).progressbar().setProgress(progress);
-					if (progress < 100) {
+					if(progress < 100) {
 						simulateLoading(container, progress);
 					} else {
 						mui(container).progressbar().hide();

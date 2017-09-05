@@ -271,7 +271,7 @@
 			mui('footer').on('tap', '#search_input', function(e) {
 				var state = JSON.parse(localStorage.getItem('$state'));
 				if(state == null || state.userId == null) {
-					mui.toast('请先登录');
+					plus.nativeUI.toast('请先登录', {verticalAlign: "center"});
 					return;
 				}
 

@@ -74,22 +74,22 @@
 				mui('.mui-content').on('tap', '#submit', function() {
 					var userName = document.getElementById('userName').value;
 					if(!userName) {
-						mui.toast('请输入用户名');
+						plus.nativeUI.toast('请输入用户名', {verticalAlign: "center"});
 						return;
 					}
 					var pwd = document.getElementById('password').value;
 					if(!pwd) {
-						mui.toast('请输入密码');
+						plus.nativeUI.toast('请输入密码', {verticalAlign: "center"});
 						return;
 					}
 					var pwd1 = document.getElementById('password1').value;
 					if(!pwd1) {
-						mui.toast('请再次输入密码');
+						plus.nativeUI.toast('请再次输入密码', {verticalAlign: "center"});
 						return;
 					}
 
 					if(pwd != pwd1) {
-						mui.toast('两次输入密码不一致');
+						plus.nativeUI.toast('两次输入密码不一致', {verticalAlign: "center"});
 						return;
 					}
 					
@@ -105,7 +105,7 @@
 						success: function(result) {
 							var status = result.status;
 							if(status == 0) {
-								mui.toast('注册成功');
+								plus.nativeUI.toast('注册成功', {verticalAlign: "center"});
 								//注册成功 跳转到登录页面;有时跳转失败，暂未检查原因
 								var curWn = plus.webview.currentWebview();
 								curWn.close();

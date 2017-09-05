@@ -297,7 +297,7 @@
 						}, function(zip1) {
 							size += zip1.size;
 							if(size > (10 * 1024 * 1024)) {
-								return mui.toast('图片大小不能超过10M');
+								return plus.nativeUI.toast('图片大小不能超过10M', {verticalAlign: "center"});
 							}
 							if(!self.parentNode.classList.contains('space')) { //已有图片
 								files.splice(index - 1, 1, {
@@ -331,19 +331,19 @@
 
 								}, function(zipe) {
 									console.error(JSON.stringify(zipe))
-									mui.toast('生成缩略图失败');
+									plus.nativeUI.toast('生成缩略图失败', {verticalAlign: "center"});
 								});
 							}
 						}, function(zipe1) {
 							console.error(JSON.stringify(zipe1));
-							mui.toast('压缩图片失败');
+							plus.nativeUI.toast('压缩图片失败', {verticalAlign: "center"});
 						});
 
 					}, function(e) {
 						if(e.code == -2) {
-							mui.toast('取消当前操作');
+							plus.nativeUI.toast('取消当前操作', {verticalAlign: "center"});
 						} else {
-							mui.toast(e.message);
+							plus.nativeUI.toast(e.message, {verticalAlign: "center"});
 						}
 					}, {
 						filter: "image"
@@ -401,9 +401,9 @@
 						placeholder.style.backgroundImage = 'url(' + e.target + ')';
 					}, function(e) {
 						if(e.code == -2) {
-							mui.toast('取消当前操作');
+							plus.nativeUI.toast('取消当前操作', {verticalAlign: "center"});
 						} else {
-							mui.toast(e.message);
+							plus.nativeUI.toast(e.message, {verticalAlign: "center"});
 						}
 					}, {
 						filter: 'video'
@@ -453,11 +453,11 @@
 			mui('.mui-bar-nav').on('tap', '.uploadStory', function(e) {
 				//判断网络连接
 				if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
-					return mui.toast("连接网络失败，请稍后再试");
+					return plus.nativeUI.toast("连接网络失败，请稍后再试", {verticalAlign: "center"});
 				}
 				var state = JSON.parse(localStorage.getItem('$state'));
 				if(state == null || !state.userId) {
-					mui.toast('请先登录');
+					plus.nativeUI.toast('请先登录', {verticalAlign: "center"});
 					return;
 				}
 				var param = {
@@ -475,13 +475,13 @@
 
 				//校验
 				if(!$('#story_describe').val()) {
-					return mui.toast('请填写故事描述');
+					return plus.nativeUI.toast('请填写故事描述', {verticalAlign: "center"});
 				}
 				if(files.length == 0 && videoFile.length == 0) {
-					return mui.toast('请上传图片或者视频');
+					return plus.nativeUI.toast('请上传图片或者视频', {verticalAlign: "center"});
 				}
 
-				plus.nativeUI.showWaiting('上传中');
+				plus.nativeUI.showWaiting('上传中', {verticalAlign: "center"});
 				send(param);
 			});
 

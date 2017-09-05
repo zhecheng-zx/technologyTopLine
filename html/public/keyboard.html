@@ -79,7 +79,7 @@
 				var comments = mui('.comment').value;
 				console.log(comments)
 				if(!comments){
-					mui.toast('请输入评论');
+					plus.nativeUI.toast('请输入评论', {verticalAlign: "center"});
 				}else{
 					//ajax请求后台 保存评论后   在文章详情的评论列表前插入该评论
 					console.log(comments)
