@@ -48,16 +48,16 @@
 						<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
 					</div>
 					<h6 class="copyright-explain">
-						本文章是转载而来，不代表本厅的看法
+						版权说明: 本文章是转载而来
 					</h6>
-					<div class="article-like-wrapper">
+					<!--<div class="article-like-wrapper">
 						<div class="item like-wrapper">
 							<span class="mui-icon iconfont icon-zan like orange"></span>点赞
 						</div>
 						<div class="item dislike-wrapper">
 							<span class="mui-icon iconfont icon-zan dislike"></span>不喜欢
 						</div>
-					</div>
+					</div>-->
 				</div>
 				<div class="ad-wrapper">
 					<img src="" alt="" />
@@ -145,9 +145,9 @@
 			<li class="mui-tab-item collect-li">
 				<span class="mui-icon mui-icon-star orange collect"></span> 收藏
 			</li>
-			<li class="mui-tab-item" id="share">
+			<!--<li class="mui-tab-item" id="share">
 				<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
-			</li>
+			</li>-->
 		</nav>
 
 		<script src="../../js/mui.min.js"></script>
@@ -205,34 +205,33 @@
 					time: '',
 					content: ''
 				}
-			});
-
+			});				
+			
 			//分享到朋友圈  微信 需要的参数
 			var msg = {};
-			window.onload = function() {
+			mui.plusReady(function(){
 				var extras = plus.webview.currentWebview();
 				var guid = extras.guid; //文章id  文章列表也传参过来的
-
-				if(!guid) {
-					return;
-				}
-				
 				var session = JSON.parse(localStorage.getItem('$state'));
-
+				var userId = (session && session.userId)?session.userId:'';
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
 				vm.title = extras.title;
 				vm.source = extras.source;
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
 				vm.content = '';
-
+				
+				if(!guid){
+					return ;
+				}
+				plus.nativeUI.showWaiting('');
 				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
 					data: {
 						"id": guid,
 						"jdbcTemplateName": "mysqlTemplate",
 						"pFile": "Personal",
 						"pKey": "isnot",
-						"user_id": session.userId
+						"user_id": userId
 					},
 					success: function(result) {
 						if(result.data) {							
@@ -242,38 +241,40 @@
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
 						}
-						
+						plus.nativeUI.closeWaiting();
 						if(result.status === 1){
 							$('.collect').removeClass('mui-icon-star').addClass('iconfont').addClass('icon-shoucang');
 						}
 						collectFlag = result.status;
 					},
 					error: function(xhr, type, errorThrown) {
+						plus.nativeUI.closeWaiting();
 						//异常处理；
 						console.error(xhr);
 						console.error(type);
 					}
 				});
-			}
+			});						
 
 			//分享操作
 			var shares = {};
 
-			mui.plusReady(function() {
-				plus.share.getServices(function(s) {
-					if(s && s.length > 0) {
-						for(var i = 0; i < s.length; i++) {
-							var t = s[i];
-							shares[t.id] = t;
-						}
-					}
-				}, function() {
-					console.log("获取分享服务列表失败");
-				});
-			});
+//			mui.plusReady(function() {
+//				plus.share.getServices(function(s) {
+//					if(s && s.length > 0) {
+//						for(var i = 0; i < s.length; i++) {
+//							var t = s[i];
+//							shares[t.id] = t;
+//						}
+//					}
+//				}, function() {
+//					console.log("获取分享服务列表失败");
+//				});
+//			});
 
 			//分享链接点击事件
 			document.getElementById("share").addEventListener('tap', function() {
+				return ;
 				var ids = [{
 						id: "weixin",
 						ex: "WXSceneSession"
@@ -335,6 +336,7 @@
 
 			var wn = null;
 
+			//评论功能暂不予
 //			function plusReady() {
 //				// 预创建新窗口（显示在可视区域外）, 高度有提问
 //				wn = plus.webview.create('keyboard.html', 'keyboard', {

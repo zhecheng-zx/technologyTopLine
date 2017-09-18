@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
-		<style>
+		<style type="text/css">
 			.mui-table-view-cell>a:not(.mui-btn) {
 				margin: auto;
 				padding: 0px;
@@ -114,8 +114,42 @@
 				background-color: transparent;
 			}
 			
-			.img-li img{
+			.img-li img {
 				height: 180px;
+			}
+			
+			.imgBox>div {
+				padding: 0px 5px;
+			}
+			
+			.imgBox>div:first-child {
+				padding-left: 0px;
+			}
+			
+			.imgBox>div:last-child {
+				padding-right: 0px;
+			}
+			
+			.mui-media-footer img {
+				height: 150px;
+				width: auto;
+			}
+			
+			.mui-media-footer .imgBox img {
+				max-width: 100%;
+				height: 100px;
+			}
+			
+			.imgBox .mui-col-sm-6,
+			.imgBox .mui-col-xs-6 {
+				width: auto;
+				max-width: 50%;
+			}
+			
+			.imgBox .mui-col-sm-4,
+			.imgBox .mui-col-xs-4 {
+				width: auto;
+				max-width: 33.33333333%;
 			}
 		</style>
 	</head>
@@ -162,7 +196,7 @@
 						callback: pullupRefresh
 					}
 				}
-			});					
+			});
 
 			function pullupRefresh() {
 				pageNum = pageNum + 　1;
@@ -215,14 +249,18 @@
 					}
 
 					//TODO 此处根据具体的文章性质  判断是否添加 new hot标志。  暂时注释掉 2017-09-01
-//					if(i == 1) {
-//						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-new red"></span>&nbsp;&nbsp;');
-//					}
-//					if(i == 2) {
-//						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-hot2 red"></span>&nbsp;&nbsp;');
-//					}
+					//					if(i == 1) {
+					//						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-new red"></span>&nbsp;&nbsp;');
+					//					}
+					//					if(i == 2) {
+					//						$li.find('p.mui-ellipsis').prepend('<span class="mui-icon iconfont icon-hot2 red"></span>&nbsp;&nbsp;');
+					//					}
 
-					$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty"><span class="mui-icon mui-icon-closeempty"></span></p>');
+					//已登录状态下 可以屏蔽文章
+					var session = JSON.parse(localStorage.getItem('$state'));
+					if(session && session.userId) {
+						$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty"><span class="mui-icon mui-icon-closeempty"></span></p>');
+					}
 
 					if(position == 'before') {
 						table.prepend($li);
@@ -231,6 +269,66 @@
 					}
 				}
 			}
+
+			function addStoryData(list) {
+				var table = document.body.querySelector('#articleUl');
+				for(var i = 0; i < list.length; i++) {
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media';
+					var _card = '';
+					_card += '<a href="javascript:;">';
+					_card += '<div class="mui-media-body">';
+					_card += '<div class="article-title">' + $.trim(list[i].title) + '</div>';
+					_card += '<p class="mui-ellipsis publishDate">' + $.trim(list[i].create_time) + '</p>';
+					_card += '</div>';
+					_card += '<div class="mui-media-footer">';
+					_card += '<p class="text-gray mui-ellipsis-2">' + list[i].content + '</p>';
+					_card += '</div>';
+					_card += '<div class="mui-media-footer">';
+					var imgList = list[i].content_images;
+					if(imgList && imgList.length > 0) {
+						imgList = imgList.split(',');
+						var reduceList = list[i].reduce_image;
+
+						if(reduceList) {
+							reduceList = reduceList.split(',');
+						}
+						var imgLength = imgList.length,
+							className = "";
+						//
+						if(imgLength % 2 == 0 && imgLength <= 4) {
+							className = "mui-col-sm-6 mui-col-xs-6";
+						} else if(imgLength > 　1) {
+							className = "mui-col-sm-4 mui-col-xs-4";
+						}
+						if(imgLength == 1) {
+							var imgSrc = (reduceList && reduceList.length > 0) ? reduceList[0] : imgLength[0]
+							_card += '<img src="' + imgSrc + '" data-preview-src="' + imgList[0] + '" data-preview-group="' + list[i].id + '"/>';
+						} else {
+							_card += '<div class="mui-row imgBox">';
+							for(var j = 0; j < imgLength; j++) {
+								var imgSrc = (reduceList && reduceList.length > j) ? reduceList[j] : imgList[j];
+								_card += '<div class="' + className + '">' +
+									'<img src="' + imgSrc + '" data-preview-src="' + imgList[j] + '" data-preview-group="' + list[i].id + '"/>' +
+									'</div>';
+							}
+							_card += '</div>';
+						}
+					} else if(list[i].video_content) {
+						_card += '<div class="videoBox">';
+						_card += '<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
+						_card += '<source type="video/mp4" src="' + list[i].video_content + '" />';
+						_card += '</video>';
+						_card += '</div>';
+					}
+					_card += '</div>';
+					_card += '</a>';
+					li.innerHTML = _card;
+
+					table.appendChild(li);
+				}
+			}
+
 			/**
 			 * 下拉刷新具体业务实现
 			 */
@@ -274,13 +372,48 @@
 				open_detail(guid, title, source, time);
 			});
 
-			$(document).on("tap", ".remove-box>a.remove-item", function() {
+			$(document).on("tap", ".remove-box>a.remove-item", function(e) {
 				$(this).addClass("active").siblings(".remove-item").removeClass("active");
+
+				var session = JSON.parse(localStorage.getItem('$state')),
+					articleId = $('.mui-popover').data('articleId'),
+					reason = $(this).text();
+				var param = {
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "Science",
+					"pKey": "protective_article",
+					"user_id": session.userId,
+					"article_id": articleId,
+					"reason": reason
+				}
+				plus.nativeUI.showWaiting();
+				//屏蔽文章
+				mui.ajax('http://58.16.181.24:9203/mis-app/Science/formProcessing', {
+					data: param,
+					success: function(result) {
+						plus.nativeUI.closeWaiting();
+						result = JSON.parse(result);
+						if(result.status == 'success') {
+							$('.remove-box>a.remove-item').removeClass('active');
+							$('.mui-popover').removeData('articleId');
+							mui('.mui-popover').popover('hide');
+							var $source = $("#articleUl li a[data-guid='" + articleId + "']").parent();
+							$source.remove();
+						}
+					},
+					error: function(xhr, type, error) {
+						plus.nativeUI.closeWaiting();
+						console.error(xhr);
+						console.error(type);
+					}
+				});
 			});
 
 			$(document).on('tap', '.closeempty', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
+				var articleId = $(this).closest('li').find('a').attr('data-guid');
+				$('.mui-popover').data('articleId', articleId);
 				mui('.mui-popover').popover('toggle', this);
 			});
 
@@ -300,32 +433,47 @@
 			function getArticleList(position) {
 				$('.img-li').remove();
 				var wn = plus.webview.currentWebview();
-				var name = wn.navName, requestParam = wn.requestParam;
-				
+				var name = wn.navName,
+					requestParam = wn.requestParam;
+
 				var param = {
 					page_no: pageNum,
 					page_size: pageSize,
 					sortType: 'desc',
 					sortField: 'publishTime'
 				}
-				if(name){
+				if(name) {
 					param[requestParam] = name;
+				}else{
+					param.top = 'top';
+				}
+				var session = JSON.parse(localStorage.getItem('$state'));
+				if(session && session.userId) {
+					param.user_id = session.userId;
 				}
 				
 				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
 					data: param,
 					type: 'post', //HTTP请求类型
-					success: function(data) {
+					success: function(result) {
 						plus.nativeUI.closeWaiting();
-						if(position == "after"){
+						if(position == "after") {
 							mui('#articleList').pullRefresh().endPullup(false);
-						}else{
+						} else {
 							mui('#articleList').pullRefresh().endPulldown();
 						}
-						var list = data.list;
+						
+						var allData = result.allData;
+						if(!allData){ return ; }
+						var list = allData.list,
+							topStoArticle = allData.TopStoArticle;
+						
+						if(topStoArticle && topStoArticle.length > 0) {
+							addStoryData(topStoArticle);
+						}
 						if(list.length > 0) {
 							addData(position, list);
-						} else {							
+						} else {
 							if(position == 'after') {
 								mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
 							}

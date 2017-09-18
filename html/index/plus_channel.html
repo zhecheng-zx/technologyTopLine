@@ -112,6 +112,10 @@
 				font-size: 18px;
 			}
 			
+			.mui-icon.mui-icon-close{
+				font-size: 22px;
+			}
+			
 			.shake {
 				-webkit-transform-origin: center center;
 				-webkit-animation-name: shake-rotate;
@@ -407,6 +411,7 @@
 					plus.nativeUI.toast("请先登录", {verticalAlign: "center"});
 					return;
 				}
+				plus.nativeUI.showWaiting();
 				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 					data: {
 						"jdbcTemplateName": "mysqlTemplate,mysqlTemplate",
@@ -416,6 +421,7 @@
 						"channel_id": channelId,
 					},
 					success: function(result) {
+						plus.nativeUI.closeWaiting();
 						changed = true;
 						var data = JSON.parse(result);
 						if(data.status == 'success') {
@@ -431,6 +437,7 @@
 						}
 					},
 					error: function(xhr, type, errorThrown) {
+						plus.nativeUI.closeWaiting();
 						console.error(JSON.stringify(xhr))
 						console.error(type);
 						console.error(JSON.stringify(errorThrown))
@@ -464,6 +471,7 @@
 						plus.nativeUI.toast("请先登录", {verticalAlign: "center"});
 						return ;
 					}
+					plus.nativeUI.showWaiting();
 					mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
 						data: {
 							"user_id": session.userId,
@@ -473,6 +481,7 @@
 							"pKey": "addchannel,deleterecommend"
 						},
 						success: function(result) {
+							plus.nativeUI.closeWaiting();
 							changed = true;
 							var data = JSON.parse(result);
 							if(data.status == 'success') {
@@ -505,16 +514,16 @@
 							}
 						},
 						error: function(xhr, type, errorThrown) {
+							plus.nativeUI.closeWaiting();
 							console.error(type);
 						}
 					})
 				});
 				
 				mui('.mui-bar').on('tap', '.mui-action-back', function(e){
-					var w = plus.webview.getWebviewById('./html/index/index.html');
-					console.log(w.getURL())
+					var w = plus.webview.currentWebview().opener();				
 					if(changed){
-						w.reload(true);
+						mui.fire(w, 'reloadPage', {});
 					}					
 					mui.back();
 				});

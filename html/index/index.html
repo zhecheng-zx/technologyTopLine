@@ -162,20 +162,21 @@
 
 			function getNavList() {
 				var session = JSON.parse(localStorage.getItem('$state'));
-				if(session.userId) {
+				if(session && session.userId) {
 					param.pKey = "islogin",
 						param.user_id = session.userId
 				}
-
+				
 				if(_items.length > 1){
 					_items.splice(0, 1);
-					console.log(_items.length + "===========================")
 				}
-			
-				mui.ajax('http://172.168.17.53:8080/mis-app/Science/baseQuery', {
+				
+				mui.ajax('http://58.16.181.24:9203/mis-app/Science/baseQuery', {
 					async: false,
 					data: param,
 					success: function(result) {
+						
+						plus.nativeUI.closeWaiting();
 						if(!result) {
 							return;
 						}
@@ -184,9 +185,9 @@
 						//导航插入数据
 						var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
 						for(var i = 0; i < listInfo.length; i++) {
-							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + (i + 2) + '.html">' + listInfo[i].channel_theme + '</a>'
+							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + listInfo[i].channel_id + '.html">' + listInfo[i].channel_theme + '</a>'
 							var item = {
-								id: "pullrefresh_sub_" + (i + 2) + ".html",
+								id: "pullrefresh_sub_" + listInfo[i].channel_id + ".html",
 								url: "../public/articleList.html",
 								styles: {
 									top: "38px",
@@ -203,6 +204,7 @@
 						$('.nav-list').append(_a);
 					},
 					error: function(xhr, type, error) {
+						plus.nativeUI.closeWaiting();
 						console.error(xhr);
 						console.error(type);
 					}
@@ -210,13 +212,11 @@
 			}
 
 			mui.plusReady(function() {
+				plus.nativeUI.showWaiting();
 				getNavList();
-				console.log("itemsLength:" + _items.length);
-				for(var i in _items){console.log(_items[i].id)}
-				var group = new webviewGroup("articleList.html", {
+				var group = new webviewGroup(plus.webview.currentWebview().id, {
 					items: _items,
 					onChange: function(obj) {
-						console.log(_items.length)
 						var c = document.querySelector(".mui-control-item.mui-active");
 						if(c) {
 							c.classList.remove("mui-active");
@@ -270,6 +270,18 @@
 						mui(container).progressbar().hide();
 					}
 				}
+			});
+			
+			document.addEventListener('reloadPage', function(e){
+				var cur = plus.webview.currentWebview();
+				for(var i in _items){					
+					var w = plus.webview.getWebviewById(_items[i].id);
+					if(w != null){
+						cur.remove(w);
+						w.close();
+					}					
+				}
+				cur.reload(true);
 			});
 		</script>
 	</body>

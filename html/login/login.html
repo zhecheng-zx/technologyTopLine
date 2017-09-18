@@ -114,6 +114,12 @@
 						plus.nativeUI.closeWaiting();
 						var w = plus.webview.getWebviewById('./html/myCenter/index.html');
 						w.reload(true);
+						var reg = plus.webview.getWebviewById('reg');
+						if(reg != null){
+							var cur = plus.webview.currentWebview();
+							cur.remove(reg);
+							reg.close();
+						}
 						//						plus.webview.getWebviewById('reg').close();
 						plus.webview.currentWebview().close();
 						w.show();

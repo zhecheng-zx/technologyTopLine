@@ -7,7 +7,385 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title></title>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
+			<style type="text/css">
+			.mui-content.mui-scroll-wrapper {
+				background-color: #ffffff;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn).mui-active {
+				background-color: #ffffff;
+			}
+			
+			.mui-media .mui-media-body {
+				font-size: 13px;
+				color: #333333;
+			}
+			
+			.mui-media .mui-media-body .mui-ellipsis {
+				font-size: 11px;
+				color: #999999;
+			}
+			
+			.mui-media .mui-media-footer {
+				overflow: hidden;
+				padding-top: 10px;
+			}
+			
+			.text-gray {
+				color: #666666;
+			}
+			
+			.mui-media-footer .text-gray {
+				font-size: 13px;
+			}
+			
+			.mui-media-footer>img,
+			.mui-media-footer>video {
+				width: 100%;
+				height: 100%;
+			}
+			
+			video {
+				object-position: 0px 0px;
+				width: 100%;
+				max-height: 100%;
+			}
+			
+			.videoBox {
+				position: relative;
+				width: 100%;
+				height: 180px;
+			}
+			
+			.playBtn {
+				width: 36px;
+				height: 36px;
+				position: absolute !important;
+				left: 50%;
+				top: 50%;
+				margin-left: -18px;
+				margin-top: -18px;
+				display: block;
+				border: none;
+				z-index: 1000;
+			}
+			
+			.poster {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			.mui-status-bottom {
+				padding: 2px 0;
+			}
+			
+			.mui-status-bottom:before,
+			.mui-status-bottom:after {
+				display: table;
+				content: " ";
+			}
+			
+			.mui-status-bottom:after {
+				clear: both;
+			}
+			
+			.mui-status-bottom .mui-status-item {
+				display: inline-block;
+				margin-right: 10px;
+				font-size: 11px;
+				color: #999999;
+			}
+			
+			.mui-status-bottom .closeempty {
+				float: right;
+				font-size: 24px;
+				color: #dedede;
+			}					
+			
+			.remove-box .remove-title {
+				font-size: 13px;
+				color: #333333;
+			}
+			
+			.remove-box .remove-item {
+				display: inline-block;
+				padding: 5px 8px;
+				margin-bottom: 10px;
+				font-size: 13px;
+				color: #999999;
+				transition: all .5s ease-in-out;
+			}
+			
+			.remove-box .remove-item.active {
+				color: #ffffff;
+				background-color: #0062CC;
+				border-radius: 50px;
+			}
+			
+			.imgBox>div{
+				padding: 0px 5px;
+			}
+			
+			.imgBox>div:first-child {
+				padding-left: 0px;
+			}
+			
+			.imgBox>div:last-child {
+				padding-right: 0px;
+			}
+			
+			.mui-media-footer img{
+				height: 150px;
+				width: auto;
+			}
+			
+			.mui-media-footer .imgBox img{
+				max-width: 100%;
+				height: 100px;
+			}
+			
+			.imgBox .mui-col-sm-6, .imgBox .mui-col-xs-6{
+				width: auto;
+				max-width: 50%;
+			}
+			
+			.imgBox .mui-col-sm-4, .imgBox .mui-col-xs-4{
+				width: auto;
+				max-width: 33.33333333%;
+			}
+		</style>
 	</head>
 	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view">
+				</ul>
+			</div>
+		</div>	
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
+		<script>
+			var pageNum = 1, pageSize = 10;
+			
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						height: 50,
+						auto: true,
+						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',
+						callback: pullupRefresh
+					}
+				}
+			});
+			
+			function pullupRefresh(){
+				pageNum = pageNum + 1;
+				getStoryList();						
+			}
+			
+			function getStoryList(){
+				var param = {
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "ScienceStory",
+					"pKey": "containall",
+					"pageNo": requesNum,
+					"pageSize": pageSize,
+					"order": "",
+					"queryTermStr": "",
+					"type":"mysql"
+				}
+				
+				mui.ajax('', {
+					data: param
+				});
+			}
+			
+			function deleteMyStory(){
+				
+			}
+		</script>
 	</body>
 </html>
