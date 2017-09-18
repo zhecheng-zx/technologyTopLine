@@ -206,7 +206,7 @@
 
 			function onPlusReady() {
 				var self = plus.webview.currentWebview();
-				for(var i = 0; i < 5; i++) {
+				for(var i = 0; i < 1; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
 					if(i > 0) {
@@ -245,13 +245,15 @@
 					}
 					//显示目标选项卡
 					//若为iOS平台或非首次显示，则直接显示
-					if(mui.os.ios || aniShow[targetTab]) {
+					if(aniShow[targetTab]) {
 						plus.webview.show(targetTab);
 					} else {
 						//否则，使用fade-in动画，且保存变量
 						var temp = {};
 						temp[targetTab] = "true";
 						mui.extend(aniShow, temp);
+						var subP = plus.webview.create(targetTab, targetTab, {top: '45px', bottom: '51px'});
+						self.append(subP);
 						plus.webview.show(targetTab, "fade-in", 300);
 					}
 					//隐藏当前;
@@ -259,7 +261,9 @@
 					if(activeTab == "./html/scientistStory/index.html") {
 						var stopVideo = '$(document).find("video").each(function(){var $this=$(this)[0];$this.pause();});';
 						var _videoView = plus.webview.getWebviewById(activeTab);
-						_videoView.evalJS(stopVideo);
+						if(_videoView){
+							_videoView.evalJS(stopVideo);	
+						}						
 					}
 					//更改当前活跃的选项卡
 					activeTab = targetTab;

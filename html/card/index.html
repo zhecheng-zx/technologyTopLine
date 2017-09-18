@@ -257,22 +257,29 @@
 			mui.plusReady(function() {		
 
 				var self = plus.webview.currentWebview();
-				for(var i in _items){
-					var sub = plus.webview.create(_items[i].url, _items[i].id, _items[i].styles, _items[i].extras);
+				if(_items.length > 0){
+					var sub = plus.webview.create(_items[0].url, _items[0].id, _items[0].styles, _items[0].extras);
 					self.append(sub);
-					if(i != 0){
-						sub.hide();
-					}else{
-						sub.show();
-					}
+					sub.show();
 				}
-
+				
 				mui('.mui-scroll').on("tap", ".slider-li", function(e) {
 					$(".slider-li.mui-active").removeClass('mui-active');
 					$(this).addClass('mui-active');
 					var wid = this.getAttribute("data-wid")
 					var w = plus.webview.getWebviewById(wid);
-					w.show();
+					if(w){
+						w.show();
+					}else{
+						for(var i = 1; i < _items.length; i++){
+							if(_items[i].id.indexOf(wid) >= 0){
+								var subP = plus.webview.create(_items[i].url, _items[i].id, _items[i].styles, _items[i].extras);
+								self.append(subP);
+								subP.show();
+								break;
+							}
+						}
+					}					
 				});
 			
 				/**
