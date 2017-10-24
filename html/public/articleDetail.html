@@ -20,9 +20,172 @@
 				z-index: 998;
 				background-color: rgba(0, 0, 0, .3);
 			}
-			
+			.kr-article-article{
+				width: 100%;
+				white-space: nowrap;
+				font-size:1.2rem;
+				line-height: 2rem;
+				color:#333333;
+				white-space: pre-wrap; /*css-3*/ 
+				white-space: -moz-pre-wrap; /*Mozilla,since1999*/ 
+				white-space: -pre-wrap; /*Opera4-6*/ 
+				white-space: -o-pre-wrap; /*Opera7*/ 
+				word-wrap: break-word; /*InternetExplorer5.5+*/ 
+			}
 			.mui-content .kr-article-article img {
 				width: 100%;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			img {
+				max-width: 100%;
+				height: auto;
 			}
 		</style>
 	</head>
@@ -43,10 +206,10 @@
 						<span class="dateTime">{{time}}</span>
 					</div>
 					<!--文章详细内容-->
-					<p id="kr-article-article" class="kr-article-article" v-html="content"></p>
-					<div class="related-words">
+					<pre id="kr-article-article" class="kr-article-article" v-html="content">{{content}}</pre>
+					<!--<div class="related-words">
 						<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
-					</div>
+					</div>-->
 					<h6 class="copyright-explain">
 						版权说明: 本文章是转载而来
 					</h6>
@@ -62,7 +225,7 @@
 				<div class="ad-wrapper">
 					<img src="" alt="" />
 				</div>
-				<div class="related-article-wrapper">
+				<!--<div class="related-article-wrapper">
 					<h5 class="text">猜你喜欢</h5>
 					<ul class="related-article-list">
 						<li class="item">
@@ -75,7 +238,7 @@
 							<a href="javascript:;">火影、死神、海贼王三大动漫 死神的口碑为什么最不好？</a>
 						</li>
 					</ul>
-				</div>
+				</div>-->
 				<!--评论区暂关闭-->
 				<div class="comment-wrapper" style="display: none;">
 					<h5 class="text">
@@ -153,44 +316,49 @@
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
+		<script src="../../js/mui.zoom.js"></script>
+		<script src="../../js/mui.previewimage.js"></script>
 		<script type="text/javascript">
 			var collectFlag = 0;
-			mui.init({
+			mui.init(
+				{
 				pullRefresh: {
 					container: '.mui-content',
 					up: {
 						height: 50,
 						auto: false,
-						contentrefresh: '正在加载...',
-						contentnomore: '没有更多数据了',
+						contentrefresh: ' ',
+						contentnomore: ' ',
 						callback: function() {
-							var length = $('#comment-list li').length;
-							if(length >= 20) {
-								this.endPullupToRefresh(true);
-							} else {
-								this.endPullupToRefresh(false);
-							}
-							var table = document.body.querySelector('#comment-list');
-							for(var i = 0; i < 5; i++) {
-								var li = document.createElement('li');
-								li.className = 'mui-table-view-cell mui-media';
-								li.innerHTML = '<a javascript:;>' +
-									'<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">' +
-									'<div class="mui-media-body">' +
-									'<p class="userNameBox">' +
-									'<span class="userName">YOYO切克闹</span>' +
-									'<span class="zanNum mui-pull-right">199</span><span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>' +
-									'</p>' +
-									'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' +
-									'<p class="comment-info"><span class="publishDate">06-20 12:33</span><span class="replay">22回复</span></p></div>' +
-									'</a>';
-								table.appendChild(li);
-							}
+							return false;
+//							var length = $('#comment-list li').length;
+//							if(length >= 20) {
+//								this.endPullupToRefresh(true);
+//							} else {
+//								this.endPullupToRefresh(false);
+//							}
+//							var table = document.body.querySelector('#comment-list');
+//							for(var i = 0; i < 5; i++) {
+//								var li = document.createElement('li');
+//								li.className = 'mui-table-view-cell mui-media';
+//								li.innerHTML = '<a javascript:;>' +
+//									'<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">' +
+//									'<div class="mui-media-body">' +
+//									'<p class="userNameBox">' +
+//									'<span class="userName">YOYO切克闹</span>' +
+//									'<span class="zanNum mui-pull-right">199</span><span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>' +
+//									'</p>' +
+//									'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' +
+//									'<p class="comment-info"><span class="publishDate">06-20 12:33</span><span class="replay">22回复</span></p></div>' +
+//									'</a>';
+//								table.appendChild(li);
+//							}
 						}
 					}
 				},
 				swipeBack: true //启用右滑关闭功能
-			});
+			}
+				);
 
 			//返回上一页
 			$(document).on('tap', '.mui-icon-back', function() {
@@ -205,8 +373,7 @@
 					time: '',
 					content: ''
 				}
-			});				
-			
+			});
 			//分享到朋友圈  微信 需要的参数
 			var msg = {};
 			mui.plusReady(function(){
@@ -240,6 +407,11 @@
 							msg.href = data.url;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
+							setTimeout(function(){
+								$(".kr-article-article a").attr("href","javascript:void(0);");
+								$(".kr-article-article img").attr("data-preview-src","").attr("data-preview-group","1")
+								mui.previewImage();
+							},500);
 						}
 						plus.nativeUI.closeWaiting();
 						if(result.status === 1){
@@ -273,52 +445,52 @@
 //			});
 
 			//分享链接点击事件
-			document.getElementById("share").addEventListener('tap', function() {
-				return ;
-				var ids = [{
-						id: "weixin",
-						ex: "WXSceneSession"
-					}, {
-						id: "weixin",
-						ex: "WXSceneTimeline"
-					}, {
-						id: "sinaweibo"
-					}, {
-						id: "qq"
-					}],
-					bts = [{
-						title: "发送给微信好友"
-					}, {
-						title: "分享到微信朋友圈"
-					}, {
-						title: "分享到新浪微博"
-					}, {
-						title: "分享到QQ"
-					}];
-				plus.nativeUI.actionSheet({
-					cancel: "取消",
-					buttons: bts
-				}, function(e) {
-					var i = e.index;
-					if(i > 0) {
-						var s_id = ids[i - 1].id;
-						var share = shares[s_id];
-						if(share) {
-							if(share.authenticated) {
-								shareMessage(share, ids[i - 1].ex);
-							} else {
-								share.authorize(function() {
-									shareMessage(share, ids[i - 1].ex);
-								}, function(e) {
-									console.log("认证授权失败：" + e.code + " - " + e.message);
-								});
-							}
-						} else {
-							mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
-						}
-					}
-				});
-			});
+//			document.getElementById("share").addEventListener('tap', function() {
+//				return ;
+//				var ids = [{
+//						id: "weixin",
+//						ex: "WXSceneSession"
+//					}, {
+//						id: "weixin",
+//						ex: "WXSceneTimeline"
+//					}, {
+//						id: "sinaweibo"
+//					}, {
+//						id: "qq"
+//					}],
+//					bts = [{
+//						title: "发送给微信好友"
+//					}, {
+//						title: "分享到微信朋友圈"
+//					}, {
+//						title: "分享到新浪微博"
+//					}, {
+//						title: "分享到QQ"
+//					}];
+//				plus.nativeUI.actionSheet({
+//					cancel: "取消",
+//					buttons: bts
+//				}, function(e) {
+//					var i = e.index;
+//					if(i > 0) {
+//						var s_id = ids[i - 1].id;
+//						var share = shares[s_id];
+//						if(share) {
+//							if(share.authenticated) {
+//								shareMessage(share, ids[i - 1].ex);
+//							} else {
+//								share.authorize(function() {
+//									shareMessage(share, ids[i - 1].ex);
+//								}, function(e) {
+//									console.log("认证授权失败：" + e.code + " - " + e.message);
+//								});
+//							}
+//						} else {
+//							mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
+//						}
+//					}
+//				});
+//			});
 
 			function shareMessage(share, ex) {
 				msg.extra = {

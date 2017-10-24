@@ -186,7 +186,6 @@
 				top: '45px',
 				bottom: '51px'
 			};
-
 			var aniShow = {};
 			//创建子页面，首个选项卡页面显示，其它均隐藏；
 			document.addEventListener('plusready', onPlusReady, false);
@@ -205,6 +204,35 @@
 			});
 
 			function onPlusReady() {
+				plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+					var data={
+						"jdbcTemplateName":"mysqlTemplate",
+						"pFile":"App",
+						"pKey":"app_version"
+					};
+					mui.ajax('http://58.16.181.24:9203/mis-app/public/baseQuery',{
+						data:data,
+						success:function(result){
+							var res = JSON.parse(result),
+								res1 = res.listInfo[0]
+							if(res.status=="success"){
+								if(res1.version === inf.version){
+								}else{
+									var btnArray = ['取消','更新'];
+									mui.confirm(res1.note,res1.title,btnArray,function(e){
+										if (e.index == 1) {
+					                        window.location.href=res1.url
+					                    }
+									});
+								}
+							}
+						},
+						error: function(error){
+							mui.toast("网络请求错误，请检查网络连接！")
+						}
+					});
+				})
+				
 				var self = plus.webview.currentWebview();
 				for(var i = 0; i < 1; i++) {
 					var temp = {};

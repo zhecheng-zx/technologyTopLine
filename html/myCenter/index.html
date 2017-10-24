@@ -79,7 +79,7 @@
 		<div class="mui-content myCenter" id="myCenter">
 			<ul class="mui-table-view login-box">
 				<li class="mui-table-view-cell mui-media">
-					<a href="javascript:;" data-guid="userSet">
+					<a href="javascript:;">
 						<div class="img-box mui-pull-left">
 							<img id="head-img" class="userImg">
 						</div>
@@ -97,7 +97,7 @@
 		        <ul class="mui-table-view">		        
 		            <li class="mui-table-view-cell">
 		                <a class="mui-navigate-right" href="javascript:;" data-guid="message">
-		                    <span class="mui-badge mui-badge-danger">15</span>
+		                    <!--<span class="mui-badge mui-badge-danger">15</span>-->
 		                    <span class="mui-icon mui-icon-chat icon-blue"></span>
 		                    	消息通知
 		                </a>
@@ -217,7 +217,7 @@
 				var state = localStorage.getItem('$state');
 				if(state != '{}' && state != null){
 					$('.noLoginBox').hide();
-					$('.userNameBox').show();
+					$('.userNameBox').show().parent().attr("data-guid","userSet");
 					state = JSON.parse(state);
 					document.getElementById('userName').innerText = state.account;
 					document.getElementById('userInfo').innerText = state.userIntroduced ? state.userIntroduced : '暂无简介';
