@@ -85,9 +85,9 @@
 				</div>
 			</form>
 			<div class="mui-content-padded">
-				<div class="link-area">
+				<!--<div class="link-area">
 					<a id='forgetPassword'>忘记密码</a>
-				</div>
+				</div>-->
 				<button id='login' class="mui-btn mui-btn-block mui-btn-primary" data-loading-icon="mui-spinner mui-spinner-custom" type="button">登录</button>
 			</div>
 			<div class="mui-content-padded oauth-area">
@@ -172,22 +172,22 @@
 						});
 					}, false);
 
-					forgetButton.addEventListener('tap', function(event) {
-						$.openWindow({
-							url: 'modifyPwd.html',
-							id: 'modifyPwd',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
-					}, false);
+//					forgetButton.addEventListener('tap', function(event) {
+//						$.openWindow({
+//							url: 'modifyPwd.html',
+//							id: 'modifyPwd',
+//							preload: true,
+//							show: {
+//								aniShow: 'pop-in'
+//							},
+//							styles: {
+//								popGesture: 'hide'
+//							},
+//							waiting: {
+//								autoShow: false
+//							}
+//						});
+//					}, false);
 					//
 					var oglHeight = document.querySelector("body").offsetHeight;
 					window.addEventListener('resize', function() {
