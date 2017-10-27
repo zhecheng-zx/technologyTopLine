@@ -221,7 +221,20 @@
 									var btnArray = ['取消','更新'];
 									mui.confirm(res1.note,res1.title,btnArray,function(e){
 										if (e.index == 1) {
-					                        window.location.href=res1.url
+											var w = plus.webview.create(res1.url);
+											w.show();
+//					                        var dtask = plus.downloader.createDownload(res1.url, {}, function(d, status) {
+//					                            if (status == 200) {                                        
+//					                                plus.nativeUI.toast("正在准备环境，请稍后！");
+//					                                sleep(1000);
+//					                                return
+//					                                var path = d.filename;//下载apk
+//					                                plus.runtime.install(path); // 自动安装apk文件
+//					                            }else {
+//					                                mui.alert('版本更新失败:' + status);
+//					                            }
+//					                        });
+//					                        dtask.start(); 
 					                    }
 									});
 								}

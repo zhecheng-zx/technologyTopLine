@@ -1,8 +1,7 @@
 {
 	"@platforms": [
 		"android",
-		"iPhone",
-		"iPad"
+		"iPhone"
 	],
 	"id": "juncuan.com.cn.H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "聚科技",/*应用名称，程序桌面图标名称*/
