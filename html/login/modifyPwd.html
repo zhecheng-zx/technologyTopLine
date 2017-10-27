@@ -70,7 +70,7 @@
 				return;
 			}
 
-			mui.ajax('http://58.16.181.24:9203/mis-app/public/getVerificationCode', {
+			mui.ajax('http://192.168.1.110:8080/mis-app/public/getVerificationCode', {
 				data: {
 					phone: phoneNum,
 					tag: 'code'
@@ -82,6 +82,7 @@
 						document.getElementById('showPhoneNum').innerText = phoneNum;
 						document.getElementById('afterSendCodeBox').className = 'text';
 					} else {
+						document.getElementById('afterSendCodeBox').className = 'text mui-hidden';
 						mui.toast(result.msg);
 					}
 				},
