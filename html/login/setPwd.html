@@ -33,16 +33,59 @@
 			</form>	
 			<div class="mui-content-padded">
 				<div class="text">
-					本手机号绑定的用户是{userName}，重置后可自动登录
-				</div>
+					本手机号绑定的用户是<span id="phoneSpan"></span>，重置后可自动登录
+				</div> 
 				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">提交</button>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../js/mui.min.js" ></script>
+	<script src="../../js/md5.min.js"></script>
 	<script>
-		mui('.mui-content-padded').on('tap', '#submit', function(){
-			// 先到后台更新密码   然后登录到首页
+		var phoneNum = '', md5Code = '';
+		mui.plusReady(function(){
+			var extras = plus.webview.currentWebview();
+			phoneNum = extras.phoneNum;
+			md5Code = extras.md5Code;
+			document.getElementById('phoneSpan').innerText = phoneNum;
 		});
+		
+		mui('.mui-content-padded').on('tap', '#submit', function(){
+			var pwd = document.getElementById('password').value;
+			if(!pwd){
+				plus.nativeUI.toast('请输入密码', {verticalAlign: 'center'});
+				return ;
+			}
+			
+			mui.ajax('http://58.16.181.24:9203/mis-app/public/updatePwd', {
+				data: {
+					phone: phoneNum, 
+					jdbcTemplateName: 'mysqlTemplate',
+					md5Code: md5Code,
+					password: md5(pwd),
+					pFile:"Personal",
+					pKey:"updatePwd"
+				},
+				success: function(data){
+					console.log(JSON.stringify(data))
+					if(data.status == 0){
+						plus.nativeUI.toast('修改成功', {verticalAlign: "center"});
+						var curWn = plus.webview.currentWebview();
+						curWn.close();
+						var codeWn = plus.webview.getWebviewById('modifyPwd');
+						codeWn.close();
+						plus.webview.show('../login/login.html');
+					}else{
+						plus.nativeUI.toast(data.msg, {verticalAlign: 'center'});
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					console.error(type);
+					console.error(JSON.stringify(xhr));
+					console.error(JSON.stringify(errorThrown))
+				}
+			});
+		})
+			
 	</script>
 </html>

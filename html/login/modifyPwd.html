@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -7,47 +8,129 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<title></title>
 		<link rel="stylesheet" href="../../css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<style>
-			body{
+			body {
 				background-color: #F4F4F4;
 				width: 100%;
 				height: 100%;
-			}	
-			.login .mui-input-row input.phoneNum{
+			}
+			
+			.login .mui-input-row input.phoneNum {
 				float: left;
 				padding-left: 15px;
-			}	
+			}
+			
+			.modifyPwd .mui-input-row.phone-box .mui-input-clear~.mui-icon-clear {
+				right: 90px;
+				top: 15px;
+			}
 		</style>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-text-white"></a>
 			<h1 id="title" class="mui-title mui-text-center">修改密码</h1>
 		</header>
-		<div class="mui-content login">
+		<div class="mui-content login modifyPwd">
 			<form id='login-form' class="mui-input-group">
-				<div class="mui-input-row">
-					<label for="account" class="code">发送验证码</label>
+				<div class="mui-input-row phone-box">
+					<label for="account" class="code" id="getCode">发送验证码</label>
 					<input id='phoneNum' type="number" class="mui-input-clear mui-input phoneNum" placeholder="请输入手机号">
 				</div>
 				<div class="mui-input-row">
-					<input id='text' type="text" class="mui-input-clear mui-input" placeholder="请输入验证码">
+					<input id='userCode' type="text" class="mui-input-clear mui-input" placeholder="请输入验证码">
 				</div>
-			</form>	
+			</form>
 			<div class="mui-content-padded">
-				<div class="text">
-					我们已经给{phoneNum}手机发送了一条短信，里面含了一个6位数的验证码，请填写到上面的输入框中。
+				<div class="text mui-hidden" id="afterSendCodeBox">
+					我们已经给<span id="showPhoneNum"></span>手机发送了一条短信，里面含了一个6位数的验证码，请填写到上面的输入框中。
 				</div>
 				<button id='submit' class="mui-btn mui-btn-block mui-btn-primary">确定</button>
 			</div>
 		</div>
 	</body>
-	<script type="text/javascript" src="../../js/mui.min.js" ></script>
+	<script type="text/javascript" src="../../js/mui.min.js"></script>
 	<script>
-		mui('.mui-content-padded').on('tap', '#submit', function(){
-			var w = plus.webview.create('setPwd.html', 'setPwd.html');
-			w.show(); //
+		var md5Code = '';
+		mui('.mui-input-row').on('tap', '.code', function() {
+			var phoneNum = document.getElementById('phoneNum').value;
+			if(!phoneNum) {
+				plus.nativeUI.toast('请输入手机号', {
+					verticalAlign: "center"
+				});
+				return;
+			}
+			var reg = /^1(3|4|5|7|8)\d{9}$/;
+			if(!reg.test(phoneNum.trim())) {
+				plus.nativeUI.toast('请输入正确的手机号码', {
+					verticalAlign: "center"
+				});
+				return;
+			}
+
+			mui.ajax('http://58.16.181.24:9203/mis-app/public/getVerificationCode', {
+				data: {
+					phone: phoneNum,
+					tag: 'code'
+				},
+				type: 'post',
+				success: function(result) {
+					if(result.status == 0) {
+						md5Code = result.data;
+						document.getElementById('showPhoneNum').innerText = phoneNum;
+						document.getElementById('afterSendCodeBox').className = 'text';
+					} else {
+						mui.toast(result.msg);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					console.error(JSON.stringify(xhr))
+					console.error(type);
+					console.error(JSON.stringify(errorThrown))
+				}
+			});
+		});
+
+		mui('.mui-content-padded').on('tap', '#submit', function() {
+			var userCode = document.getElementById('userCode').value;
+			if(!userCode) {
+				plus.nativeUI.toast('请输入验证码', {
+					verticalAlign: "center"
+				});
+				return;
+			}
+			mui.ajax('http://58.16.181.24:9203/mis-app/public/md5code', {
+				data: {
+					userCode: userCode,
+					md5Code: md5Code
+				},
+				success: function(result) {
+					if(result.status == 0) {
+						mui.openWindow({
+							url: 'setPwd.html',
+							id: 'setPwd.html',
+							waiting: {
+								autoShow: true,
+								title: '正在加载...'
+							},
+							extras: {
+								md5Code: md5Code, //扩展参数
+								phoneNum: document.getElementById('phoneNum').value
+							}
+						});
+					} else {
+						mui.toast('验证失败');
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					console.error(type);
+					console.error(JSON.stringify(xhr));
+					console.error(JSON.stringify(errorThrown))
+				}
+			});
 		});
 	</script>
+
 </html>
