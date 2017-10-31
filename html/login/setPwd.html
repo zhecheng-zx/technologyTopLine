@@ -67,7 +67,6 @@
 					pKey:"updatePwd"
 				},
 				success: function(data){
-					console.log(JSON.stringify(data))
 					if(data.status == 0){
 						plus.nativeUI.toast('修改成功', {verticalAlign: "center"});
 						var curWn = plus.webview.currentWebview();
