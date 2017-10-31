@@ -6,7 +6,7 @@
 	"id": "juncuan.com.cn.H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "聚科技",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.0.2",/*应用版本名称*/
+		"name": "1.0.3",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "广西聚科技APP",/*应用描述信息*/
@@ -186,9 +186,9 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "/Users/zhangxin/Downloads/qidong.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "/Users/zhangxin/Downloads/qidong.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": "/Users/zhangxin/Downloads/qidong.png"
+					"hdpi": "C:/Users/user/Desktop/归档/qidong.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/user/Desktop/归档/qidong.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/user/Desktop/归档/qidong.png"
 				}
 			}
 		}
