@@ -405,6 +405,7 @@
 						if(result.data) {							
 							var data = JSON.parse(result.data);
 							vm.content = data.content;
+							console.log(data.content);
 							msg.href = data.url;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
