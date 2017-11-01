@@ -20,18 +20,25 @@
 				z-index: 998;
 				background-color: rgba(0, 0, 0, .3);
 			}
-			.kr-article-article{
+			
+			.kr-article-article {
 				width: 100%;
 				white-space: nowrap;
-				font-size:1.2rem;
+				font-size: 1.2rem;
 				line-height: 2rem;
-				color:#333333;
-				white-space: pre-wrap; /*css-3*/ 
-				white-space: -moz-pre-wrap; /*Mozilla,since1999*/ 
-				white-space: -pre-wrap; /*Opera4-6*/ 
-				white-space: -o-pre-wrap; /*Opera7*/ 
-				word-wrap: break-word; /*InternetExplorer5.5+*/ 
+				color: #333333;
+				white-space: pre-wrap;
+				/*css-3*/
+				white-space: -moz-pre-wrap;
+				/*Mozilla,since1999*/
+				white-space: -pre-wrap;
+				/*Opera4-6*/
+				white-space: -o-pre-wrap;
+				/*Opera7*/
+				word-wrap: break-word;
+				/*InternetExplorer5.5+*/
 			}
+			
 			.mui-content .kr-article-article img {
 				width: 100%;
 			}
@@ -41,6 +48,7 @@
 				z-index: 20;
 				background-color: #000;
 			}
+			
 			.mui-preview-header,
 			.mui-preview-footer {
 				position: absolute;
@@ -48,14 +56,17 @@
 				left: 0;
 				z-index: 10;
 			}
+			
 			.mui-preview-header {
 				height: 44px;
 				top: 0;
 			}
+			
 			.mui-preview-footer {
 				height: 50px;
 				bottom: 0px;
 			}
+			
 			.mui-preview-header .mui-preview-indicator {
 				display: block;
 				line-height: 25px;
@@ -67,6 +78,7 @@
 				border-radius: 12px;
 				font-size: 16px;
 			}
+			
 			.mui-preview-image {
 				display: none;
 				-webkit-animation-duration: 0.5s;
@@ -74,19 +86,23 @@
 				-webkit-animation-fill-mode: both;
 				animation-fill-mode: both;
 			}
+			
 			.mui-preview-image.mui-preview-in {
 				-webkit-animation-name: fadeIn;
 				animation-name: fadeIn;
 			}
+			
 			.mui-preview-image.mui-preview-out {
 				background: none;
 				-webkit-animation-name: fadeOut;
 				animation-name: fadeOut;
 			}
+			
 			.mui-preview-image.mui-preview-out .mui-preview-header,
 			.mui-preview-image.mui-preview-out .mui-preview-footer {
 				display: none;
 			}
+			
 			.mui-zoom-scroller {
 				position: absolute;
 				display: -webkit-box;
@@ -107,26 +123,32 @@
 				margin: 0;
 				-webkit-backface-visibility: hidden;
 			}
+			
 			.mui-zoom {
 				-webkit-transform-style: preserve-3d;
 				transform-style: preserve-3d;
 			}
+			
 			.mui-slider .mui-slider-group .mui-slider-item img {
 				width: auto;
 				height: auto;
 				max-width: 100%;
 				max-height: 100%;
 			}
+			
 			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
 				width: 100%;
 			}
+			
 			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
 				display: inline-table;
 			}
+			
 			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
 				display: table-cell;
 				vertical-align: middle;
 			}
+			
 			.mui-preview-loading {
 				position: absolute;
 				width: 100%;
@@ -135,9 +157,11 @@
 				left: 0;
 				display: none;
 			}
+			
 			.mui-preview-loading.mui-active {
 				display: block;
 			}
+			
 			.mui-preview-loading .mui-spinner-white {
 				position: absolute;
 				top: 50%;
@@ -147,10 +171,12 @@
 				height: 50px;
 				width: 50px;
 			}
+			
 			.mui-preview-image img.mui-transitioning {
 				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
 				transition: transform 0.5s ease, opacity 0.5s ease;
 			}
+			
 			@-webkit-keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -159,6 +185,7 @@
 					opacity: 1;
 				}
 			}
+			
 			@keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -167,6 +194,7 @@
 					opacity: 1;
 				}
 			}
+			
 			@-webkit-keyframes fadeOut {
 				0% {
 					opacity: 1;
@@ -175,6 +203,7 @@
 					opacity: 0;
 				}
 			}
+			
 			@keyframes fadeOut {
 				0% {
 					opacity: 1;
@@ -183,6 +212,7 @@
 					opacity: 0;
 				}
 			}
+			
 			img {
 				max-width: 100%;
 				height: auto;
@@ -211,7 +241,7 @@
 						<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
 					</div>-->
 					<h6 class="copyright-explain">
-						版权说明: 本文章是转载而来
+						聚科技©著作权归作者所有
 					</h6>
 					<!--<div class="article-like-wrapper">
 						<div class="item like-wrapper">
@@ -320,8 +350,7 @@
 		<script src="../../js/mui.previewimage.js"></script>
 		<script type="text/javascript">
 			var collectFlag = 0;
-			mui.init(
-				{
+			mui.init({
 				pullRefresh: {
 					container: '.mui-content',
 					up: {
@@ -331,34 +360,33 @@
 						contentnomore: ' ',
 						callback: function() {
 							return false;
-//							var length = $('#comment-list li').length;
-//							if(length >= 20) {
-//								this.endPullupToRefresh(true);
-//							} else {
-//								this.endPullupToRefresh(false);
-//							}
-//							var table = document.body.querySelector('#comment-list');
-//							for(var i = 0; i < 5; i++) {
-//								var li = document.createElement('li');
-//								li.className = 'mui-table-view-cell mui-media';
-//								li.innerHTML = '<a javascript:;>' +
-//									'<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">' +
-//									'<div class="mui-media-body">' +
-//									'<p class="userNameBox">' +
-//									'<span class="userName">YOYO切克闹</span>' +
-//									'<span class="zanNum mui-pull-right">199</span><span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>' +
-//									'</p>' +
-//									'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' +
-//									'<p class="comment-info"><span class="publishDate">06-20 12:33</span><span class="replay">22回复</span></p></div>' +
-//									'</a>';
-//								table.appendChild(li);
-//							}
+							//							var length = $('#comment-list li').length;
+							//							if(length >= 20) {
+							//								this.endPullupToRefresh(true);
+							//							} else {
+							//								this.endPullupToRefresh(false);
+							//							}
+							//							var table = document.body.querySelector('#comment-list');
+							//							for(var i = 0; i < 5; i++) {
+							//								var li = document.createElement('li');
+							//								li.className = 'mui-table-view-cell mui-media';
+							//								li.innerHTML = '<a javascript:;>' +
+							//									'<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">' +
+							//									'<div class="mui-media-body">' +
+							//									'<p class="userNameBox">' +
+							//									'<span class="userName">YOYO切克闹</span>' +
+							//									'<span class="zanNum mui-pull-right">199</span><span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>' +
+							//									'</p>' +
+							//									'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' +
+							//									'<p class="comment-info"><span class="publishDate">06-20 12:33</span><span class="replay">22回复</span></p></div>' +
+							//									'</a>';
+							//								table.appendChild(li);
+							//							}
 						}
 					}
 				},
 				swipeBack: true //启用右滑关闭功能
-			}
-				);
+			});
 
 			//返回上一页
 			$(document).on('tap', '.mui-icon-back', function() {
@@ -376,23 +404,23 @@
 			});
 			//分享到朋友圈  微信 需要的参数
 			var msg = {};
-			mui.plusReady(function(){
+			mui.plusReady(function() {
 				var extras = plus.webview.currentWebview();
 				var guid = extras.guid; //文章id  文章列表也传参过来的
 				var session = JSON.parse(localStorage.getItem('$state'));
-				var userId = (session && session.userId)?session.userId:'';
+				var userId = (session && session.userId) ? session.userId : '';
 				//前页传入的数据，直接渲染，无需等待ajax请求详情后
 				vm.title = extras.title;
 				vm.source = extras.source;
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
 				vm.content = '';
-				
-				if(!guid){
-					return ;
+
+				if(!guid) {
+					return;
 				}
 				plus.nativeUI.showWaiting('');
-				
+
 				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
 					data: {
 						"id": guid,
@@ -402,21 +430,21 @@
 						"user_id": userId
 					},
 					success: function(result) {
-						if(result.data) {							
+						if(result.data) {
 							var data = JSON.parse(result.data);
 							vm.content = data.content;
-							console.log(data.content);
+							//							console.log(data.content);
 							msg.href = data.url;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
-							setTimeout(function(){
-								$(".kr-article-article a").attr("href","javascript:void(0);");
-								$(".kr-article-article img").attr("data-preview-src","").attr("data-preview-group","1")
+							setTimeout(function() {
+								$(".kr-article-article a").attr("href", "javascript:void(0);");
+								$(".kr-article-article img").attr("data-preview-src", "").attr("data-preview-group", "1")
 								mui.previewImage();
-							},500);
+							}, 500);
 						}
 						plus.nativeUI.closeWaiting();
-						if(result.status === 1){
+						if(result.status === 1) {
 							$('.collect').removeClass('mui-icon-star').addClass('iconfont').addClass('icon-shoucang');
 						}
 						collectFlag = result.status;
@@ -428,71 +456,71 @@
 						console.error(type);
 					}
 				});
-			});						
+			});
 
 			//分享操作
 			var shares = {};
 
-//			mui.plusReady(function() {
-//				plus.share.getServices(function(s) {
-//					if(s && s.length > 0) {
-//						for(var i = 0; i < s.length; i++) {
-//							var t = s[i];
-//							shares[t.id] = t;
-//						}
-//					}
-//				}, function() {
-//					console.log("获取分享服务列表失败");
-//				});
-//			});
+			//			mui.plusReady(function() {
+			//				plus.share.getServices(function(s) {
+			//					if(s && s.length > 0) {
+			//						for(var i = 0; i < s.length; i++) {
+			//							var t = s[i];
+			//							shares[t.id] = t;
+			//						}
+			//					}
+			//				}, function() {
+			//					console.log("获取分享服务列表失败");
+			//				});
+			//			});
 
 			//分享链接点击事件
-//			document.getElementById("share").addEventListener('tap', function() {
-//				return ;
-//				var ids = [{
-//						id: "weixin",
-//						ex: "WXSceneSession"
-//					}, {
-//						id: "weixin",
-//						ex: "WXSceneTimeline"
-//					}, {
-//						id: "sinaweibo"
-//					}, {
-//						id: "qq"
-//					}],
-//					bts = [{
-//						title: "发送给微信好友"
-//					}, {
-//						title: "分享到微信朋友圈"
-//					}, {
-//						title: "分享到新浪微博"
-//					}, {
-//						title: "分享到QQ"
-//					}];
-//				plus.nativeUI.actionSheet({
-//					cancel: "取消",
-//					buttons: bts
-//				}, function(e) {
-//					var i = e.index;
-//					if(i > 0) {
-//						var s_id = ids[i - 1].id;
-//						var share = shares[s_id];
-//						if(share) {
-//							if(share.authenticated) {
-//								shareMessage(share, ids[i - 1].ex);
-//							} else {
-//								share.authorize(function() {
-//									shareMessage(share, ids[i - 1].ex);
-//								}, function(e) {
-//									console.log("认证授权失败：" + e.code + " - " + e.message);
-//								});
-//							}
-//						} else {
-//							mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
-//						}
-//					}
-//				});
-//			});
+			//			document.getElementById("share").addEventListener('tap', function() {
+			//				return ;
+			//				var ids = [{
+			//						id: "weixin",
+			//						ex: "WXSceneSession"
+			//					}, {
+			//						id: "weixin",
+			//						ex: "WXSceneTimeline"
+			//					}, {
+			//						id: "sinaweibo"
+			//					}, {
+			//						id: "qq"
+			//					}],
+			//					bts = [{
+			//						title: "发送给微信好友"
+			//					}, {
+			//						title: "分享到微信朋友圈"
+			//					}, {
+			//						title: "分享到新浪微博"
+			//					}, {
+			//						title: "分享到QQ"
+			//					}];
+			//				plus.nativeUI.actionSheet({
+			//					cancel: "取消",
+			//					buttons: bts
+			//				}, function(e) {
+			//					var i = e.index;
+			//					if(i > 0) {
+			//						var s_id = ids[i - 1].id;
+			//						var share = shares[s_id];
+			//						if(share) {
+			//							if(share.authenticated) {
+			//								shareMessage(share, ids[i - 1].ex);
+			//							} else {
+			//								share.authorize(function() {
+			//									shareMessage(share, ids[i - 1].ex);
+			//								}, function(e) {
+			//									console.log("认证授权失败：" + e.code + " - " + e.message);
+			//								});
+			//							}
+			//						} else {
+			//							mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
+			//						}
+			//					}
+			//				});
+			//			});
 
 			function shareMessage(share, ex) {
 				msg.extra = {
@@ -511,18 +539,18 @@
 			var wn = null;
 
 			//评论功能暂不予
-//			function plusReady() {
-//				// 预创建新窗口（显示在可视区域外）, 高度有提问
-//				wn = plus.webview.create('keyboard.html', 'keyboard', {
-//					top: '250px',
-//					bottom: '0px'
-//				});
-//			}
-//			if(window.plus) {
-//				plusReady();
-//			} else {
-//				document.addEventListener('plusready', plusReady, false);
-//			}
+			//			function plusReady() {
+			//				// 预创建新窗口（显示在可视区域外）, 高度有提问
+			//				wn = plus.webview.create('keyboard.html', 'keyboard', {
+			//					top: '250px',
+			//					bottom: '0px'
+			//				});
+			//			}
+			//			if(window.plus) {
+			//				plusReady();
+			//			} else {
+			//				document.addEventListener('plusready', plusReady, false);
+			//			}
 
 			var callback = function() {
 				wn.hide();
@@ -540,27 +568,31 @@
 			mui('.comment-box').on('tap', '.collect-li', function() {
 				var session = JSON.parse(localStorage.getItem('$state'));
 				if(!session || !session.userId) {
-//					mui.toast('请先登录');
-					plus.nativeUI.toast("请先登录", {verticalAlign: "center"});
+					//					mui.toast('请先登录');
+					plus.nativeUI.toast("请先登录", {
+						verticalAlign: "center"
+					});
 					return;
 				}
 				var extras = plus.webview.currentWebview();
 				var guid = extras.guid; //文章id  文章列表也传参过来的
 				if(!guid) {
-					plus.nativeUI.toast('文章ID为空', {verticalAlign: "center"});
+					plus.nativeUI.toast('文章ID为空', {
+						verticalAlign: "center"
+					});
 					return;
 				}
-				
+
 				var param = {
 					"jdbcTemplateName": "mysqlTemplate",
 					"pFile": "Personal",
 					"user_id": session.userId,
 					"article_id": guid
 				};
-				
-				if(collectFlag === 0){
+
+				if(collectFlag === 0) {
 					param.pKey = "addcollect";
-				}else{
+				} else {
 					param.pKey = "deletecollect";
 				}
 				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
@@ -569,15 +601,19 @@
 					success: function(result) {
 						var data = JSON.parse(result);
 						if(data.status == 'success') {
-							if(collectFlag === 0){
+							if(collectFlag === 0) {
 								//变成收藏
 								$('.collect').remove('mui-icon-star').addClass('iconfont').addClass('icon-shoucang');
 								collectFlag = 1;
-								plus.nativeUI.toast('收藏成功', {verticalAlign: "center"});
-							}else{
+								plus.nativeUI.toast('收藏成功', {
+									verticalAlign: "center"
+								});
+							} else {
 								$('.collect').removeClass('iconfont').removeClass('icon-shoucang').addClass('mui-icon-star');
 								collectFlag = 0;
-								plus.nativeUI.toast('取消收藏', {verticalAlign: "center"});
+								plus.nativeUI.toast('取消收藏', {
+									verticalAlign: "center"
+								});
 							}
 						}
 					}

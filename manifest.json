@@ -3,7 +3,7 @@
 		"android",
 		"iPhone"
 	],
-	"id": "junquan.com.cn.H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"id": "juncuan.com.cn.H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "聚科技",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.3",/*应用版本名称*/
@@ -166,11 +166,11 @@
 				"ios": {
 					"iphone": {
 						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
-						"retina35": "/Users/zhangxin/works/project/聚科技app/login/qidong.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						"retina40": "/Users/zhangxin/works/project/聚科技app/login/qidong.png",
-						"retina55": "/Users/zhangxin/works/project/聚科技app/login/qidong.png",
-						"retina47": "/Users/zhangxin/works/project/聚科技app/login/qidong.png",
-						"retina55l": "/Users/zhangxin/works/project/聚科技app/login/qidong.png"
+						"retina35": "/Users/zhangxin/Downloads/qidong.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "/Users/zhangxin/Downloads/qidong.png",
+						"retina55": "/Users/zhangxin/Downloads/qidong.png",
+						"retina47": "/Users/zhangxin/Downloads/qidong.png",
+						"retina55l": "/Users/zhangxin/Downloads/qidong.png"
 					},
 					"ipad": {
 						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -186,11 +186,11 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "/Users/zhangxin/works/project/聚科技app/login/qidong.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "/Users/zhangxin/works/project/聚科技app/login/qidong.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": "/Users/zhangxin/works/project/聚科技app/login/qidong.png"
+					"hdpi": "C:/Users/user/Desktop/归档/qidong.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "C:/Users/user/Desktop/归档/qidong.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "C:/Users/user/Desktop/归档/qidong.png"
 				}
-			},"debug":true
+			}
 		}
 	},
 	"dependencies": {
