@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
 		<style>
 			.mui-content.article-detail-wrapper {
-				margin: 44px auto 0;
+				margin: 44px auto auto;
 			}
 			
 			.kr-article-article {
@@ -36,9 +36,51 @@
 				width: 100%;
 			}
 			
+			.imgBox>div {
+				padding: 0px 5px;
+			}
+			
+			.imgBox>div:first-child {
+				padding-left: 0px;
+			}
+			
+			.imgBox>div:last-child {
+				padding-right: 0px;
+			}
+			
 			.imgBox img {
 				max-width: 100%;
 				height: 100px;
+			}
+			
+			.imgBox .mui-col-sm-6,
+			.imgBox .mui-col-xs-6 {
+				width: auto;
+				max-width: 50%;
+			}
+			
+			.imgBox .mui-col-sm-4,
+			.imgBox .mui-col-xs-4 {
+				width: auto;
+				max-width: 33.33333333%;
+			}
+			
+			.videoBox {
+				position: relative;
+				width: 100%;
+			}
+			
+			.playBtn {
+				width: 36px;
+				height: 36px;
+				position: absolute !important;
+				left: 50%;
+				top: 50%;
+				margin-left: -18px;
+				margin-top: -18px;
+				display: block;
+				border: none;
+				z-index: 1000;
 			}
 		</style>
 	</head>
@@ -54,11 +96,13 @@
 			<div class="mui-scroll" id="detailWrapper">
 				<div class="article-title">{{title}}</div>
 				<div class="article-info">
+					作者：<span>{{author}}</span> &nbsp; 时间：
 					<span class="dateTime">{{time}}</span>
 				</div>
 				<!--详细内容-->
 				<pre id="story_detail" class="kr-article-article" v-html="content">{{content}}</pre>
 				<div class="mui-row imgBox" id="imgBox"></div>
+				<div class="videoBox" id="videoBox"></div>				
 				<h6 class="copyright-explain">
 					聚科技©著作权归作者所有
 				</h6>
@@ -66,7 +110,9 @@
 		</div>
 
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui.zoom.js"></script>
 		<script src="../../js/mui.previewimage.js"></script>
 		<script>
 			mui.init({
@@ -81,6 +127,7 @@
 				el: '#detailWrapper',
 				data: {
 					title: '',
+					author: '',
 					time: '',
 					content: '',
 				}
@@ -91,15 +138,38 @@
 				var data = extras.data;
 
 				vm.title = data.title;
+				vm.author = data.username;
 				vm.time = data.create_time;
 				vm.content = data.content;
-				var imageList = data.content_images.split(',');
+				if(data.content_images) {
+					var imageList = data.content_images.split(',');
+					var _img = '',
+						imgLength = imageList.length,
+						className = "";
 
-				var _img = '';
-				for(var i in imageList) {
-					_img += '<div class="mui-col-sm-12"><img src="' + imageList[i] + '" data-preview-src="' + imageList[i] + '" data-preview-group="img"></div>';
+					if(imgLength == 1) {
+						className = "mui-col-sm-12 mui-col-xs-12";
+					} else if(imgLength % 2 == 0 && imgLength <= 4) {
+						className = "mui-col-sm-6 mui-col-xs-6";
+					} else if(imgLength > 　1) {
+						className = "mui-col-sm-4 mui-col-xs-4";
+					}
+
+					for(var i in imageList) {
+						_img += '<div class="' + className + '"><img src="' + imageList[i] + '" data-preview-src="' + imageList[i] + '" data-preview-group="' + data.id + '"></div>';
+					}
+					console.log(_img)
+					document.getElementById('imgBox').innerHTML = _img;
 				}
-				document.getElementById('imgBox').innerHTML = _img;
+				if(data.video_content) {
+					var _video = "";
+					_video += '<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
+					_video += '<source type="video/mp4" src="' + data.video_content + '" />';
+					_video += '</video>';
+					document.getElementById('videoBox').style.height = '200px';
+					document.getElementById('videoBox').innerHTML = _video;
+				}
+				mui('.mui-scroll-wrapper').scroll();
 			});
 		</script>
 	</body>
