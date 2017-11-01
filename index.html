@@ -181,7 +181,7 @@
 			</a>
 			<a class="mui-tab-item" href="./html/scientistStory/index.html">
 				<span class="icon icon-tab-bar3"></span>
-				<span class="mui-tab-label">科研故事</span>
+				<span class="mui-tab-label">大数据</span>
 			</a>
 			<a class="mui-tab-item" href="./html/myCenter/index.html">
 				<span class="icon icon-tab-bar4"></span>
@@ -230,20 +230,24 @@
 							var res = JSON.parse(result),
 								res1 = res.listInfo[0]
 							if(res.status=="success"){
-								if(res1.version === inf.version){
+								if(res1.version == inf.version){
 								}else{
 									var btnArray = ['取消','更新'];
 									mui.confirm(res1.note,res1.title,btnArray,function(e){
 										if (e.index == 1) {
-											var w = plus.webview.create("html/update.html","",{top:"0px",bottom:"0px"});
-											w.show();
-											var wChild = plus.webview.create(res1.url,"",{top:"45px",bottom:"0px"});
-										 	w.append(wChild);
+//											var w = plus.webview.create("html/update.html","",{top:"0px",bottom:"0px"});
+//											w.show();
+//											var wChild = plus.webview.create(res1.url,"",{top:"45px",bottom:"0px"});
+//										 	w.append(wChild);
+//											console.log();
+											plus.runtime.openURL(res1.url)
+//											return
 //					                        var dtask = plus.downloader.createDownload(res1.url, {}, function(d, status) {
+//					                        		console.log(d);
+//					                        		console.log(status);
 //					                            if (status == 200) {                                        
 //					                                plus.nativeUI.toast("正在准备环境，请稍后！");
 //					                                sleep(1000);
-//					                                return
 //					                                var path = d.filename;//下载apk
 //					                                plus.runtime.install(path); // 自动安装apk文件
 //					                            }else {
