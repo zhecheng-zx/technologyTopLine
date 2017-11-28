@@ -227,21 +227,21 @@
 								<a href="#account" class="mui-navigate-right">账号和绑定设置</a>
 							</li>
 						</ul>
-						<ul class="mui-table-view mui-table-view-chevron">
+						<!--<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell">
 								<a href="#notifications" class="mui-navigate-right">新消息通知</a>
 							</li>
-							<!--<li class="mui-table-view-cell">
+							<li class="mui-table-view-cell">
 								<a href="#privacy" class="mui-navigate-right">隐私</a>
 							</li>
 							<li class="mui-table-view-cell">
 								<a href="#general" class="mui-navigate-right">通用</a>
-							</li>-->
-						</ul>
+							</li>
+						</ul>-->
 						<ul class="mui-table-view mui-table-view-chevron">
 							<li class="mui-table-view-cell">
 								<!--<a href="#about" class="mui-navigate-right">当前版本 <i class="mui-pull-right update">V3.7.0</i></a>-->
-								<a href="javascript:;">当前版本 <i class="mui-pull-right update">V1.0.0</i></a>
+								<a href="javascript:;">当前版本 <i class="mui-pull-right update" id="curVersion"></i></a>
 							</li>
 						</ul>
 						<ul class="mui-table-view">
@@ -267,18 +267,18 @@
 					<div class="mui-scroll">
 						<ul class="mui-table-view">
 							<li class="mui-table-view-cell">
-								<a>账号<span class="mui-pull-right">builder</span></a>
+								<a>用户名<span class="mui-pull-right" id="userName"></span></a>
 							</li>
 						</ul>
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
+							<!--<li class="mui-table-view-cell">
 								<a>QQ号<span class="mui-pull-right">88888888</span></a>
 							</li>
 							<li class="mui-table-view-cell">
 								<a>手机号<span class="mui-pull-right">18600000000</span></a>
-							</li>
+							</li>-->
 							<li class="mui-table-view-cell">
-								<a>邮箱地址<span class="mui-pull-right">builder@x.ioc</span></a>
+								<a>手机号<span class="mui-pull-right" id="phoneNum"></span></a>
 							</li>
 						</ul>
 					</div>
@@ -515,7 +515,19 @@
 		//分享操作
 		var shares = {};
 
-//		mui.plusReady(function() {
+		mui.plusReady(function() {
+			var version = plus.runtime.version;
+			mui('#curVersion')[0].innerText = version;
+			
+			var state = localStorage.getItem('$state');
+			if(state != '{}' && state != null){
+					state = JSON.parse(state);
+					document.getElementById('userName').innerText = state.account;
+					document.getElementById('phoneNum').innerText = state.phone;
+				}else{
+					document.getElementById('userName').innerText = '未登录';
+					document.getElementById('phoneNum').innerText = '未登录';
+				}
 //			plus.share.getServices(function(s) {
 //				if(s && s.length > 0) {
 //					for(var i = 0; i < s.length; i++) {
@@ -526,7 +538,7 @@
 //			}, function() {
 //				console.log("获取分享服务列表失败");
 //			});
-//		});
+		});
 
 		//分享链接点击事件
 		document.getElementById("share").addEventListener('tap', function() {

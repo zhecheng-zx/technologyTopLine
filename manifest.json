@@ -6,7 +6,7 @@
 	"id": "juncuan.com.cn.H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "聚科技",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.0.3",/*应用版本名称*/
+		"name": "1.0.4",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "广西聚科技APP",/*应用描述信息*/
@@ -91,7 +91,8 @@
 		"NativeObj": {
 			"description": "原生对象"
 		},
-		"OAuth": {}
+		"OAuth": {},
+		"Share":{}
 	},
 	"plus": {
 		"allowsInlineMediaPlayback": true,
@@ -101,10 +102,16 @@
 			"delay": "1500"
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
-		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"signature": "d5dbdd13d914079a3fbab19cd1f3372e",/*可选，保留给应用签名，暂不使用*/
 		"distribute": {
 			"plugins": {
-				"share": {}
+				"share": {
+					"weixin":{
+						"appid":"wx938f463cffb01ffa",
+						"appsecret":"939bff0a9d2eac9d43969df86c3a5dfc",
+						"description":"微信分享"
+					}
+				}
 			},
 			"apple": {
 				"appid": "juncuan.com.cn.H56742060",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
@@ -166,14 +173,14 @@
 				"ios": {
 					"iphone": {
 						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
-						"retina35": "/Users/zhangxin/Downloads/qidong.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						"retina40": "/Users/zhangxin/Downloads/qidong.png",
-						"retina55": "/Users/zhangxin/Downloads/qidong.png",
-						"retina47": "/Users/zhangxin/Downloads/qidong.png",
-						"retina55l": "/Users/zhangxin/Downloads/qidong.png"
+						"retina35": "C:/Users/user/Desktop/归档/qidong.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "C:/Users/user/Desktop/归档/qidong.png",
+						"retina55": "C:/Users/user/Desktop/归档/qidong.png",
+						"retina47": "C:/Users/user/Desktop/归档/qidong.png",
+						"retina55l": "C:/Users/user/Desktop/归档/qidong.png"
 					},
 					"ipad": {
-						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait": "C:/Users/user/Desktop/归档/qidong.png", /*iPad竖屏启动图片，分辨率：768x1004*/
 						"portrait-retina": "",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
 						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
 						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/

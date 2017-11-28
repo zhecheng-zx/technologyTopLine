@@ -177,8 +177,7 @@
 							return
 						}
 						var result  = JSON.parse(result),
-						data = result.data;
-						console.log(JSON.stringify(data));
+						data = result.data;						
 						//导航插入数据
 						var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
 						for(var i = 0; i < data.length; i++) {
@@ -208,8 +207,7 @@
 					success: function(result) {
 						if(!result) {
 							return;
-						}
-						console.log(result);
+						}						
 						result = JSON.parse(result);
 						var listInfo = result.listInfo;
 						//导航插入数据

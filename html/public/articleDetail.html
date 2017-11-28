@@ -241,7 +241,7 @@
 						<span>农科院</span><span>广西农业厅</span><span>科技厅</span>
 					</div>-->
 					<h6 class="copyright-explain">
-						聚科技©著作权归作者所有
+						版权说明：本文章转载自互联网，如果涉及版权问题的，请原作者联系我们删除处理！
 					</h6>
 					<!--<div class="article-like-wrapper">
 						<div class="item like-wrapper">
@@ -338,9 +338,9 @@
 			<li class="mui-tab-item collect-li">
 				<span class="mui-icon mui-icon-star orange collect"></span> 收藏
 			</li>
-			<!--<li class="mui-tab-item" id="share">
+			<li class="mui-tab-item" id="share">
 				<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
-			</li>-->
+			</li>
 		</nav>
 
 		<script src="../../js/mui.min.js"></script>
@@ -354,34 +354,35 @@
 				pullRefresh: {
 					container: '.mui-content',
 					up: {
-						height: 50,
+						height: 0,
 						auto: false,
 						contentrefresh: ' ',
 						contentnomore: ' ',
-						callback: function() {
-							return false;
-							//							var length = $('#comment-list li').length;
-							//							if(length >= 20) {
-							//								this.endPullupToRefresh(true);
-							//							} else {
-							//								this.endPullupToRefresh(false);
-							//							}
-							//							var table = document.body.querySelector('#comment-list');
-							//							for(var i = 0; i < 5; i++) {
-							//								var li = document.createElement('li');
-							//								li.className = 'mui-table-view-cell mui-media';
-							//								li.innerHTML = '<a javascript:;>' +
-							//									'<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">' +
-							//									'<div class="mui-media-body">' +
-							//									'<p class="userNameBox">' +
-							//									'<span class="userName">YOYO切克闹</span>' +
-							//									'<span class="zanNum mui-pull-right">199</span><span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>' +
-							//									'</p>' +
-							//									'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' +
-							//									'<p class="comment-info"><span class="publishDate">06-20 12:33</span><span class="replay">22回复</span></p></div>' +
-							//									'</a>';
-							//								table.appendChild(li);
-							//							}
+						callback: function() {							
+							this.endPullupToRefresh(true);
+							return ;
+							var length = $('#comment-list li').length;
+							if(length >= 20) {
+								this.endPullupToRefresh(true);
+							} else {
+								this.endPullupToRefresh(false);
+							}
+							var table = document.body.querySelector('#comment-list');
+							for(var i = 0; i < 5; i++) {
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell mui-media';
+								li.innerHTML = '<a javascript:;>' +
+									'<img class="mui-media-object mui-pull-left" src="../../images/head-temp.png">' +
+									'<div class="mui-media-body">' +
+									'<p class="userNameBox">' +
+									'<span class="userName">YOYO切克闹</span>' +
+									'<span class="zanNum mui-pull-right">199</span><span class="mui-icon iconfont icon-zan1 mui-pull-right"></span>' +
+									'</p>' +
+									'<p class="comment">2017年7月28日，浙江省杭州市中级人民法院公开开庭审理了“百名红通”1号人员杨秀珠贪污、受贿一案。其辩护人到庭参加诉讼</p>' +
+									'<p class="comment-info"><span class="publishDate">06-20 12:33</span><span class="replay">22回复</span></p></div>' +
+									'</a>';
+								table.appendChild(li);
+							}
 						}
 					}
 				},
@@ -415,13 +416,13 @@
 				vm.time = extras.time;
 				//下面这句代码是放在ajax回调函数里的
 				vm.content = '';
-
 				if(!guid) {
 					return;
 				}
 				plus.nativeUI.showWaiting('');
-
-				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfo', {
+				//
+				//http://58.16.181.24:9203/mis-app/Detail/articleInfo
+				mui.ajax('http://58.16.181.24:9203/mis-app/Detail/articleInfoAnalyse', {
 					data: {
 						"id": guid,
 						"jdbcTemplateName": "mysqlTemplate",
@@ -433,10 +434,10 @@
 						if(result.data) {
 							var data = JSON.parse(result.data);
 							vm.content = data.content;
-							//							console.log(data.content);
-							msg.href = data.url;
+							msg.href = 'http://58.16.181.24:9210/mis-web/app/toArticleDetail?id=' + guid;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
+							msg.pictures = data.images;
 							setTimeout(function() {
 								$(".kr-article-article a").attr("href", "javascript:void(0);");
 								$(".kr-article-article img").attr("data-preview-src", "").attr("data-preview-group", "1")
@@ -454,6 +455,7 @@
 						//异常处理；
 						console.error(xhr);
 						console.error(type);
+						console.error(JSON.stringify(xhr));
 					}
 				});
 			});
@@ -461,66 +463,58 @@
 			//分享操作
 			var shares = {};
 
-			//			mui.plusReady(function() {
-			//				plus.share.getServices(function(s) {
-			//					if(s && s.length > 0) {
-			//						for(var i = 0; i < s.length; i++) {
-			//							var t = s[i];
-			//							shares[t.id] = t;
-			//						}
-			//					}
-			//				}, function() {
-			//					console.log("获取分享服务列表失败");
-			//				});
-			//			});
+			mui.plusReady(function() {
+				plus.share.getServices(function(s) {
+					if(s && s.length > 0) {
+						for(var i = 0; i < s.length; i++) {
+							var t = s[i];
+							shares[t.id] = t;
+						}
+					}
+				}, function() {
+					console.log("获取分享服务列表失败");
+				});
+			});
 
 			//分享链接点击事件
-			//			document.getElementById("share").addEventListener('tap', function() {
-			//				return ;
-			//				var ids = [{
-			//						id: "weixin",
-			//						ex: "WXSceneSession"
-			//					}, {
-			//						id: "weixin",
-			//						ex: "WXSceneTimeline"
-			//					}, {
-			//						id: "sinaweibo"
-			//					}, {
-			//						id: "qq"
-			//					}],
-			//					bts = [{
-			//						title: "发送给微信好友"
-			//					}, {
-			//						title: "分享到微信朋友圈"
-			//					}, {
-			//						title: "分享到新浪微博"
-			//					}, {
-			//						title: "分享到QQ"
-			//					}];
-			//				plus.nativeUI.actionSheet({
-			//					cancel: "取消",
-			//					buttons: bts
-			//				}, function(e) {
-			//					var i = e.index;
-			//					if(i > 0) {
-			//						var s_id = ids[i - 1].id;
-			//						var share = shares[s_id];
-			//						if(share) {
-			//							if(share.authenticated) {
-			//								shareMessage(share, ids[i - 1].ex);
-			//							} else {
-			//								share.authorize(function() {
-			//									shareMessage(share, ids[i - 1].ex);
-			//								}, function(e) {
-			//									console.log("认证授权失败：" + e.code + " - " + e.message);
-			//								});
-			//							}
-			//						} else {
-			//							mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
-			//						}
-			//					}
-			//				});
-			//			});
+			document.getElementById("share").addEventListener('tap', function() {				
+				var ids = [{
+						id: "weixin",
+						ex: "WXSceneSession"
+					}, {
+						id: "weixin",
+						ex: "WXSceneTimeline"
+					}],
+					bts = [{
+						title: "发送给微信好友"
+					}, {
+						title: "分享到微信朋友圈"
+					}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					var i = e.index;
+					if(i > 0) {
+						var s_id = ids[i - 1].id;
+						var share = shares[s_id];
+						if(share) {
+							if(share.authenticated) {
+								shareMessage(share, ids[i - 1].ex);
+							} else {
+								share.authorize(function() {
+									shareMessage(share, ids[i - 1].ex);
+								}, function(e) {
+									mui.toast('认证授权失败');
+									console.log("认证授权失败：" + e.code + " - " + e.message);
+								});
+							}
+						} else {							
+							mui.toast("无法获取分享服务")
+						}
+					}
+				});
+			});
 
 			function shareMessage(share, ex) {
 				msg.extra = {
@@ -531,8 +525,10 @@
 				}
 				share.send(msg, function() {
 					console.log("分享到\"" + share.description + "\"成功！ ");
+					mui.toast("分享到\"" + share.description + "\"成功！ ");
 				}, function(e) {
 					console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
+					mui.toast(e.message);
 				});
 			}
 
