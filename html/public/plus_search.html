@@ -260,6 +260,12 @@
 			.mui-media-body ul.mui-grid-view li.mui-table-view img {
 				max-width: 100%;
 				width: 100%;
+			}						
+			
+			.mui-scroll {
+				height: 100%;
+				overflow-y: auto;
+				padding-bottom: 100px;
 			}
 		</style>
 	</head>
@@ -347,7 +353,7 @@
 			</div>
 			<div class="search-content mui-scroll">
 				<ul id="articleUl" class="mui-table-view"></ul>
-			</div>
+			</div>		
 		</div>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
@@ -358,9 +364,9 @@
 				pullRefresh: {
 					container: '.search-content',
 					up: {
-						height: 50,
+						height: 150,
 						auto: false,
-						contentrefresh: '正在加载...',
+						contentrefresh: '正在加载1...',
 						contentnomore: '没有更多数据了',
 						callback: pullupRefresh
 					}
@@ -432,6 +438,7 @@
 			mui.plusReady(function() {
 				initNativeObjects();
 				showSoftInput();
+				mui('.mui-scroll-wrapper').scroll();
 			});
 
 			//是否隐藏 猜你想搜 内容
@@ -462,10 +469,10 @@
 				}
 			});
 
-			function pullupRefresh() {
-				if($('.search-content').is(':hidden')){
+			function pullupRefresh() {				
+				if($('.search-content').is(':hidden')){					
 					return ;
-				}
+				}				
 				pageNum = pageNum + 　1;
 				searchArticle($('#searchInput').val());
 			}
@@ -479,7 +486,7 @@
 					}
 					document.activeElement.blur(); //隐藏软键盘 
 					$('.wanna-search-box').hide();
-					$('.search-history').hide();
+					$('.search-history').hide();					
 					$('.search-content').show();
 					var _li = '<li class="mui-table-view-cell">' +
 						'<span class="mui-icon iconfont icon-liulanjilu"></span>' + text +
@@ -496,7 +503,7 @@
 
 			mui('.search-box').on('tap', '.mui-icon-clear', function(e) {
 				$('.wanna-search-box').show();
-				$('.search-history').show();
+				$('.search-history').show();				
 				$('.search-content').empty().hide();
 				pageNum = 1;
 			});
@@ -506,7 +513,7 @@
 			});
 
 			//请求数据 添加数据	
-			function searchArticle(text, w) {
+			function searchArticle(text, w) {				
 				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
 					data: {
 						page_no: pageNum,
@@ -515,8 +522,10 @@
 						sortField: 'publishTime',
 						all: text
 					},
-					success: function(data) {
-						var list = data.list;
+					success: function(result) {
+						var allData = result.allData;
+						var list = allData.list;
+						console.log(list.length)
 						if(list.length == 0){
 							 this.endPullupToRefresh(true);
 						}else{
@@ -581,7 +590,7 @@
 					}
 
 					table.append($li);
-				}
+				}				
 			}
 
 			function formatDate(date) {
@@ -639,6 +648,17 @@
 			});
 			
 			
+			mui('#wannaSearchUl').on('tap', 'li', function(){
+				document.activeElement.blur(); //隐藏软键盘 
+				$('.wanna-search-box').hide();
+				$('.search-history').hide();					
+				$('.search-content').show();
+					
+				var text = $(this).text().trim();
+				//加载中
+				var w = plus.nativeUI.showWaiting('搜索中');
+				searchArticle(text, w);
+			});
 			
 //			mui.ajax('', {
 //				data: {},
