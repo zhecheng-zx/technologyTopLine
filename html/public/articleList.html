@@ -457,6 +457,8 @@
 					param.user_id = session.userId;
 				}
 //				console.log(JSON.stringify(param),"****");
+				//192.168.1.110:8080/
+				//58.16.181.24:9203
 				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
 					data: param,
 					type: 'post', //HTTP请求类型
@@ -485,6 +487,8 @@
 						}
 					},
 					error: function(xhr, type, errorThrown) {
+						console.error('http://58.16.181.24:9203/mis-app/VisitingCard/articleType');
+						console.error('articleList')
 						//异常处理；
 						console.error(JSON.stringify(xhr),JSON.stringify(errorThrown),JSON.stringify("*"));
 						console.error(type);

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+		<style type="text/css">
+			.mui-table-view-cell>a:not(.mui-btn) {
+				margin: auto;
+				padding: 0px;
+			}
+			
+			.article-title {
+				font-size: 17px;
+				color: #333;
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				white-space: normal;
+				line-height: 25px;
+				height: 50px;
+			}
+			
+			.article-title.special {
+				height: 25px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				height: 75px;
+				max-width: 103px;
+			}
+			
+			p.mui-ellipsis {
+				font-size: 11px;
+				color: #999;
+				margin-top: 4px;
+			}
+			
+			.mui-media .iconfont {
+				vertical-align: middle;
+			}
+			
+			.mui-media-body ul.mui-grid-view {
+				padding: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view:before {
+				height: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view:after {
+				height: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view li.mui-table-view {
+				display: inline-block;
+				padding: 10px 0 0 0px;
+				text-align: center;
+				vertical-align: middle;
+				background: 0 0;
+			}
+			
+			.mui-media-body ul.mui-grid-view li:not(:last-child) {
+				padding-right: 5px;
+			}
+			
+			.mui-media-body ul.mui-grid-view li.mui-table-view:before,
+			.mui-media-body ul.mui-grid-view li.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-media-body ul.mui-grid-view li.mui-table-view img {
+				max-width: 100%;
+				width: 100%;
+			}
+			
+			.closeempty {
+				color: #dedede;
+			}
+			
+			.mui-popover .remove-box {
+				padding: 10px 10px;
+			}
+			
+			.remove-box .remove-title {
+				font-size: 13px;
+				color: #333333;
+			}
+			
+			.remove-box .remove-item {
+				display: inline-block;
+				padding: 5px 8px;
+				margin-bottom: 10px;
+				font-size: 13px;
+				color: #999999;
+				transition: all .5s ease-in-out;
+			}
+			
+			.remove-box .remove-item.active {
+				color: #ffffff;
+				background-color: #0062CC;
+				border-radius: 50px;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn).mui-active {
+				background-color: transparent;
+			}
+			
+			.img-li img {
+				height: 180px;
+			}
+			
+			.imgBox>div {
+				padding: 0px 5px;
+			}
+			
+			.imgBox>div:first-child {
+				padding-left: 0px;
+			}
+			
+			.imgBox>div:last-child {
+				padding-right: 0px;
+			}
+			
+			.mui-media-footer img {
+				height: 150px;
+				width: auto;
+			}
+			
+			.mui-media-footer .imgBox img {
+				max-width: 100%;
+				height: 100px;
+			}
+			
+			.imgBox .mui-col-sm-6,
+			.imgBox .mui-col-xs-6 {
+				width: auto;
+				max-width: 50%;
+			}
+			
+			.imgBox .mui-col-sm-4,
+			.imgBox .mui-col-xs-4 {
+				width: auto;
+				max-width: 33.33333333%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content mui-scroll-wrapper" id="articleList">
+			<div class="mui-scroll">
+				<ul class="mui-table-view" id="articleUl">
+				</ul>
+			</div>
+		</div>
+		<div id="popover" class="mui-popover">
+			<div class="remove-box">
+				<h3 class="remove-title">可选理由，精准屏蔽：</h3>
+				<a class="remove-item" href="javascript:;">看过了</a>
+				<a class="remove-item" href="javascript:;">内容太水</a>
+				<a class="remove-item" href="javascript:;">不感兴趣</a>
+				<a class="remove-item" href="javascript:;">拉黑作者：乌托邦</a>
+				<a class="remove-item" href="javascript:;">不想看：科技</a>
+			</div>
+		</div>
+		<script src="../../vendor/jQuery/jquery.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/vue.min.js"></script>
+		<script>
+			var pageNum = 0,
+				pageSize = 10;
+			mui.init({
+				pullRefresh: {
+					container: '#articleList',				
+					up: {
+						height: 50,
+						auto: true,
+						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			function pullupRefresh() {
+				pageNum = pageNum + 　1;
+				getArticleList();
+			}
+
+			function addData(articleList) {
+				var table = $('#articleUl');
+				for(var i = 0; i < articleList.length; i++) {
+					var img = articleList[i].images;
+					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
+
+					//根据图片个数 显示不同的样式列表
+					if(!img) {
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title">' + articleList[i].title + '</div>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
+							'</div>' +
+							'</a>');
+					} else if(img.length < 3) {
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title">' + articleList[i].title + '</div>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
+							'</div>' +
+							'</a>');
+					} else {
+						var imgUl = '<ul class="mui-table-view mui-grid-view">';
+						for(var j = 0; j < 3; j++) {
+							imgUl = imgUl + '<li class="mui-table-view mui-media mui-col-xs-4"><img class="mui-media-object" src="' + img[j] + '"></li>';
+						}
+						imgUl += '</ul>';
+						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
+							'<div class="mui-media-body">' +
+							'<div class="article-title special">' + articleList[i].title + '</div>' +
+							imgUl +
+							'</div>' +
+							'</a>' +
+							'<p class="mui-ellipsis">' +
+							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
+							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span>' +
+							'</p>'
+						);
+					}		
+
+					//已登录状态下 可以屏蔽文章
+					var session = JSON.parse(localStorage.getItem('$state'));
+					if(session && session.userId) {
+						$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty"><span class="mui-icon mui-icon-closeempty"></span></p>');
+					}
+
+					table.append($li);
+				}
+			}
+
+			function addStoryData(list) {
+				var table = document.body.querySelector('#articleUl');
+				for(var i = 0; i < list.length; i++) {
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media';
+					var _card = '';
+					_card += '<a href="javascript:;">';
+					_card += '<div class="mui-media-body">';
+					_card += '<div class="article-title">' + $.trim(list[i].title) + '</div>';
+					_card += '<p class="mui-ellipsis publishDate">' + $.trim(list[i].create_time) + '</p>';
+					_card += '</div>';
+					_card += '<div class="mui-media-footer">';
+					_card += '<p class="text-gray mui-ellipsis-2">' + list[i].content + '</p>';
+					_card += '</div>';
+					_card += '<div class="mui-media-footer">';
+					var imgList = list[i].content_images;
+					if(imgList && imgList.length > 0) {
+						imgList = imgList.split(',');
+						var reduceList = list[i].reduce_image;
+
+						if(reduceList) {
+							reduceList = reduceList.split(',');
+						}
+						var imgLength = imgList.length,
+							className = "";
+						//
+						if(imgLength % 2 == 0 && imgLength <= 4) {
+							className = "mui-col-sm-6 mui-col-xs-6";
+						} else if(imgLength > 　1) {
+							className = "mui-col-sm-4 mui-col-xs-4";
+						}
+						if(imgLength == 1) {
+							var imgSrc = (reduceList && reduceList.length > 0) ? reduceList[0] : imgLength[0]
+							_card += '<img src="' + imgSrc + '" data-preview-src="' + imgList[0] + '" data-preview-group="' + list[i].id + '"/>';
+						} else {
+							_card += '<div class="mui-row imgBox">';
+							for(var j = 0; j < imgLength; j++) {
+								var imgSrc = (reduceList && reduceList.length > j) ? reduceList[j] : imgList[j];
+								_card += '<div class="' + className + '">' +
+									'<img src="' + imgSrc + '" data-preview-src="' + imgList[j] + '" data-preview-group="' + list[i].id + '"/>' +
+									'</div>';
+							}
+							_card += '</div>';
+						}
+					} else if(list[i].video_content) {
+						_card += '<div class="videoBox">';
+						_card += '<video class="videoLive" controls="controls" style="object-fit:fill" preload="auto" x5-video-player-type="h5" x5-video-player-fullscreen="true" webkit-playsinline="true" x-webkit-airplay="allow" playsinline="true">';
+						_card += '<source type="video/mp4" src="' + list[i].video_content + '" />';
+						_card += '</video>';
+						_card += '</div>';
+					}
+					_card += '</div>';
+					_card += '</a>';
+					li.innerHTML = _card;
+
+					table.appendChild(li);
+				}
+			}			
+
+			/**
+			 * 打开新闻详情
+			 * 
+			 * @param {String} guid 新闻ID
+			 * @param {String} title  新闻标题
+			 */
+
+			function open_detail(guid, title, source, time) {
+//				console.log(source)
+				mui.openWindow({
+					url: 'articleDetail.html',
+					id: 'articleDetail',
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						title: title, //扩展参数
+						guid: guid,
+						source: 　source,
+						time: time
+					}
+				});
+			}
+
+			$(document).on('tap', '.mui-table-view li>a', function(e) {
+				e.stopPropagation();
+				e.preventDefault();
+				var _this = $(this);
+				var guid = _this.attr('data-guid'),
+					title = _this.find('.article-title').text().trim(),
+					source = _this.find('.source').text().trim(),
+					time = _this.find('.time').text().trim();
+				if(_this.find('.source').length == 0){
+					source = _this.next('p').find('.source').text().trim();
+					time = _this.next('p').find('.time').text().trim();
+				}
+				open_detail(guid, title, source, time);
+			});
+
+			$(document).on("tap", ".remove-box>a.remove-item", function(e) {
+				$(this).addClass("active").siblings(".remove-item").removeClass("active");
+
+				var session = JSON.parse(localStorage.getItem('$state')),
+					articleId = $('.mui-popover').data('articleId'),
+					reason = $(this).text();
+				var param = {
+					"jdbcTemplateName": "mysqlTemplate",
+					"pFile": "Science",
+					"pKey": "protective_article",
+					"user_id": session.userId,
+					"article_id": articleId,
+					"reason": reason
+				}
+				plus.nativeUI.showWaiting();
+				//屏蔽文章
+				mui.ajax('http://58.16.181.24:9203/mis-app/Science/formProcessing', {
+					data: param,
+					success: function(result) {
+						plus.nativeUI.closeWaiting();
+						result = JSON.parse(result);
+						if(result.status == 'success') {
+							$('.remove-box>a.remove-item').removeClass('active');
+							$('.mui-popover').removeData('articleId');
+							mui('.mui-popover').popover('hide');
+							var $source = $("#articleUl li a[data-guid='" + articleId + "']").parent();
+							$source.remove();
+						}
+					},
+					error: function(xhr, type, error) {
+						plus.nativeUI.closeWaiting();
+						console.error(xhr);
+						console.error(type);
+					}
+				});
+			});
+
+			$(document).on('tap', '.closeempty', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				var articleId = $(this).closest('li').find('a').attr('data-guid');
+				$('.mui-popover').data('articleId', articleId);
+				mui('.mui-popover').popover('toggle', this);
+			});
+
+			function plusReady() {
+				var wn = plus.webview.currentWebview();
+				if(wn.closeFlag === false) {
+					$('.mui-icon-closeempty').hide();
+				}
+			}
+
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+
+			function getArticleList() {
+				$('.img-li').remove();
+				var wn = plus.webview.currentWebview();
+				var text = wn.searchText;
+
+				var param = {
+					page_no: pageNum,
+					page_size: pageSize,					
+					sortType: 'desc',
+					sortField: 'publishTime',
+					all: text
+				}
+			
+				var session = JSON.parse(localStorage.getItem('$state'));
+				if(session && session.userId) {
+					param.user_id = session.userId;
+				}
+				
+				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
+					data: param,
+					type: 'post', //HTTP请求类型
+					success: function(result) {
+						plus.nativeUI.closeWaiting();
+						
+						var allData = result.allData;
+						if(!allData){ return ; }
+						var list = allData.list,
+							topStoArticle = allData.TopStoArticle;
+						
+						if(topStoArticle && topStoArticle.length > 0) {
+							addStoryData(topStoArticle);
+						}
+						if(list.length > 0) {
+							addData(list);
+						} else {
+							mui('#articleList').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.error('http://58.16.181.24:9203/mis-app/VisitingCard/articleType');
+						console.error('searchList')
+						//异常处理；
+						console.error(JSON.stringify(xhr),JSON.stringify(errorThrown),JSON.stringify("*"));
+						console.error(type);
+					}
+				});
+			}
+
+			function formatDate(date) {
+				var date1 = new Date(date),
+					now = new Date();
+				var milliseconds = now.getTime() - date1.getTime(),
+					timeSpanStr = '';
+				if(milliseconds <= 1000 * 60 * 1) {
+					timeSpanStr = '刚刚';
+				} else if(1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
+					timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前';
+				} else if(1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
+					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
+				} else if(1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
+					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
+				} else {
+					timeSpanStr = date.substring(5, 10) + ' ' + date.substring(11, 16);
+				}
+				return timeSpanStr;
+			}
+		</script>
+	</body>
+
+</html>

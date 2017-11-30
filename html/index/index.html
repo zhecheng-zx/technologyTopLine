@@ -167,39 +167,50 @@
 					param.user_id = session.userId
 				}
 				
-				if(_items.length > 1){
-					_items.splice(0, 1);
+				if(_items.length > 2){
+					_items.splice(1);
 				}
-				mui.ajax('http://58.16.181.24:9203/mis-app/Science/querySystemChannel', {
-					async: false,
-					success: function(result) {
-						if(!result){
-							return
-						}
-						var result  = JSON.parse(result),
-						data = result.data;						
-						//导航插入数据
-						var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
-						for(var i = 0; i < data.length; i++) {
-							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + data[i].channel + '.html">' + data[i].channel + '</a>'
-							var item = {
-								id: "pullrefresh_sub_" + data[i].channel + ".html",
-								url: "../public/articleList.html",
-								styles: {
-									top: "38px",
-									bottom: "0px"
-								},
-								extras: {
-									navName: data[i].channel,
-									requestParam: data[i].channel_type
-								}
-							};
-							_items.push(item);
-						}
-						//						document.querySelector('.nav-list').innerHTML = _a;
-						$('.nav-list').append(_a);
-					}
-				});
+								
+//				mui.ajax('http://58.16.181.24:9203/mis-app/Science/querySystemChannel', {
+//					async: false,
+//					success: function(result) {
+//						console.log(result)
+//						if(!result){
+//							return
+//						}
+//						var result  = JSON.parse(result),
+//						data = result.data;						
+//						//导航插入数据
+//						var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
+//						for(var i = 0; i < data.length; i++) {
+//							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + data[i].channel + '.html">' + data[i].channel + '</a>'
+//							var item = {
+//								id: "pullrefresh_sub_" + data[i].channel + ".html",
+//								url: "../public/articleList.html",
+//								styles: {
+//									top: "38px",
+//									bottom: "0px"
+//								},
+//								extras: {
+//									navName: data[i].channel,
+//									requestParam: data[i].channel_type
+//								}
+//							};
+//							_items.push(item);
+//						}
+//						console.log(_items.length)
+//						console.log(_a)
+//						//						document.querySelector('.nav-list').innerHTML = _a;
+//						$('.nav-list').append(_a);
+//					},
+//					error: function(xhr, type, error) {
+//						plus.nativeUI.closeWaiting();
+//						console.error(xhr);
+//						console.error(error);
+//						console.error('http://58.16.181.24:9203/mis-app/Science/querySystemChannel');
+//						console.error(('index'))
+//					}
+//				});
 
 				mui.ajax('http://58.16.181.24:9203/mis-app/Science/baseQuery', {
 					async: false,
@@ -211,7 +222,7 @@
 						result = JSON.parse(result);
 						var listInfo = result.listInfo;
 						//导航插入数据
-						var _a = '';
+							var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
 						for(var i = 0; i < listInfo.length; i++) {
 							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + listInfo[i].channel_id + '.html">' + listInfo[i].channel_theme + '</a>'
 							var item = {
@@ -229,12 +240,15 @@
 							_items.push(item);
 						}
 						//						document.querySelector('.nav-list').innerHTML = _a;
+											
 						$('.nav-list').append(_a);
 					},
 					error: function(xhr, type, error) {
 						plus.nativeUI.closeWaiting();
 						console.error(xhr);
-						console.error(type);
+						console.error(error);
+						console.error('http://58.16.181.24:9203/mis-app/Science/baseQuery');
+						console.error(('index'))
 					}
 				});
 			}
@@ -250,6 +264,7 @@
 							c.classList.remove("mui-active");
 						}
 						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+//						resetNavPosition();
 					}
 				});
 				
@@ -311,6 +326,18 @@
 				}
 				cur.reload(true);
 			});
+			
+			function resetNavPosition(){
+				var offLeft = mui('.mui-scroll .mui-control-item.mui-active')[0].offsetLeft,
+					offTop =  mui('.mui-scroll .mui-control-item.mui-active')[0].offsetTop,
+					clientWidth = document.body.clientWidth;				
+				
+				if(offLeft > clientWidth/2){
+					mui('.mui-scroll-wrapper').scroll().scrollTo(clientWidth/2-offLeft,offTop,100)
+				}else{
+					mui('.mui-scroll-wrapper').scroll().scrollTo(0,offTop,100);
+				}
+			}
 		</script>
 	</body>
 

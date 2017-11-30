@@ -154,6 +154,11 @@
 				font-size: 13px;
 			}
 			
+			.history-ul{
+				height: 410px;
+				overflow: hidden;
+			}
+			
 			.history-ul:before {
 				display: none;
 			}
@@ -167,6 +172,10 @@
 				color: #666;
 				width: 100%;
 				padding: 8px 15px;
+			}
+			
+			.history-ul .mui-table-view-cell a{
+				display: inline-block;
 			}
 			
 			.history-ul .iconfont {
@@ -185,87 +194,11 @@
 				color: #eee;
 				font-size: 14px;
 			}
-			/*文章列表样式*/
-			
-			.search-content>ul {
-				margin: auto;
-				padding: 0px;
-			}
+		
 			
 			.mui-table-view-cell>a:not(.mui-btn) {
 				margin: auto;
 				padding: 0px;
-			}
-			
-			.article-title {
-				font-size: 17px;
-				color: #333;
-				overflow: hidden;
-				display: -webkit-box;
-				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 2;
-				white-space: normal;
-				line-height: 25px;
-				height: 50px;
-			}
-			
-			.article-title.special {
-				height: 25px;
-			}
-			
-			.mui-table-view .mui-media-object {
-				height: 75px;
-				max-width: 103px;
-			}
-			
-			p.mui-ellipsis {
-				font-size: 11px;
-				color: #999;
-				margin-top: 4px;
-			}
-			
-			.mui-media .iconfont {
-				vertical-align: middle;
-			}
-			
-			.mui-media-body ul.mui-grid-view {
-				padding: 0px;
-			}
-			
-			.mui-media-body ul.mui-grid-view:before {
-				height: 0px;
-			}
-			
-			.mui-media-body ul.mui-grid-view:after {
-				height: 0px;
-			}
-			
-			.mui-media-body ul.mui-grid-view li.mui-table-view {
-				display: inline-block;
-				padding: 10px 0 0 0px;
-				text-align: center;
-				vertical-align: middle;
-				background: 0 0;
-			}
-			
-			.mui-media-body ul.mui-grid-view li:not(:last-child) {
-				padding-right: 5px;
-			}
-			
-			.mui-media-body ul.mui-grid-view li.mui-table-view:before,
-			.mui-media-body ul.mui-grid-view li.mui-table-view:after {
-				height: 0px;
-			}
-			
-			.mui-media-body ul.mui-grid-view li.mui-table-view img {
-				max-width: 100%;
-				width: 100%;
-			}						
-			
-			.mui-scroll {
-				height: 100%;
-				overflow-y: auto;
-				padding-bottom: 100px;
 			}
 		</style>
 	</head>
@@ -330,15 +263,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="search-history">
+			<div class="search-history  mui-scroll">
 				<h5 class="text">搜索历史
 					<p class="mui-pull-right">
-						<span class="mui-icon mui-icon-trash">清空</span>
+						<span class="mui-icon mui-icon-trash" id="clearAllHistory">清空</span>
 					</p>
 				</h5>
 				<ul class="mui-table-view history-ul" id="history-ul">
 					<li class="mui-table-view-cell">
-						<span class="mui-icon iconfont icon-liulanjilu"></span>大数据人工智能
+						<a href="javascript:;"><span class="mui-icon iconfont icon-liulanjilu"></span>大数据人工智能</a>
 						<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
 					</li>
 					<li class="mui-table-view-cell">
@@ -350,28 +283,11 @@
 						<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>
 					</li>
 				</ul>
-			</div>
-			<div class="search-content mui-scroll">
-				<ul id="articleUl" class="mui-table-view"></ul>
 			</div>		
 		</div>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script src="../../js/mui.min.js"></script>
-		<script>
-			var pageSize = 10,
-				pageNum = 1;
-			mui.init({
-				pullRefresh: {
-					container: '.search-content',
-					up: {
-						height: 150,
-						auto: false,
-						contentrefresh: '正在加载1...',
-						contentnomore: '没有更多数据了',
-						callback: pullupRefresh
-					}
-				}
-			});
+		<script>					
 			
 			$(document).ready(function() {
 				//猜你想搜的   查看更多是否显示
@@ -381,6 +297,8 @@
 				} else {
 					$box.hide();
 				}
+				
+				getSearchHistory();
 			});
 
 			mui('.mui-content').on('tap', '#searchMore', function() {
@@ -432,13 +350,12 @@
 					//此处可写具体逻辑设置获取焦点的input
 					var inputElem = document.querySelector('input');
 					inputElem.focus();
-				}, 250);
+				}, 200);
 			};
 			
 			mui.plusReady(function() {
 				initNativeObjects();
 				showSoftInput();
-				mui('.mui-scroll-wrapper').scroll();
 			});
 
 			//是否隐藏 猜你想搜 内容
@@ -458,24 +375,18 @@
 			/**
 			 * 改变输入框的值
 			 */
-			mui('.mui-content').on('change', '#searchInput', function(e) {
+			document.getElementById('searchInput').addEventListener('input', function(e){
 				var val = $(this).val();
 				if(!val) {
-					$('#articleUl').empty();
 					$('.hide-wanna-search').hide();
 					$('.show-wanna-search').show();
 					$('.mui-card-content').show();
-					pageNum = 1;
 				}
-			});
-
-			function pullupRefresh() {				
-				if($('.search-content').is(':hidden')){					
-					return ;
+				var w = plus.webview.getWebviewById('searchList.html');
+				if(w != null){
+					w.close();	
 				}				
-				pageNum = pageNum + 　1;
-				searchArticle($('#searchInput').val());
-			}
+			});
 
 			document.getElementById('searchInput').addEventListener('keydown', function(e) {
 				if(13 == e.keyCode) {
@@ -484,193 +395,129 @@
 						plus.nativeUI.toast('请输入要搜索的内容', {verticalAlign: "center"});
 						return;
 					}
-					document.activeElement.blur(); //隐藏软键盘 
-					$('.wanna-search-box').hide();
-					$('.search-history').hide();					
-					$('.search-content').show();
-					var _li = '<li class="mui-table-view-cell">' +
-						'<span class="mui-icon iconfont icon-liulanjilu"></span>' + text +
-						'<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>' +
-						'</li>';
-					$('#history-ul').prepend(_li);
-					//清空旧数据
-					$('#articleUl').empty();
-					//加载中
-					var w = plus.nativeUI.showWaiting('搜索中');
-					searchArticle(text, w);
+					saveSearchHistory(text);
+					beforeSearch(text);					
 				}
 			});
 
+			//清空输入框的值			
 			mui('.search-box').on('tap', '.mui-icon-clear', function(e) {
 				$('.wanna-search-box').show();
-				$('.search-history').show();				
-				$('.search-content').empty().hide();
-				pageNum = 1;
+				$('.search-history').show();			
+				var w = plus.webview.getWebviewById('searchList.html');
+				if(w != null){
+					w.close();
+				}				
+			});			
+
+			mui('.search-history').on('tap', '#clearAllHistory', function(){
+				$('#history-ul').empty();
+			});							
+			
+			mui('#wannaSearchUl').on('tap', 'li', function(){
+				var text = $(this).text().trim();
+				saveSearchHistory(text);
+				beforeSearch(text);						
 			});
-
-			mui('.history-ul').on('tap', '.mui-icon-closeempty', function() {
-
-			});
-
-			//请求数据 添加数据	
-			function searchArticle(text, w) {				
-				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
-					data: {
-						page_no: pageNum,
-						page_size: pageSize,
-						sortType: 'desc',
-						sortField: 'publishTime',
-						all: text
-					},
-					success: function(result) {
-						var allData = result.allData;
-						var list = allData.list;
-						console.log(list.length)
-						if(list.length == 0){
-							 this.endPullupToRefresh(true);
-						}else{
-							addData(list);
-						}
-						
-						if(w){
-							w.close();
-						}
-					},
-					error: function(xhr, type, errorThrown) {
-						//异常处理；
-						console.error(xhr);
-						console.error(type);
+			
+			function saveSearchHistory(text){
+				if(!text){
+					return ;
+				}
+				
+				var searchList = localStorage.getItem('searchList');
+				//每次只存10个搜索历史
+				
+				if(!searchList){
+					searchList = new Array();
+				}else{
+					searchList = JSON.parse(searchList);
+				}
+				
+				if(searchList.length >= 10){
+					searchList.splice(9);				
+				}
+				
+				searchList.push(text);				
+				localStorage.clear('searchList');
+				localStorage.setItem('searchList', JSON.stringify(searchList));
+				
+				var _li = '<li class="mui-table-view-cell">' +
+							'<a><span class="mui-icon iconfont icon-liulanjilu"></span>' + text + '</a>' +
+							'<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>' +
+						'</li>';
+				$('#history-ul').prepend(_li);
+				
+				$('#history-ul li:first .mui-icon-closeempty').on('tap', function(){
+					$(this).closest('li').remove();
+				});
+				
+				$('#history-ul li:first a').on('tap', function(e){
+					e.stopPropagation();
+					e.preventDefault();
+					var text = $(this).text().trim();
+					beforeSearch(text);					
+				});
+				
+				if($('#history-ul li').length > 10){
+					$('#history-ul li').get(10).remove();
+				}
+			}
+			
+			function getSearchHistory(){
+				var searchList = localStorage.getItem('searchList');
+				searchList = JSON.parse(searchList);
+				$('#history-ul').empty();
+				if(searchList){
+					for(var i = 0; i < searchList.length; i++){
+						var _li = '<li class="mui-table-view-cell">'
+								+ '<a><span class="mui-icon iconfont icon-liulanjilu"></span>' + searchList[i] + '</a>' 
+								+ '<span class="mui-icon ui-icon mui-icon-closeempty mui-pull-right"></span>' +
+							'</li>';
+						$('#history-ul').prepend(_li);
 					}
+					hisSearchEvent();
+					deleteSingleHistory();
+				}
+			}
+			
+			function hisSearchEvent(){
+				//历史搜索
+				mui('#history-ul').on('tap', 'li a', function(e){
+					e.preventDefault();
+					e.stopPropagation();
+					var text = $(this).text().trim();
+					beforeSearch(text);
+					$('#searchInput').attr('placeholder', text);					
 				});
 			}
-
-			function addData(articleList) {
-				var table = $('#articleUl');
-				for(var i = 0; i < articleList.length; i++) {
-					var img = articleList[i].images;
-					var $li = $('<li class="mui-table-view-cell mui-media"></li>');
-
-					//根据图片个数 显示不同的样式列表
-					if(!img) {
-						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
-							'<div class="mui-media-body">' +
-							'<div class="article-title">' + articleList[i].title + '</div>' +
-							'<p class="mui-ellipsis">' +
-							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
-							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
-							'</div>' +
-							'</a>');
-					} else if(img.length < 3) {
-						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
-							'<img class="mui-media-object mui-pull-right" src="' + img[0] + '">' +
-							'<div class="mui-media-body">' +
-							'<div class="article-title">' + articleList[i].title + '</div>' +
-							'<p class="mui-ellipsis">' +
-							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
-							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span></p>' +
-							'</div>' +
-							'</a>');
-					} else {
-						var imgUl = '<ul class="mui-table-view mui-grid-view">';
-						for(var j = 0; j < 3; j++) {
-							imgUl = imgUl + '<li class="mui-table-view mui-media mui-col-xs-4"><img class="mui-media-object" src="' + img[j] + '"></li>';
-						}
-						imgUl += '</ul>';
-						$li.append('<a javascript:; data-guid="' + articleList[i].id + '">' +
-							'<div class="mui-media-body">' +
-							'<div class="article-title special">' + articleList[i].title + '</div>' +
-							imgUl +
-							'</div>' +
-							'</a>' +
-							'<p class="mui-ellipsis">' +
-							'<span class="source">' + articleList[i].siteName + '</span> &nbsp;&nbsp;' +
-							'<span class="time">' + formatDate(articleList[i].publishTime) + '</span>' +
-							'</p>'
-						);
-					}
-
-					table.append($li);
-				}				
+			
+			function deleteSingleHistory(){
+				mui('.history-ul').on('tap', '.mui-icon-closeempty', function(e) {
+					$(this).closest('li').remove();
+				});
 			}
-
-			function formatDate(date) {
-				var date1 = new Date(date),
-					now = new Date();
-				var milliseconds = now.getTime() - date1.getTime(),
-					timeSpanStr = '';
-				if(milliseconds <= 1000 * 60 * 1) {
-					timeSpanStr = '刚刚';
-				} else if(1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
-					timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前';
-				} else if(1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
-					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
-				} else if(1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
-					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
-				} else {
-					timeSpanStr = date.substring(5, 10) + ' ' + date.substring(11, 16);
-				}
-				return timeSpanStr;
-			}
-
-			/**
-			 * 打开新闻详情
-			 * 
-			 * @param {String} guid 新闻ID
-			 * @param {String} title  新闻标题
-			 */
-
-			function open_detail(guid, title, source, time) {
+			
+			function beforeSearch(text){
+				document.activeElement.blur(); //隐藏软键盘 
+				document.getElementById('searchInput').value = text;
 				mui.openWindow({
-					url: 'articleDetail.html',
-					id: 'articleDetail',
+					url: 'searchList.html',
+					id: 'searchList.html',
+					styles:{
+						top: '70px',
+						bottom: '0px'
+					},
 					waiting: {
 						autoShow: true,
 						title: '正在加载...'
 					},
 					extras: {
-						title: title, //扩展参数
-						guid: guid,
-						source: 　source,
-						time: time
+						searchText: text //扩展参数						
 					}
 				});
 			}
-
-			$(document).on('tap', '.mui-table-view li>a', function(e) {
-				e.stopPropagation();
-				e.preventDefault();
-				var _this = $(this);
-				var guid = _this.attr('data-guid'),
-					title = _this.find('.article-title').text().trim(),
-					source = _this.find('.source').text().trim(),
-					time = _this.find('.time').text().trim();
-				open_detail(guid, title, source, time);
-			});
-			
-			
-			mui('#wannaSearchUl').on('tap', 'li', function(){
-				document.activeElement.blur(); //隐藏软键盘 
-				$('.wanna-search-box').hide();
-				$('.search-history').hide();					
-				$('.search-content').show();
-					
-				var text = $(this).text().trim();
-				//加载中
-				var w = plus.nativeUI.showWaiting('搜索中');
-				searchArticle(text, w);
-			});
-			
-//			mui.ajax('', {
-//				data: {},
-//				success: function(result){
-//					
-//				},
-//				error: function(){
-//					
-//				}
-//			});
-			
-		</script>
-	</body>
+	</script>
+</body>
 
 </html>

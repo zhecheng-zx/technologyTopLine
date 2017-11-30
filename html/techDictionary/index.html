@@ -212,6 +212,7 @@
 							c.classList.remove("mui-active");
 						}
 						document.querySelector(".mui-scroll .mui-control-item:nth-child(" + (parseInt(obj.index) + 1) + ")").classList.add("mui-active");
+						resetNavPosition();
 					}
 				});
 				mui(".mui-scroll").on("tap", ".mui-control-item", function(e) {
@@ -220,6 +221,18 @@
 				});
 
 			});
+			
+			function resetNavPosition(){
+				var offLeft = mui('.mui-scroll .mui-control-item.mui-active')[0].offsetLeft,
+					offTop =  mui('.mui-scroll .mui-control-item.mui-active')[0].offsetTop,
+					clientWidth = document.body.clientWidth;				
+				
+				if(offLeft > clientWidth/2){
+					mui('.mui-scroll-wrapper').scroll().scrollTo(clientWidth/2-offLeft,offTop,100)
+				}else{
+					mui('.mui-scroll-wrapper').scroll().scrollTo(0,offTop,100);
+				}
+			}
 		</script>
 	</body>
 
