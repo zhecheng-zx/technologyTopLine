@@ -38,18 +38,18 @@
 }
 
 .mui-content.article-detail-wrapper {
-	padding: 10px;
+	padding: 10px 20px;
 	background: #fff;
 	margin: 44px auto 50px;
 }
 
 .article-detail-wrapper .mui-scroll {
-	width: calc(100% - 20px);
+	width: calc(100% - 40px);
 	margin: auto;
 }
 
 .article-detail-wrapper .article-title {
-	font-size: 20px;
+	font-size: 18px;
 	color: #333;
 	overflow: hidden;
 	display: -webkit-box;

@@ -18,7 +18,7 @@
 			}
 			
 			.article-title {
-				font-size: 17px;
+				font-size: 16px;
 				color: #333;
 				overflow: hidden;
 				display: -webkit-box;
@@ -259,7 +259,7 @@
 					//已登录状态下 可以屏蔽文章
 					var session = JSON.parse(localStorage.getItem('$state'));
 					if(session && session.userId) {
-						$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty"><span class="mui-icon mui-icon-closeempty"></span></p>');
+						$li.find('p.mui-ellipsis').append('<p class="mui-pull-right closeempty">...</p>');
 					}
 
 					if(position == 'before') {

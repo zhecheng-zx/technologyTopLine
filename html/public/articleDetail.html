@@ -24,9 +24,9 @@
 			.kr-article-article {
 				width: 100%;
 				white-space: nowrap;
-				font-size: 1.2rem;
+				font-size: 1rem;
 				line-height: 2rem;
-				color: #333333;
+				color: #444;
 				white-space: pre-wrap;
 				/*css-3*/
 				white-space: -moz-pre-wrap;
@@ -338,9 +338,9 @@
 			<li class="mui-tab-item collect-li">
 				<span class="mui-icon mui-icon-star orange collect"></span> 收藏
 			</li>
-			<!--<li class="mui-tab-item" id="share">
+			<li class="mui-tab-item" id="share">
 				<span class="mui-icon iconfont icon-fenxiang green"></span> 分享
-			</li>-->
+			</li>
 		</nav>
 
 		<script src="../../js/mui.min.js"></script>
@@ -465,57 +465,57 @@
 			var shares = {};
 
 			mui.plusReady(function() {
-//				plus.share.getServices(function(s) {
-//					if(s && s.length > 0) {
-//						for(var i = 0; i < s.length; i++) {
-//							var t = s[i];
-//							shares[t.id] = t;
-//						}
-//					}
-//				}, function() {
-//					console.log("获取分享服务列表失败");
-//				});
+				plus.share.getServices(function(s) {
+					if(s && s.length > 0) {
+						for(var i = 0; i < s.length; i++) {
+							var t = s[i];
+							shares[t.id] = t;
+						}
+					}
+				}, function() {
+					console.log("获取分享服务列表失败");
+				});
 			});
 
 			//分享链接点击事件
-//			document.getElementById("share").addEventListener('tap', function() {				
-//				var ids = [{
-//						id: "weixin",
-//						ex: "WXSceneSession"
-//					}, {
-//						id: "weixin",
-//						ex: "WXSceneTimeline"
-//					}],
-//					bts = [{
-//						title: "发送给微信好友"
-//					}, {
-//						title: "分享到微信朋友圈"
-//					}];
-//				plus.nativeUI.actionSheet({
-//					cancel: "取消",
-//					buttons: bts
-//				}, function(e) {
-//					var i = e.index;
-//					if(i > 0) {
-//						var s_id = ids[i - 1].id;
-//						var share = shares[s_id];
-//						if(share) {
-//							if(share.authenticated) {
-//								shareMessage(share, ids[i - 1].ex);
-//							} else {
-//								share.authorize(function() {
-//									shareMessage(share, ids[i - 1].ex);
-//								}, function(e) {
-//									mui.toast('认证授权失败');
-//									console.log("认证授权失败：" + e.code + " - " + e.message);
-//								});
-//							}
-//						} else {							
-//							mui.toast("无法获取分享服务")
-//						}
-//					}
-//				});
-//			});
+			document.getElementById("share").addEventListener('tap', function() {				
+				var ids = [{
+						id: "weixin",
+						ex: "WXSceneSession"
+					}, {
+						id: "weixin",
+						ex: "WXSceneTimeline"
+					}],
+					bts = [{
+						title: "发送给微信好友"
+					}, {
+						title: "分享到微信朋友圈"
+					}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					var i = e.index;
+					if(i > 0) {
+						var s_id = ids[i - 1].id;
+						var share = shares[s_id];
+						if(share) {
+							if(share.authenticated) {
+								shareMessage(share, ids[i - 1].ex);
+							} else {
+								share.authorize(function() {
+									shareMessage(share, ids[i - 1].ex);
+								}, function(e) {
+									mui.toast('认证授权失败');
+									console.log("认证授权失败：" + e.code + " - " + e.message);
+								});
+							}
+						} else {							
+							mui.toast("无法获取分享服务")
+						}
+					}
+				});
+			});
 
 			function shareMessage(share, ex) {
 				msg.extra = {

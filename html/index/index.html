@@ -121,6 +121,21 @@
 			.mui-slider .mui-scroll a:last-child {
 				padding-right: 60px;
 			}
+			
+			a.mui-control-item.mui-active{
+				position: relative;
+			}
+			
+			a.mui-control-item.mui-active:after{
+			    content: " ";
+			    display: block;
+			    height: 1px;
+			    background: #007aff;
+			    position: absolute;
+			    bottom: 0px;
+			    left: 20px;
+			    right: 20px;
+			}
 		</style>
 	</head>
 
@@ -247,8 +262,6 @@
 						plus.nativeUI.closeWaiting();
 						console.error(xhr);
 						console.error(error);
-						console.error('http://58.16.181.24:9203/mis-app/Science/baseQuery');
-						console.error(('index'))
 					}
 				});
 			}

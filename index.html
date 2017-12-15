@@ -93,7 +93,7 @@
 			
 			.mui-active .icon-tab-bar4 {
 				background-position: -112px -27px;
-			}
+			}						
 			
 			.mui-bar-tab .mui-tab-label {
 				font-size: 11px;
@@ -150,7 +150,8 @@
 			
 			.mui-icon-search{
 				color: #fff;
-			}
+				z-index: 99;
+			}						
 		</style>
 	</head>
 
@@ -158,18 +159,18 @@
 		<header class="mui-bar mui-bar-nav mui-clearfix">
 			<h1 id="title" class="mui-title mui-text-center"></h1>
 			<div class="mui-pull-left logo-text logoBox">聚科技</div>
-			<!--<div class="mui-pull-right" id="search_title">
+			<div class="mui-pull-right" id="search_title">
 				<span class="mui-icon mui-icon-search" id="search_input"></span>
-			</div>-->
+			</div>
 			<!--<a class="mui-pull-left logoBox">
 				<img src="./images/logo2.png" class="logo" width="25px" height="18px" />
-			</a>-->
+			</a>
 			<div id="search_title" class="search-input">
 				<a class="search-box mui-text-left" id="search_input" href="javascript:;">
 					<span class="mui-icon mui-icon-search"></span>
 					<span class="placeholder">请输入关键字</span>
 				</a>
-			</div>
+			</div>-->
 			<a href="javascript:;" class="publish-story mui-pull-right">
 				<span class="mui-icon iconfont icon-feiji"></span>
 			</a>
@@ -237,11 +238,11 @@
 						data:data,
 						success:function(result){
 							var res = JSON.parse(result),
-								res1 = res.listInfo[0]
+								res1 = res.listInfo[0];							
 							if(res.status=="success"){
 								if(res1.version == inf.version){
 								}else{
-									var btnArray = ['取消','更新'];
+									var btnArray = ['取消','更新'];								
 									mui.confirm(res1.note,res1.title,btnArray,function(e){
 										if (e.index == 1) {
 //											var w = plus.webview.create("html/update.html","",{top:"0px",bottom:"0px"});
@@ -308,7 +309,7 @@
 						document.querySelector("#title").style.display = "none";
 					}
 					
-					if(title.innerHTML == '科研故事') {
+					if(title.innerHTML == '大数据') {
 						document.querySelector('.publish-story').style.display = "inline-block";
 					} else {
 						document.querySelector('.publish-story').style.display = "none";
