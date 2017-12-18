@@ -454,13 +454,16 @@
 				var table = document.body.querySelector('.mui-table-view');
 				for(var i = 0; i < list.length; i++) {
 					var li = document.createElement('li');
-					li.className = 'mui-table-view-cell mui-media';
+						li.className = 'mui-table-view-cell mui-media',
+						personImage = list[i].personimages ? list[i].personimages : "../../images/default_user.png",
+						userName = list[i].username ? $.trim(list[i].username) : "&nbsp;";
+						
 					$(li).data('data', list[i]);
 					var _card = '';
 					_card += '<a href="javascript:;">';
-					_card += '<img class="mui-media-object mui-pull-left" src="' + list[i].personimages + '">';
+					_card += '<img class="mui-media-object mui-pull-left" src="' + personImage + '">';
 					_card += '<div class="mui-media-body">';
-					_card += $.trim(list[i].username);
+					_card += userName;
 					_card += '<p class="mui-ellipsis publishDate">' + $.trim(list[i].create_time) + '</p>';
 					_card += '</div>';
 					_card += '<div class="mui-media-footer">';
