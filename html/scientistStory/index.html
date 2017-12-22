@@ -316,11 +316,10 @@
 			
 			.mui-media-footer img {
 				height: 150px;
-				width: auto;
+				width: 100%;
 			}
 			
 			.mui-media-footer .imgBox img {
-				max-width: 100%;
 				height: 100px;
 			}
 			
@@ -467,7 +466,7 @@
 					_card += '<p class="mui-ellipsis publishDate">' + $.trim(list[i].create_time) + '</p>';
 					_card += '</div>';
 					_card += '<div class="mui-media-footer">';
-					_card += '<p class="text-gray mui-ellipsis-2 text-content">' + list[i].content + '</p>';
+					_card += '<p class="text-gray mui-ellipsis-2 text-content">' + $.trim(list[i].content) + '</p>';
 					_card += '</div>';
 					_card += '<div class="mui-media-footer">';
 					var imgList = list[i].content_images;
@@ -477,22 +476,24 @@
 						if(reduceList) {
 							reduceList = reduceList.split(',');
 						}
-						var imgLength = imgList.length,
-							className = "";
+						var imgLength = imgList.length;
+//							className = "";
 						//
-						if(imgLength % 2 == 0 && imgLength <= 4) {
-							className = "mui-col-sm-6 mui-col-xs-6";
-						} else if(imgLength > 　1) {
-							className = "mui-col-sm-4 mui-col-xs-4";
-						}
+//						if(imgLength % 2 == 0 && imgLength <= 4) {
+//							className = "mui-col-sm-6 mui-col-xs-6";
+//						} else if(imgLength > 　1) {
+//							className = "mui-col-sm-4 mui-col-xs-4";
+//						}
 						if(imgLength == 1) {
 							var imgSrc = (reduceList && reduceList.length > 0) ? reduceList[0] : imgLength[0]
-							_card += '<img src="' + imgSrc + '" data-preview-src="' + imgList[0] + '" data-preview-group="' + list[i].id + '"/>';
+							_card += '<div class="mui-row"><div class="mui-col-sm-8 mui-col-xs-8">' 
+										+ '<img src="' + imgSrc + '" data-preview-src="' + imgList[0] + '" data-preview-group="' + list[i].id + '"/>' 
+									+ '</div></div>';
 						} else {
 							_card += '<div class="mui-row imgBox mui-clearfix">';
 							for(var j = 0; j < imgLength; j++) {
 								var imgSrc = (reduceList && reduceList.length > j) ? reduceList[j] : imgList[j];
-								_card += '<div class="' + className + '">' +
+								_card += '<div class="mui-col-sm-4 mui-col-xs-4">' +
 									'<img src="' + imgSrc + '" data-preview-src="' + imgList[j] + '" data-preview-group="' + list[i].id + '"/>' +
 									'</div>';
 							}
@@ -512,7 +513,7 @@
 					//						_card += '<span class="mui-status-item">浏览量：<span class="number">' + list[i].page_view + '</span></span>';						
 					//						_card += '</div>';
 					_card += '</a>';
-					li.innerHTML = _card;
+					li.innerHTML = _card;					
 					$(li).find('.text-content').on('tap', toDetailPage);
 					if(position == 'before') {
 						table.insertBefore(li, table.firstChild);

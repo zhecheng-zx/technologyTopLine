@@ -320,6 +320,7 @@
 
 			mui('.mui-content').on('tap', '#cancelSearch', function() {
 				document.getElementById('searchInput').value = '';
+				document.activeElement.blur(); //隐藏软键盘 
 				mui.back();
 			});
 

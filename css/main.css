@@ -40,7 +40,8 @@
 .mui-content.article-detail-wrapper {
 	padding: 10px 20px;
 	background: #fff;
-	margin: 44px auto 50px;
+	/*margin: 44px auto 50px;*/
+	margin-bottom: 50px;
 }
 
 .article-detail-wrapper .mui-scroll {
@@ -49,7 +50,7 @@
 }
 
 .article-detail-wrapper .article-title {
-	font-size: 18px;
+	font-size: 20px;
 	color: #333;
 	overflow: hidden;
 	display: -webkit-box;
