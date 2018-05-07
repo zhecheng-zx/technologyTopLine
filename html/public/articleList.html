@@ -171,12 +171,14 @@
 				<a class="remove-item" href="javascript:;">不想看：科技</a>
 			</div>
 		</div>
-		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/main.js"></script>
+		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/vue.min.js"></script>
 		<script>
 			var pageNum = 0,
-				pageSize = 10;
+				pageSize = 10,
+				urlHead = tech.urlHead;			
 			mui.init({
 				pullRefresh: {
 					container: '#articleList',
@@ -393,7 +395,7 @@
 				}
 				plus.nativeUI.showWaiting();
 				//屏蔽文章
-				mui.ajax('http://58.16.181.24:9203/mis-app/Science/formProcessing', {
+				mui.ajax(urlHead + '/Science/formProcessing', {
 					data: param,
 					success: function(result) {
 						plus.nativeUI.closeWaiting();
@@ -457,9 +459,7 @@
 					param.user_id = session.userId;
 				}
 //				console.log(JSON.stringify(param),"****");
-				//192.168.1.110:8080/
-				//58.16.181.24:9203
-				mui.ajax('http://58.16.181.24:9203/mis-app/VisitingCard/articleType', {
+				mui.ajax( urlHead + '/VisitingCard/articleType', {
 					data: param,
 					type: 'post', //HTTP请求类型
 					success: function(result) {
@@ -472,8 +472,14 @@
 						
 						var allData = result.allData;
 						if(!allData){ return ; }
+					
 						var list = allData.list,
-							topStoArticle = allData.TopStoArticle;
+							topStoArticle = allData.TopStoArticle,
+							totalPage = allData.totalPages;
+					
+						if(pageNum > totalPage){
+							pageNum = pageNum % totalPage;
+						}
 						
 						if(topStoArticle && topStoArticle.length > 0) {
 							addStoryData(topStoArticle);

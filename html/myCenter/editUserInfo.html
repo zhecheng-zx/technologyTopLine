@@ -55,6 +55,7 @@
 
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/app.js"></script>
+		<script src="../../js/main.js"></script>
 		<script>
 			var originalVal = '';
 			mui.init();
@@ -132,7 +133,7 @@
 					return;
 				}
 				
-				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/formProcessing', {
+				mui.ajax( tech.urlHead + '/Personal/formProcessing', {
 					data: param,
 					type: 'post',
 					success: function(result){

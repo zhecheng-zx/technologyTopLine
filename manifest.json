@@ -6,7 +6,7 @@
 	"id": "juncuan.com.cn.H56742060",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "聚科技",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.0.6",/*应用版本名称*/
+		"name": "1.0.8",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "广西聚科技APP",/*应用描述信息*/
@@ -102,7 +102,7 @@
 			"delay": "1500"
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
-		"signature": "d5dbdd13d914079a3fbab19cd1f3372e",/*可选，保留给应用签名，暂不使用*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw",/*可选，保留给应用签名，暂不使用*/
 		"distribute": {
 			"plugins": {
 				"share": {
@@ -198,7 +198,7 @@
 					"xxhdpi": "C:/Users/user/Desktop/归档/qidong.png"
 				}
 			}
-		}
+		},"ads":{"rp":false,"splash":false,"push":false},"adid":""
 	},
 	"dependencies": {
 		"pages": {

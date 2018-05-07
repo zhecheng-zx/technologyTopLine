@@ -315,12 +315,14 @@
 									src: e, //压缩转换原始图片的路径
 									dst: '_doc/compress' + name, //压缩转换目标图片的路径
 									overwrite: true,
-									quality: 80,
+									quality: 50,
 									width: '150px',
 									height: '150px',
 									clip: {
-										top: '15%',
-										bottom: '15%'
+										top: '10%',
+										left: '10%',
+										width: '100px',
+										height: '100px'
 									}
 								}, function(zip) {
 									addFile(zip.target, 'compress');

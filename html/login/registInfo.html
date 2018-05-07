@@ -61,6 +61,7 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/md5.min.js"></script>
+		<script src="../../js/main.js"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script>
 			var userImg = '';
@@ -93,7 +94,7 @@
 						return;
 					}
 					
-					mui.ajax('http://58.16.181.24:9203/mis-app/public/register', {
+					mui.ajax( tech.urlHead + '/public/register', {
 						type: 'POST',
 						data: {
 							password: md5(pwd),

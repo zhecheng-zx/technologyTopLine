@@ -225,6 +225,7 @@
 			</div>
 		</footer>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/main.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 
@@ -234,7 +235,7 @@
 					return;
 				}
 				plus.nativeUI.showWaiting();
-				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/baseQuery', {
+				mui.ajax(tech.urlHead + '/Personal/baseQuery', {
 					data: {
 						"jdbcTemplateName": "mysqlTemplate",
 						"pFile": "Personal",

@@ -137,12 +137,13 @@
 				<a class="remove-item" href="javascript:;">不想看：科技</a>
 			</div>
 		</div>
-		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/main.js"></script>
+		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script src="../../js/vue.min.js"></script>
 		<script charset="UTF-8">
 			var pageNum = 0,
-				pageSize = 10;
+				pageSize = 10;				
 			mui.init({
 				pullRefresh: {
 					container: '#articleList',
@@ -302,7 +303,7 @@
 					plus.nativeUI.toast('请先登录', {verticalAlign: "center"});
 					return;
 				}
-				mui.ajax('http://58.16.181.24:9203/mis-app/Personal/containall', {
+				mui.ajax(tech.urlHead + '/Personal/containall', {
 					data: {
 						"jdbcTemplateName": "mysqlTemplate",
 						"pFile": "Personal",

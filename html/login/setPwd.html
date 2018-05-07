@@ -41,6 +41,7 @@
 	</body>
 	<script type="text/javascript" src="../../js/mui.min.js" ></script>
 	<script src="../../js/md5.min.js"></script>
+	<script src="../../js/main.js"></script>
 	<script>
 		var phoneNum = '', md5Code = '';
 		mui.plusReady(function(){
@@ -57,7 +58,7 @@
 				return ;
 			}
 			
-			mui.ajax('http://58.16.181.24:9203/mis-app/public/updatePwd', {
+			mui.ajax(tech.urlHead + '/public/updatePwd', {
 				data: {
 					phone: phoneNum, 
 					jdbcTemplateName: 'mysqlTemplate',

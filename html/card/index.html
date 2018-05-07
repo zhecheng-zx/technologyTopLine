@@ -121,7 +121,7 @@
 			
 			.slider-icon.icon2{
 		       background-image: url(../../images/cardIcon/002.png);
-		       background-size: 30px 23px;
+		       background-size: 30px 24px;
 		       background-position: 0px 3px;
 			}
 			
@@ -159,8 +159,10 @@
 				background-image: url(../../images/cardIcon/008.png);
 				background-size: 28px 30px;
 			}
+			
 			.slider-icon.icon9{
-				background-position: -147px -33px;
+				background-image: url(../../images/cardIcon/009.png);
+				background-size: 28px 28px;
 			}
 			
 			p.text{
@@ -193,12 +195,14 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/main.js"></script>
 		<script type="text/javascript" src="../../vendor/jQuery/jquery.js"></script>
 		<script>
 			mui.init();
-			var _items = [];
+			var _items = [],
+				urlHead = tech.urlHead;
 			$.ajax({
-				url: 'http://58.16.181.24:9203/mis-app/VisitingCard/baseQuery',
+				url: urlHead + '/VisitingCard/baseQuery',
 				data: {
 					"pFile": "VisitingCard",
 					"pKey": "classification",

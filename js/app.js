@@ -16,7 +16,8 @@
 		}
 
 		plus.nativeUI.showWaiting('努力登录中');
-		mui.ajax('http://58.16.181.24:9203/mis-app/public/toLogin', {
+		var urlHead = tech.urlHead;
+		mui.ajax(urlHead + '/public/toLogin', {
 			data: loginInfo,
 			success: function(result) {
 				if(result.status != 0) {

@@ -52,8 +52,10 @@
 		</div>
 	</body>
 	<script type="text/javascript" src="../../js/mui.min.js"></script>
+	<script src="../../js/main.js"></script>
 	<script>
-		var md5Code = '';
+		var md5Code = '',
+			urlHead = tech.urlHead;
 		mui('.mui-input-row').on('tap', '.code', function() {
 			var phoneNum = document.getElementById('phoneNum').value;
 			if(!phoneNum) {
@@ -70,7 +72,7 @@
 				return;
 			}
 
-			mui.ajax('http://192.168.1.110:8080/mis-app/public/getVerificationCode', {
+			mui.ajax(urlHead + '/public/getVerificationCode', {
 				data: {
 					phone: phoneNum,
 					tag: 'code'
@@ -102,7 +104,7 @@
 				});
 				return;
 			}
-			mui.ajax('http://58.16.181.24:9203/mis-app/public/md5code', {
+			mui.ajax(urlHead + '/public/md5code', {
 				data: {
 					userCode: userCode,
 					md5Code: md5Code

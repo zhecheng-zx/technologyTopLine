@@ -153,6 +153,7 @@
 		</div>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/main.js"></script>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script>
 			mui.init();
@@ -173,7 +174,8 @@
 					"jdbcTemplateName": "mysqlTemplate",
 					"pFile": "Science",
 					"pKey": "notlogin"
-				};
+				},
+				urlHead = tech.urlHead;
 
 			function getNavList() {
 				var session = JSON.parse(localStorage.getItem('$state'));
@@ -184,56 +186,15 @@
 				
 				if(_items.length > 2){
 					_items.splice(1);
-				}
-								
-//				mui.ajax('http://58.16.181.24:9203/mis-app/Science/querySystemChannel', {
-//					async: false,
-//					success: function(result) {
-//						console.log(result)
-//						if(!result){
-//							return
-//						}
-//						var result  = JSON.parse(result),
-//						data = result.data;						
-//						//导航插入数据
-//						var _a = '<a class="mui-control-item mui-active" href="javascript:;" data-wid="pullrefresh_sub_1.html">推荐</a>';
-//						for(var i = 0; i < data.length; i++) {
-//							_a += '<a class="mui-control-item" href="javascript:;" data-wid="pullrefresh_sub_' + data[i].channel + '.html">' + data[i].channel + '</a>'
-//							var item = {
-//								id: "pullrefresh_sub_" + data[i].channel + ".html",
-//								url: "../public/articleList.html",
-//								styles: {
-//									top: "38px",
-//									bottom: "0px"
-//								},
-//								extras: {
-//									navName: data[i].channel,
-//									requestParam: data[i].channel_type
-//								}
-//							};
-//							_items.push(item);
-//						}
-//						console.log(_items.length)
-//						console.log(_a)
-//						//						document.querySelector('.nav-list').innerHTML = _a;
-//						$('.nav-list').append(_a);
-//					},
-//					error: function(xhr, type, error) {
-//						plus.nativeUI.closeWaiting();
-//						console.error(xhr);
-//						console.error(error);
-//						console.error('http://58.16.181.24:9203/mis-app/Science/querySystemChannel');
-//						console.error(('index'))
-//					}
-//				});
+				}		
 
-				mui.ajax('http://58.16.181.24:9203/mis-app/Science/baseQuery', {
+				mui.ajax(urlHead + '/Science/baseQuery', {
 					async: false,
 					data: param,
 					success: function(result) {
 						if(!result) {
 							return;
-						}						
+						}
 						result = JSON.parse(result);
 						var listInfo = result.listInfo;
 						//导航插入数据

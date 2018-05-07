@@ -48,10 +48,12 @@
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/main.js"></script>
 		<script src="../../vendor/jQuery/jquery.js"></script>
 		<script>
 			var md5Code = '',
-				phoneNum = document.getElementById('phoneNum').value;
+				phoneNum = document.getElementById('phoneNum').value,
+				urlHead = tech.urlHead;
 			mui('.mui-content').on('tap', '.code', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
@@ -67,7 +69,7 @@
 				}
 				plus.nativeUI.toast('验证码已发送，请注意查收', {verticalAlign: "center"});
 //				console.log(phoneNum)
-				mui.ajax('http://58.16.181.24:9203/mis-app/public/getVerificationCode', {
+				mui.ajax(urlHead + '/public/getVerificationCode', {
 					data: {
 						phone: phoneNum
 					},
@@ -94,7 +96,7 @@
 					return;
 				}
 
-				mui.ajax('http://58.16.181.24:9203/mis-app/public/md5code', {
+				mui.ajax(urlHead + '/public/md5code', {
 					data: {
 						userCode: userCode,
 						md5Code: md5Code
