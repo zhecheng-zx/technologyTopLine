@@ -211,6 +211,7 @@
 			</div>
 		</div>
 		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/man.js"></script>
 		<script src="../../vendor/jQuery/jquery.min.js"></script>
 		<script type="text/javascript">
 			var imageIndexIdNum = 0,
@@ -223,7 +224,8 @@
 				videoIndexIdNum = 0,
 				videoFile = [],
 				videoList = document.getElementById('video-list'),
-				curFileType = 'img';
+				curFileType = 'img',
+				urlHead = tech.urlHead;	
 			var state = JSON.parse(localStorage.getItem('$state'));
 
 			mui.init();
@@ -488,7 +490,7 @@
 			});
 
 			function send(content) {
-				uploader = plus.uploader.createUpload('http://58.16.181.24:9203/mis-app/ScienceStory/issueStory', {
+				uploader = plus.uploader.createUpload( urlHead + '/ScienceStory/issueStory', {
 					method: 'POST'
 				}, function(upload, status) {
 					plus.nativeUI.closeWaiting();

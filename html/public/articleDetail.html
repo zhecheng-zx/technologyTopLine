@@ -432,7 +432,7 @@
 						if(result.data) {
 							var data = JSON.parse(result.data);
 							vm.content = data.content;
-							msg.href = 'http://58.16.181.24:9210/mis-web/app/toArticleDetail?id=' + guid;
+							msg.href =  urlHead + '/toArticleDetail?id=' + guid;
 							msg.title = data.clearTitle;
 							msg.content = data.summary;
 							msg.pictures = data.images;

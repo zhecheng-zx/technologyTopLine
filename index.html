@@ -201,6 +201,7 @@
 		</nav>
 
 		<script src="js/mui.min.js"></script>
+		<script src="js/main.js"></script>
 		<script src="vendor/jQuery/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init({
@@ -211,7 +212,8 @@
 				top: '45px',
 				bottom: '51px'
 			};
-			var aniShow = {};
+			var aniShow = {},
+				urlHead = tech.urlHead;	
 			//创建子页面，首个选项卡页面显示，其它均隐藏；
 			document.addEventListener('plusready', onPlusReady, false);
 
@@ -235,12 +237,14 @@
 						"pFile":"App",
 						"pKey":"app_version"
 					};
-					mui.ajax('http://58.16.181.24:9203/mis-app/public/baseQuery',{
+					mui.ajax(urlHead + '/public/baseQuery',{
 						data:data,
 						success:function(result){
 							var res = JSON.parse(result),
 								res1 = res.listInfo[0];							
 							if(res.status=="success"){
+								console.log(inf.version)
+								console.log(res1.version)
 								if(res1.version == inf.version){
 								}else{
 									var btnArray = ['取消','更新'];								
