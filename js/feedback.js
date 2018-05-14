@@ -9,7 +9,8 @@
 	var index = 1;
 	var size = null;
 	var imageIndexIdNum = 0;
-	var starIndex = 0;
+	var starIndex = 0,
+		urlHead = tech.urlHead;		
 	var feedback = {
 		question: document.getElementById('question'),
 		contact: document.getElementById('contact'),
@@ -187,7 +188,7 @@
 	}, false);
 	feedback.send = function(content) {
 		plus.nativeUI.showWaiting();
-		feedback.uploader = plus.uploader.createUpload('http://58.16.181.24:9203/mis-app/Personal/feedback', {
+		feedback.uploader = plus.uploader.createUpload(urlHead + '/Personal/feedback', {
 			method: 'POST'
 		}, function(upload, status) {
 			plus.nativeUI.closeWaiting();
